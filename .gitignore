@@ -12,6 +12,9 @@ logs/
 # Build ant
 build/
 
+# Garbage
+garbage/
+
 # User-specific stuff
 .idea/**/workspace.xml
 .idea/**/tasks.xml
