@@ -14,7 +14,7 @@ public abstract class Background extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	protected Image background;
+	public Image background;
 	protected Image black;
 	protected Image white;
 	protected Image king;

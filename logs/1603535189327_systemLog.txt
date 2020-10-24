@@ -1,8 +1,0 @@
-ott 24, 2020 12:26:29 PM it.unibo.ai.didattica.competition.tablut.server.Server run
-FINE: Accensione server
-ott 24, 2020 12:26:29 PM it.unibo.ai.didattica.competition.tablut.server.Server run
-FINE: Partita di Tablut
-ott 24, 2020 12:26:29 PM it.unibo.ai.didattica.competition.tablut.server.Server run
-WARNING: Errore connessioni
-ott 24, 2020 12:26:29 PM it.unibo.ai.didattica.competition.tablut.server.Server run
-WARNING: Chiusura sistema
