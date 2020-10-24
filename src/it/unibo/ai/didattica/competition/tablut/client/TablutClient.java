@@ -62,6 +62,7 @@ public abstract class TablutClient implements Runnable {
 	 *            The ipAddress of the server
 	 * @throws UnknownHostException
 	 * @throws IOException
+	 *
 	 */
 	public TablutClient(String player, String name, int timeout, String ipAddress)
 			throws UnknownHostException, IOException {
