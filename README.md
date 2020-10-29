@@ -1,6 +1,6 @@
 # :chess_pawn: Tablut Challenge 2020
 
-<img align="right" width="200" height="200" src="src/it/unibo/ai/didattica/competition/tablut/gui/resources/screen.png">
+<img align="right" width="220" height="220" src="src/it/unibo/ai/didattica/competition/tablut/gui/resources/screen.png">
 
 **_Tablut_** is an ancient board game which was popular in nothern Europe and whose story is still uncertain.
 The game board is grid of 9x9 squares where two players alternate in moving their checkers:
@@ -34,7 +34,7 @@ sudo apt install openjdk-8-jdk -y
 
 ## Run
 
-To lauch the tool, you will simply move in `jars` directory and run the Server with:
+To launch the tool, you will simply move in `jars` directory and run the Server with:
 ```sh
 java -jar Server.jar
 ```
@@ -55,8 +55,10 @@ We use Git for versioning.
 
 ## Group
 
-<img align="left" width="100" height="100" src="src/it/unibo/ai/didattica/competition/tablut/gui/resources/logo.png">
-```The name of group enrolled in the Tablut Students Challenge 2020 is **brAInmates**.```
+<img align="left" width="234" height="171" src="src/it/unibo/ai/didattica/competition/tablut/gui/resources/logo.png">
+
+`The name of group enrolled in the Tablut Students Challenge 2020 is **brAInmates**.`
+
 
 
 ## Members
