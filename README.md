@@ -11,11 +11,7 @@ This repository contains an Java-based intelligent agent able to play to the gam
 The agent is based on one of the many versions of the rules for this game, known as "Ashton Tablut" (available in this [paper](http://ww.aagenielsen.dk/LinnaeusPaper-Longer.pdf)) and it interact with a Server maintained by dott. [Andrea Galassi](https://github.com/AGalassi/TablutCompetition).
 
 
-## Setup
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
-### Download
+## Download
 
 First of all, you need to download the project through cloning.
 
@@ -24,7 +20,7 @@ git clone https://github.com/gmurro/Tablut.git
 cd Tablut
 ```
 
-### Requirements
+## Requirements
 
 You need to have JDK >= 8. From Ubuntu/Debian console, you can install it with these commands:
 ```sh
