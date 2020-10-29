@@ -1,8 +1,6 @@
 # :chess_pawn: Tablut Challenge 2020
 
-<p align="center"> 
-   <img width="100" height="100" src="src/it/unibo/ai/didattica/competition/tablut/gui/resources/screen.png">
-</p>
+<img align="right" width="200" height="200" src="src/it/unibo/ai/didattica/competition/tablut/gui/resources/screen.png">
 
 **_Tablut_** is an ancient board game which was popular in nothern Europe and whose story is still uncertain.
 The game board is grid of 9x9 squares where two players alternate in moving their checkers:
@@ -57,7 +55,7 @@ We use Git for versioning.
 
 ## Group
 
-<img align="left" width="50" height="50" src="src/it/unibo/ai/didattica/competition/tablut/gui/resources/logo.png">
+<img align="left" width="100" height="100" src="src/it/unibo/ai/didattica/competition/tablut/gui/resources/logo.png">
 ```The name of group enrolled in the Tablut Students Challenge 2020 is **brAInmates**.```
 
 
