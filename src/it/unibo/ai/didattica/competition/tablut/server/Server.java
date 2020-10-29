@@ -330,7 +330,7 @@ public class Server implements Runnable {
 		*/
 
 		// Start the server
-		Server engine = new Server(time, moveCache, errors, repeated, gameChosen, enableGui);
+		Server engine = new Server(time, moveCache, errors, repeated, gameChosen, true);
 		engine.run();
 	}
 
