@@ -55,7 +55,7 @@ We use Git for versioning.
 
 ## Group members
 
-<img align="right" width="292" height="214" src="src/it/unibo/ai/didattica/competition/tablut/gui/resources/logo.png">
+<img align="left" width="292" height="214" src="src/it/unibo/ai/didattica/competition/tablut/gui/resources/logo.png">
 
 > The name of group enrolled in the Tablut Students Challenge 2020 that presented this project is **_brAInmates_**.
 
