@@ -1,5 +1,6 @@
 # TablutChallenge2020
-Game Board for course of Fundamentals of Artificial Intelligence and Knowledge Representation
+**Tablut** is an ancient board game which was popular in nothern Europe and whose story is still uncertain.
+During the course of Fundamentals of Artificial Intelligence and Knowledge Representation we have designed a little prototype of an intelligent agent able to play to the game.
 
 ## Authors
 
