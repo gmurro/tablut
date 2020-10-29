@@ -1,8 +1,6 @@
 # :chess_pawn: Tablut Challenge 2020
 
-<p align="center"> 
-   <img width="100" height="100" src="src/it/unibo/ai/didattica/competition/tablut/gui/resources/screen.png">
-</p>
+<img align="right" width="260" height="260" src="src/it/unibo/ai/didattica/competition/tablut/gui/resources/screen.png">
 
 **_Tablut_** is an ancient board game which was popular in nothern Europe and whose story is still uncertain.
 The game board is grid of 9x9 squares where two players alternate in moving their checkers:
@@ -13,11 +11,7 @@ This repository contains an Java-based intelligent agent able to play to the gam
 The agent is based on one of the many versions of the rules for this game, known as "Ashton Tablut" (available in this [paper](http://ww.aagenielsen.dk/LinnaeusPaper-Longer.pdf)) and it interact with a Server maintained by dott. [Andrea Galassi](https://github.com/AGalassi/TablutCompetition).
 
 
-## Setup
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
-### Download
+## Download
 
 First of all, you need to download the project through cloning.
 
@@ -26,7 +20,7 @@ git clone https://github.com/gmurro/Tablut.git
 cd Tablut
 ```
 
-### Requirements
+## Requirements
 
 You need to have JDK >= 8. From Ubuntu/Debian console, you can install it with these commands:
 ```sh
@@ -36,7 +30,7 @@ sudo apt install openjdk-8-jdk -y
 
 ## Run
 
-To lauch the tool, you will simply move in `jars` directory and run the Server with:
+To launch the tool, you will simply move in `jars` directory and run the Server with:
 ```sh
 java -jar Server.jar
 ```
@@ -55,13 +49,11 @@ java -jar Client.jar <black|white> <timeout-in-seconds> <server-ip>
 
 We use Git for versioning.
 
-## Group
+## Group members
 
-<img align="left" width="50" height="50" src="src/it/unibo/ai/didattica/competition/tablut/gui/resources/logo.png">
-```The name of group enrolled in the Tablut Students Challenge 2020 is **brAInmates**.```
+<img align="left" width="292" height="214" src="src/it/unibo/ai/didattica/competition/tablut/gui/resources/logo.png">
 
-
-## Members
+> The name of group enrolled in the Tablut Students Challenge 2020 that presented this project is **_brAInmates_**.
 
 |  Name     |  Surname  |     Email                              |    Username      |
 | :-------: | :-------: | :------------------------------------: | :--------------: |
