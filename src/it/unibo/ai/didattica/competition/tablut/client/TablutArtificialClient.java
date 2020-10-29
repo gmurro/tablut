@@ -94,7 +94,7 @@ public class TablutArtificialClient extends TablutClient{
 
             // TODO CONTROLLA SE QUESTO THREAD E' NECESSARIO
             try {
-                Thread.sleep(200);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
             }
 
