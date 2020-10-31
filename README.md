@@ -43,6 +43,7 @@ java -jar Client.jar <black|white> <timeout-in-seconds> <server-ip>
 ## Resources & Libraries
 
 * Java 8 [API](https://docs.oracle.com/javase/8/docs/api/)
+* Gson 2.2.2 [library](https://www.javadoc.io/doc/com.google.code.gson/gson/2.2.2/com/google/gson/Gson.html)
 
 
 ## Versioning
