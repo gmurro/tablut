@@ -1,6 +1,6 @@
 # :chess_pawn: Tablut Challenge 2020
 
-<img align="right" width="260" height="260" src="src/it/unibo/ai/didattica/competition/tablut/gui/resources/screen.png">
+<img align="right" width="280" height="280" src="src/it/unibo/ai/didattica/competition/tablut/gui/resources/screen.png">
 
 **_Tablut_** is an ancient board game which was popular in nothern Europe and whose story is still uncertain.
 The game board is grid of 9x9 squares where two players alternate in moving their checkers:
@@ -43,6 +43,7 @@ java -jar Client.jar <black|white> <timeout-in-seconds> <server-ip>
 ## Resources & Libraries
 
 * Java 8 [API](https://docs.oracle.com/javase/8/docs/api/)
+* Gson 2.2.2 [library](https://www.javadoc.io/doc/com.google.code.gson/gson/2.2.2/com/google/gson/Gson.html)
 
 
 ## Versioning
