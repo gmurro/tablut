@@ -1,4 +1,4 @@
-package it.unibo.ai.didattica.competition.tablut.client;
+package it.unibo.ai.didattica.competition.tablut.brainmates;
 
 import it.unibo.ai.didattica.competition.tablut.domain.*;
 
@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class TablutArtificialClient extends TablutClient{
 

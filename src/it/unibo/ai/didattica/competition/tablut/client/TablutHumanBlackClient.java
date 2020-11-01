@@ -1,4 +1,4 @@
-package it.unibo.ai.didattica.competition.tablut.client.examples;
+package it.unibo.ai.didattica.competition.tablut.client;
 
 import java.io.IOException;
 import java.net.UnknownHostException;

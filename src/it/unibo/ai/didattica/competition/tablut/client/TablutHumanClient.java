@@ -1,11 +1,11 @@
-package it.unibo.ai.didattica.competition.tablut.client.examples;
+package it.unibo.ai.didattica.competition.tablut.client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.UnknownHostException;
 
-import it.unibo.ai.didattica.competition.tablut.client.TablutClient;
+import it.unibo.ai.didattica.competition.tablut.brainmates.TablutClient;
 import it.unibo.ai.didattica.competition.tablut.domain.Action;
 import it.unibo.ai.didattica.competition.tablut.domain.State.Turn;
 import it.unibo.ai.didattica.competition.tablut.domain.StateTablut;

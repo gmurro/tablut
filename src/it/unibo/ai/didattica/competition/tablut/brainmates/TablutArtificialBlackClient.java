@@ -1,14 +1,14 @@
-package it.unibo.ai.didattica.competition.tablut.client;
+package it.unibo.ai.didattica.competition.tablut.brainmates;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
 
-public class TablutArtificialWhiteClient {
+public class TablutArtificialBlackClient {
 
     public static void main(String[] args) throws UnknownHostException, ClassNotFoundException, IOException {
-        String[] array = new String[]{"WHITE"};
+        String[] array = new String[]{"BLACK"};
         if (args.length>0){
-            array = new String[]{"WHITE", args[0]};
+            array = new String[]{"BLACK", args[0]};
         }
         TablutArtificialClient.main(array);
     }
