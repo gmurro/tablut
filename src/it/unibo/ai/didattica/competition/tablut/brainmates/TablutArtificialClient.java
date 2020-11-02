@@ -58,18 +58,9 @@ public class TablutArtificialClient extends TablutClient{
         state.setTurn(State.Turn.WHITE);
 
         // set type of game
-        Game rules = new GameAshtonTablut(99, 2, "garbage", "white_ai", "black_ai");;
+        GameAshtonTablut tablutGame = new GameAshtonTablut(99, 2, "garbage", "white_ai", "black_ai");;
         System.out.println("Ashton Tablut game");
 
-        /* list of position of pawns that color == current player
-         * for WHITE player: white pawns && king
-         * for BALCK player: balck pawns
-        */
-        List<int[]> pawns = new ArrayList<int[]>();
-
-        /* list of position of empty cells
-         */
-        List<int[]> empty = new ArrayList<int[]>();
 
         // attribute player depends to first parameter passed to main
         System.out.println("You are player " + this.getPlayer().toString() + "!");
@@ -91,11 +82,7 @@ public class TablutArtificialClient extends TablutClient{
             state = this.getCurrentState();
             System.out.println(state.toString());
 
-            // TODO CONTROLLA SE QUESTO THREAD E' NECESSARIO
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-            }
+
 
             // if i'm WHITE
             if (this.getPlayer().equals(State.Turn.WHITE)) {
@@ -104,60 +91,7 @@ public class TablutArtificialClient extends TablutClient{
                 if (state.getTurn().equals(StateTablut.Turn.WHITE)) {
                     //TODO WHITE actions
 
-                    int[] buf;
-                    for (int i = 0; i < state.getBoard().length; i++) {
-                        for (int j = 0; j < state.getBoard().length; j++) {
-                            if (state.getPawn(i, j).equalsPawn(State.Pawn.WHITE.toString())
-                                    || state.getPawn(i, j).equalsPawn(State.Pawn.KING.toString())) {
-                                buf = new int[2];
-                                buf[0] = i;
-                                buf[1] = j;
-                                pawns.add(buf);
-                            } else if (state.getPawn(i, j).equalsPawn(State.Pawn.EMPTY.toString())) {
-                                buf = new int[2];
-                                buf[0] = i;
-                                buf[1] = j;
-                                empty.add(buf);
-                            }
-                        }
-                    }
-
-                    // position of pawn selectd to move
-                    int[] selected = null;
-
-                    // if movement is right according to the rules of game
-                    boolean found = false;
-
-                    // movement
-                    Action a = null;
-
-                    // allow movement only horizontal of pawn
-                    int negative = -1;
-
-                    while (!found) {
-
-                        // select last WHITE
-                        selected = pawns.get(8);
-
-                        String from = this.getCurrentState().getBox(selected[0], selected[1]);
-
-                        String to = this.getCurrentState().getBox(selected[0], selected[1] + negative);
-
-                        try {
-                            a = new Action(from, to, State.Turn.WHITE);
-                        } catch (IOException e1) {
-                            // TODO Auto-generated catch block
-                            e1.printStackTrace();
-                        }
-
-                        try {
-                            rules.checkMove(state, a);
-                            found = true;
-                        } catch (Exception e) {
-                            negative *= negative;
-                        }
-
-                    }
+                    Action a = findBestMove(tablutGame, state);
 
                     System.out.println("Mossa scelta: " + a.toString());
                     try {
@@ -166,8 +100,6 @@ public class TablutArtificialClient extends TablutClient{
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
-                    pawns.clear();
-                    empty.clear();
 
                 }
 
@@ -199,58 +131,7 @@ public class TablutArtificialClient extends TablutClient{
                 if (this.getCurrentState().getTurn().equals(StateTablut.Turn.BLACK)) {
                     //TODO BLACK actions
 
-                    int[] buf;
-                    for (int i = 0; i < state.getBoard().length; i++) {
-                        for (int j = 0; j < state.getBoard().length; j++) {
-                            if (state.getPawn(i, j).equalsPawn(State.Pawn.BLACK.toString())) {
-                                buf = new int[2];
-                                buf[0] = i;
-                                buf[1] = j;
-                                pawns.add(buf);
-                            } else if (state.getPawn(i, j).equalsPawn(State.Pawn.EMPTY.toString())) {
-                                buf = new int[2];
-                                buf[0] = i;
-                                buf[1] = j;
-                                empty.add(buf);
-                            }
-                        }
-                    }
-
-                    // position of pawn selectd to move
-                    int[] selected = null;
-
-                    // if movement is right according to the rules of game
-                    boolean found = false;
-
-                    // movement
-                    Action a = null;
-
-                    // allow movement only horizontal of pawn
-                    int negative = -1;
-
-                    while (!found) {
-                        // select E2 BLACK
-                        selected = pawns.get(3);
-
-                        String from = this.getCurrentState().getBox(selected[0], selected[1]);
-
-                        String to = this.getCurrentState().getBox(selected[0], selected[1] + negative);
-
-                        try {
-                            a = new Action(from, to, State.Turn.WHITE);
-                        } catch (IOException e1) {
-                            // TODO Auto-generated catch block
-                            e1.printStackTrace();
-                        }
-
-                        try {
-                            rules.checkMove(state, a);
-                            found = true;
-                        } catch (Exception e) {
-                            negative *= negative;
-                        }
-
-                    }
+                    Action a = findBestMove(tablutGame, state);
 
                     System.out.println("Mossa scelta: " + a.toString());
                     try {
@@ -259,8 +140,6 @@ public class TablutArtificialClient extends TablutClient{
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
-                    pawns.clear();
-                    empty.clear();
 
                 }
 
@@ -288,5 +167,13 @@ public class TablutArtificialClient extends TablutClient{
                 }
             }
         }
+    }
+
+
+    private Action findBestMove(GameAshtonTablut tablutGame, State state) {
+
+        // TODO edit time
+        MinMaxSearch search = new MinMaxSearch(tablutGame, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 40000);
+        return search.makeDecision(state);
     }
 }

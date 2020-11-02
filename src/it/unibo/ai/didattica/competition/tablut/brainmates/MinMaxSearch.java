@@ -1,29 +1,27 @@
 package it.unibo.ai.didattica.competition.tablut.brainmates;
 
+import aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch;
+import aima.core.search.framework.Metrics;
+import it.unibo.ai.didattica.competition.tablut.domain.Action;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 
+import java.util.Iterator;
 import java.util.List;
 
 import aima.core.search.adversarial.Game;
-import aima.core.search.adversarial.AlphaBetaSearch;
+import it.unibo.ai.didattica.competition.tablut.domain.StateTablut;
 
-public class MinMaxSearch extends AlphaBetaSearch{
+public class MinMaxSearch extends IterativeDeepeningAlphaBetaSearch<State, Action, State.Turn>{
 
-    private int depthMax;
-    private State.Turn currentPlayer;
-    private Heuristics heuristics;
 
-    public MinMaxSearch(int depthMax, State.Turn currentPlayer) {
-        super();
-        this.depthMax = depthMax;
-        this.currentPlayer = currentPlayer;
+    public MinMaxSearch(Game<State, Action, State.Turn> game, double utilMin, double utilMax, int time) {
+        super(game, utilMin, utilMax, time);
     }
 
-    public List<State> getNextStates(State state, List<int[]> pawns) {
-        return null;
+    @Override
+    protected double eval(State state, State.Turn turn) {
+        super.eval(state, turn);
+        return this.game.getUtility(state, turn);
     }
-
-
-
 
 }

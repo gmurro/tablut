@@ -1,6 +1,7 @@
 package it.unibo.ai.didattica.competition.tablut.domain;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -10,7 +11,11 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+import java.util.Random;
 
+import it.unibo.ai.didattica.competition.tablut.brainmates.BlackHeuristics;
+import it.unibo.ai.didattica.competition.tablut.brainmates.Heuristics;
+import it.unibo.ai.didattica.competition.tablut.brainmates.WhiteHeuristics;
 import it.unibo.ai.didattica.competition.tablut.exceptions.*;
 
 /**
@@ -21,7 +26,7 @@ import it.unibo.ai.didattica.competition.tablut.exceptions.*;
  * @author A. Piretti, Andrea Galassi
  *
  */
-public class GameAshtonTablut implements Game {
+public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game<State, Action, State.Turn> {
 
 	/**
 	 * Number of repeated states that can occur before a draw
@@ -43,6 +48,8 @@ public class GameAshtonTablut implements Game {
 	private List<String> citadels;
 	// private List<String> strangeCitadels;
 	private List<State> drawConditions;
+
+
 
 	public GameAshtonTablut(int repeated_moves_allowed, int cache_size, String logs_folder, String whiteName,
 			String blackName) {
@@ -106,6 +113,8 @@ public class GameAshtonTablut implements Game {
 		// this.strangeCitadels.add("i5");
 		// this.strangeCitadels.add("e9");
 	}
+
+
 
 	@Override
 	public State checkMove(State state, Action a)
@@ -750,4 +759,150 @@ public class GameAshtonTablut implements Game {
 	}
 
 
+	/* Not used in AlphaBetaSearch */
+	@Override
+	public State getInitialState() {
+		return null;
+	}
+
+	/* Not used in AlphaBetaSearch */
+	@Override
+	public State.Turn[] getPlayers() {
+		return new State.Turn[0];
+	}
+
+	@Override
+	public State.Turn getPlayer(State state) {
+		return state.getTurn();
+	}
+
+	// List of all possible actions
+	@Override
+	public List<Action> getActions(State state) {
+		System.out.println("\n\nTURN:"+state.getTurn()+"\n\n");
+
+		/* list of position of pawns that color == current player
+		 * for WHITE player: white pawns && king
+		 * for BALCK player: balck pawns
+		 */
+		List<int[]> pawns = new ArrayList<int[]>();
+
+		/* list of position of empty cells
+		 */
+		List<int[]> empty = new ArrayList<int[]>();
+
+
+		if(state.getTurn().equals(State.Turn.WHITE)) {
+			int[] buf;
+			for (int i = 0; i < state.getBoard().length; i++) {
+				for (int j = 0; j < state.getBoard().length; j++) {
+					if (state.getPawn(i, j).equalsPawn(State.Pawn.WHITE.toString())
+							|| state.getPawn(i, j).equalsPawn(State.Pawn.KING.toString())) {
+						buf = new int[2];
+						buf[0] = i;
+						buf[1] = j;
+						pawns.add(buf);
+					} else if (state.getPawn(i, j).equalsPawn(State.Pawn.EMPTY.toString())) {
+						buf = new int[2];
+						buf[0] = i;
+						buf[1] = j;
+						empty.add(buf);
+					}
+				}
+			}
+		} else if (state.getTurn().equals(State.Turn.BLACK)){
+			int[] buf;
+			for (int i = 0; i < state.getBoard().length; i++) {
+				for (int j = 0; j < state.getBoard().length; j++) {
+					if (state.getPawn(i, j).equalsPawn(State.Pawn.BLACK.toString())) {
+						buf = new int[2];
+						buf[0] = i;
+						buf[1] = j;
+						pawns.add(buf);
+					} else if (state.getPawn(i, j).equalsPawn(State.Pawn.EMPTY.toString())) {
+						buf = new int[2];
+						buf[0] = i;
+						buf[1] = j;
+						empty.add(buf);
+					}
+				}
+			}
+		}
+
+		List<Action> possibleActions = new ArrayList<Action>();
+
+		for (int i = 0; i<pawns.size(); i++) {
+			int[] pawn = pawns.get(i);
+			int rowPawn = pawn[0];
+			int colPawn = pawn[1];
+
+
+			for (int j = 0; j<empty.size(); j++) {
+				int[] emptyTile = empty.get(j);
+				int rowEmptyTile = emptyTile[0];
+				int colEmptyTile = emptyTile[1];
+
+				if (rowEmptyTile == rowPawn || colEmptyTile == colPawn) {
+					String from = state.getBox(rowPawn, colPawn);
+					String to = state.getBox(rowEmptyTile, colEmptyTile);
+
+					Action action = null;
+					try {
+						action = new Action(from, to, state.getTurn());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
+					System.out.println("try: " + action.toString());
+					try {
+						checkMove(state.clone(), action);
+						possibleActions.add(action);
+
+					} catch (Exception e) {
+
+					}
+
+
+				}
+			}
+
+		}
+
+		return possibleActions;
+	}
+
+
+	@Override
+	public State getResult(State state, Action action) {
+		return movePawn(state, action);
+	}
+
+	@Override
+	public boolean isTerminal(State state) {
+		if (state.getTurn().equals(State.Turn.WHITEWIN) || state.getTurn().equals(State.Turn.BLACKWIN) || state.getTurn().equals(State.Turn.DRAW)) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public double getUtility(State state, State.Turn turn) {
+
+		if ((turn.equals(State.Turn.BLACK) && state.getTurn().equals(State.Turn.BLACKWIN))
+				|| (turn.equals(State.Turn.WHITE) && state.getTurn().equals(State.Turn.WHITEWIN)))
+			return Double.POSITIVE_INFINITY;
+		else if ((turn.equals(State.Turn.BLACK) && state.getTurn().equals(State.Turn.WHITEWIN))
+				|| (turn.equals(State.Turn.WHITE) && state.getTurn().equals(State.Turn.BLACKWIN)))
+			return Double.NEGATIVE_INFINITY;
+		else if (state.getTurn().equals(State.Turn.DRAW))
+			return 0.0;
+
+		Heuristics heuristics = null;
+		if (turn.equals(State.Turn.WHITE)) {
+			heuristics = new WhiteHeuristics(state);
+		} else {
+			heuristics = new BlackHeuristics(state);
+		}
+		return heuristics.evaluateState();
+	}
 }
