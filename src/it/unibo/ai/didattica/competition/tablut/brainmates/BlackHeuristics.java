@@ -12,6 +12,26 @@ public class BlackHeuristics extends Heuristics {
 
     @Override
     public double evaluateState() {
-        return new Random().nextDouble();
+
+        //Number of own pawns
+        int numberOfBlack = state.getNumberOf(State.Pawn.BLACK);
+        int numberOfWhite = state.getNumberOf(State.Pawn.WHITE);
+        int pawnsNearKing = checkNearPawns(state, KING_POSITION,State.Turn.BLACK.toString());
+        int numberOfBlockedEscapes = 0;
+
+
+        //King has not moved yet
+        if (checkKingPosition(state)){
+
+
+
+
+        }else{
+
+            numberOfBlockedEscapes = getNumberOfBlockedEscape();
+
+        }
+
+        return 0;
     }
 }

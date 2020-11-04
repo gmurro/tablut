@@ -7,7 +7,8 @@ import java.util.List;
 
 public abstract class Heuristics {
 
-    private State state;
+    protected final int[] KING_POSITION = {4,4};
+    protected State state;
 
     public Heuristics(State state) {
         this.state = state;
@@ -35,7 +36,7 @@ public abstract class Heuristics {
     }
 
     //method that return if the king is in the Throne or not
-    private boolean checkKingPosition(State state){
+    protected boolean checkKingPosition(State state){
         if(state.getPawn(4,4).equalsPawn("K"))
             return true;
         else
@@ -45,7 +46,7 @@ public abstract class Heuristics {
     //TODO OPPONENT PASSATO O NO?
     //TODO dove è circondato
     //from the state and the position of the pawn I understand how many pawns are near
-    private int checkNearPawns(State state, int[] position, String target){
+    protected int checkNearPawns(State state, int[] position, String target){
         int count=0;
         //GET TURN
         State.Pawn[][] board = state.getBoard();
@@ -97,6 +98,15 @@ public abstract class Heuristics {
         return checkNearPawns(state, position, "K") > 0;
     }
 
+    protected int getNumberOfBlockedEscape(){
+        int count = 0;
+        int[][] blockedEscapes = {{1,1},{1,2},{1,6},{1,7},{2,1},{2,7},{6,1},{6,7},{7,1},{7,2},{7,6},{7,7}};
+        for (int[] position: blockedEscapes){
+            if (state.getPawn(position[0],position[1]).equalsPawn(State.Pawn.BLACK.toString())){
+                count++;
+            }
+        }
+        return count;
 
-
+    }
 }
