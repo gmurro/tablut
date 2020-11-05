@@ -110,6 +110,10 @@ public abstract class Heuristics {
 
     }
 
+    /**
+     *
+     * @return true if king is on an escape tile, false otherwise
+     */
     protected boolean hasWhiteWon(){
 
         //searching king position
