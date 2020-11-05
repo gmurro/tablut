@@ -57,7 +57,7 @@ public class BlackHeuristics extends Heuristics {
             numberOfWhite = state.getNumberOf(State.Pawn.WHITE);
             int pawnsNearKing = checkNearPawns(state, KING_POSITION,State.Turn.BLACK.toString());
             int numberOfPawnsOnRhombus = getNumberOnRhombus();
-            int nextMoveWhiteWins = functionToKnowIfWhiteWins();
+            int nextMoveWhiteWins = nextMoveWhiteWon();
 
 
             //Weighted sum of functions to get final utility value
@@ -110,8 +110,14 @@ public class BlackHeuristics extends Heuristics {
 
     }
 
-    private int functionToKnowIfWhiteWins(){
-        //TODO implement this function
+    private int nextMoveWhiteWon(){
+
+        int[] posKing = kingPosition(state);
+
+
+
+
+
         return 0;
     }
 }

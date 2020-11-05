@@ -18,10 +18,9 @@ public abstract class Heuristics {
         return 0;
     }
 
-    //TODO capire come ritornare questo valore
     protected int[] kingPosition(State state) {
         //where I saved the int position of the king
-        int[] king=new int[2];
+        int[] king= new int[2];
         //obtain the board
         State.Pawn[][] board = state.getBoard();
         for (int i = 0; i < board.length; i++) {
@@ -116,23 +115,10 @@ public abstract class Heuristics {
      */
     protected boolean hasWhiteWon(){
 
-        //searching king position
-        int[] posKing = new int[2];
-        for (int i = 0; i < 9; i++){
-            for (int j = 0; j < 9; j++){
-                if (state.getPawn(i,j).equalsPawn(State.Pawn.KING.toString())){
-                    posKing[0] = i;
-                    posKing[1] = j;
-                }
-            }
-        }
-
+        int[] posKing = kingPosition(state);
         boolean result;
-        if (posKing[0] == 0 || posKing[0] == 8 || posKing[1] == 0 || posKing[1] == 8){
-            result = true;
-        } else{
-            result = false;
-        }
+        result = posKing[0] == 0 || posKing[0] == 8 || posKing[1] == 0 || posKing[1] == 8;
         return result;
     }
+
 }
