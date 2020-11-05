@@ -109,4 +109,26 @@ public abstract class Heuristics {
         return count;
 
     }
+
+    protected boolean hasWhiteWon(){
+
+        //searching king position
+        int[] posKing = new int[2];
+        for (int i = 0; i < 9; i++){
+            for (int j = 0; j < 9; j++){
+                if (state.getPawn(i,j).equalsPawn(State.Pawn.KING.toString())){
+                    posKing[0] = i;
+                    posKing[1] = j;
+                }
+            }
+        }
+
+        boolean result;
+        if (posKing[0] == 0 || posKing[0] == 8 || posKing[1] == 0 || posKing[1] == 8){
+            result = true;
+        } else{
+            result = false;
+        }
+        return result;
+    }
 }
