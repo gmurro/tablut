@@ -17,9 +17,9 @@ public class BlackHeuristicsTest {
 
 
         BlackHeuristics heuristics = new BlackHeuristics(state);
-        double val = heuristics.evaluateState();
+        boolean val = heuristics.checkKingPosition(state);
 
-        System.out.println("Heuristic of this state for black player: "+val);
+        System.out.println("checkKingPosition of this state for black player: "+val);
 
     }
 
@@ -34,7 +34,7 @@ public class BlackHeuristicsTest {
         Gui theGui = null;
 
         if (enableGui) {
-            theGui = theGui = new Gui(4);
+            theGui = new Gui(4);
         }
 
 
@@ -53,7 +53,7 @@ public class BlackHeuristicsTest {
 
         board[4][4] = State.Pawn.THRONE;
 
-        board[3][4] = State.Pawn.KING;
+        board[4][4] = State.Pawn.KING;
 
         board[2][4] = State.Pawn.WHITE;
         board[3][3] = State.Pawn.WHITE;

@@ -18,6 +18,7 @@ public class MinMaxSearch extends IterativeDeepeningAlphaBetaSearch<State, Actio
         super(game, utilMin, utilMax, time);
     }
 
+
     @Override
     protected double eval(State state, State.Turn turn) {
         super.eval(state, turn);

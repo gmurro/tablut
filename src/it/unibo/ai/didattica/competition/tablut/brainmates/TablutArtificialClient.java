@@ -173,7 +173,7 @@ public class TablutArtificialClient extends TablutClient{
     private Action findBestMove(GameAshtonTablut tablutGame, State state) {
 
         // TODO edit time
-        MinMaxSearch search = new MinMaxSearch(tablutGame, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 40000);
+        IterativeDepthMinMaxSearch search = new IterativeDepthMinMaxSearch(tablutGame, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, 40000);
         return search.makeDecision(state);
     }
 }

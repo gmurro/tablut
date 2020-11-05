@@ -36,7 +36,7 @@ public abstract class Heuristics {
     }
 
     //method that return if the king is in the Throne or not
-    protected boolean checkKingPosition(State state){
+    public boolean checkKingPosition(State state){
         if(state.getPawn(4,4).equalsPawn("K"))
             return true;
         else
