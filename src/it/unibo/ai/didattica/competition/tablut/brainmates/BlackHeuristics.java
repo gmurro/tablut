@@ -14,6 +14,7 @@ public class BlackHeuristics extends Heuristics {
     private final Map<String,Double> weights;
     private final List<int[]> rhombus;
     private int numberOfBlack;
+    private int numberOfWhite;
 
     public BlackHeuristics(State state) {
 
@@ -53,7 +54,7 @@ public class BlackHeuristics extends Heuristics {
 
             //Atomic functions to combine to get utility value
             numberOfBlack = state.getNumberOf(State.Pawn.BLACK);
-            int numberOfWhite = state.getNumberOf(State.Pawn.WHITE);
+            numberOfWhite = state.getNumberOf(State.Pawn.WHITE);
             int pawnsNearKing = checkNearPawns(state, KING_POSITION,State.Turn.BLACK.toString());
             int numberOfPawnsOnRhombus = getNumberOnRhombus();
             int nextMoveWhiteWins = functionToKnowIfWhiteWins();
