@@ -19,7 +19,7 @@ public abstract class Heuristics {
     }
 
     //TODO capire come ritornare questo valore
-    private int[] kingPosition(State state) {
+    protected int[] kingPosition(State state) {
         //where I saved the int position of the king
         int[] king=new int[2];
         //obtain the board
@@ -62,7 +62,7 @@ public abstract class Heuristics {
     }
 
     //method to understand where it is occupied near you
-    private List<int[]> positionNearPawns(State state,int[] position, String target){
+    protected List<int[]> positionNearPawns(State state,int[] position, String target){
         List<int[]> occupiedPosition = new ArrayList<int[]>();
         int[] pos = new int[2];
         //GET TURN
@@ -87,14 +87,14 @@ public abstract class Heuristics {
     }
 
     //method to understand if i'm gonna be eaten
-    private boolean checkDanger(State state,int[] position,String opponent){
+    protected boolean checkDanger(State state,int[] position,String opponent){
         State.Pawn[][] board = state.getBoard();
         //TODO come capisco se sto per essere mangiato?
         return checkNearPawns(state, position, opponent) != 0;
     }
 
     //Method to understand if I have the king near
-    private boolean checkNearKing(State state, int[] position){
+    protected boolean checkNearKing(State state, int[] position){
         return checkNearPawns(state, position, "K") > 0;
     }
 
