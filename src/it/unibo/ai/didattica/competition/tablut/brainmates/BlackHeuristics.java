@@ -44,6 +44,8 @@ public class BlackHeuristics extends Heuristics {
     @Override
     public double evaluateState() {
 
+        /*
+
         if (hasWhiteWon()){
 
             return Double.NEGATIVE_INFINITY;
@@ -77,8 +79,10 @@ public class BlackHeuristics extends Heuristics {
             return utilityValue;
 
 
-
         }
+        */
+
+    return new Random().nextDouble();
 
     }
 
@@ -118,6 +122,6 @@ public class BlackHeuristics extends Heuristics {
 
 
 
-        return 0;
+        return new Random().nextInt();
     }
 }

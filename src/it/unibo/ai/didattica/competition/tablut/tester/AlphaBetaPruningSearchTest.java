@@ -1,65 +1,32 @@
 package it.unibo.ai.didattica.competition.tablut.tester;
 
-
-import it.unibo.ai.didattica.competition.tablut.brainmates.BlackHeuristics;
+import it.unibo.ai.didattica.competition.tablut.brainmates.AlphaBetaPruningSearch;
 import it.unibo.ai.didattica.competition.tablut.domain.Action;
 import it.unibo.ai.didattica.competition.tablut.domain.GameAshtonTablut;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 import it.unibo.ai.didattica.competition.tablut.domain.StateTablut;
 import it.unibo.ai.didattica.competition.tablut.gui.Gui;
 
-import java.io.IOException;
-import java.util.List;
-
-public class GameAshtonTablutTest {
-
+public class AlphaBetaPruningSearchTest {
 
     public static void main(String[] args) {
 
 
-        // test getActions(State state)
-        testGetActions();
-
-        // test getResult(State state, Action action)
-        //testGetResult();
+        //test makeDecision(State state)
+        testMakeDecision();
 
     }
 
-    public static void testGetActions()  {
-        //Arrange
-
-        GameAshtonTablut tablutGame = new GameAshtonTablut(99, 2, "garbage", "white_ai", "black_ai");
-        State state = buildState();
-
-
-        //Act
-        List<Action> actions = tablutGame.getActions(state);
-
-        //Show
-        System.out.println(actions);
-    }
-
-    public static void testGetResult()  {
+    public static void testMakeDecision() {
         //Arrange
         GameAshtonTablut tablutGame = new GameAshtonTablut(99, 2, "garbage", "white_ai", "black_ai");
         State state = buildState();
-
-        Action action = null;
-        try {
-            action = new Action("d2", "b2", state.getTurn());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        AlphaBetaPruningSearch search = new AlphaBetaPruningSearch(tablutGame, 2);
 
         //Act
-        State newState = tablutGame.getResult(state, action);
+        Action action = search.makeDecision(state);
 
-        //Show
-        System.out.println(newState);
-        showGui(newState);
     }
-
 
     public static void showGui(State state) {
         // GUI
@@ -102,7 +69,6 @@ public class GameAshtonTablutTest {
 
         board[1][3] = State.Pawn.BLACK;
         board[2][3] = State.Pawn.BLACK;
-        /*
         board[0][4] = State.Pawn.BLACK;
         board[0][5] = State.Pawn.BLACK;
         board[1][2] = State.Pawn.BLACK;
@@ -118,14 +84,16 @@ public class GameAshtonTablutTest {
         board[4][8] = State.Pawn.BLACK;
         board[5][8] = State.Pawn.BLACK;
         board[6][7] = State.Pawn.BLACK;
-        */
+
+
+
 
 
 
         State state = new StateTablut();
 
         // set turn
-        state.setTurn(State.Turn.BLACK);
+        state.setTurn(State.Turn.WHITE);
 
         // set board
         state.setBoard(board);
