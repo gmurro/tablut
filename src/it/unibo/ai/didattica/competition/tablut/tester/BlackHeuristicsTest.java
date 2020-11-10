@@ -19,9 +19,9 @@ public class BlackHeuristicsTest {
         BlackHeuristics heuristics = new BlackHeuristics(state);
         boolean val = heuristics.checkKingPosition(state);
         boolean val2 = heuristics.kingGoesForWin(state);
+        double val3 = heuristics.evaluateState();
 
-        System.out.println("checkKingPosition of this state for black player: "+val);
-        System.out.println("KING ATTACK: "+val2);
+        System.out.println("Value of the heuristic in the current status: " + val3);
 
 
     }
@@ -56,7 +56,7 @@ public class BlackHeuristicsTest {
 
         board[4][4] = State.Pawn.THRONE;
 
-        board[1][1] = State.Pawn.KING;
+        board[4][4] = State.Pawn.KING;
 
         board[2][4] = State.Pawn.WHITE;
         board[3][3] = State.Pawn.WHITE;
