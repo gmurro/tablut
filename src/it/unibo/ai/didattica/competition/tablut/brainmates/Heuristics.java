@@ -23,7 +23,7 @@ public abstract class Heuristics {
      *
      * @return the position of the king
      */
-    protected int[] kingPosition(State state) {
+    public int[] kingPosition(State state) {
         //where I saved the int position of the king
         int[] king= new int[2];
         //obtain the board
@@ -80,21 +80,25 @@ public abstract class Heuristics {
         int[] pos = new int[2];
         //GET TURN
         State.Pawn[][] board = state.getBoard();
-        if(board[position[0]-1][position[1]].equalsPawn(target))
-            pos[0]=position[0]-1;
-            pos[1]=position[1];
+        if(board[position[0]-1][position[1]].equalsPawn(target)) {
+            pos[0] = position[0] - 1;
+            pos[1] = position[1];
             occupiedPosition.add(pos);
-        if(board[position[0]+1][position[1]].equalsPawn(target))
-            pos[0]=position[0]+1;
+        }
+        if(board[position[0]+1][position[1]].equalsPawn(target)) {
+            pos[0] = position[0] + 1;
             occupiedPosition.add(pos);
-        if(board[position[0]][position[1]-1].equalsPawn(target))
-            pos[0]=position[0];
-            pos[1]=position[1]-1;
+        }
+        if(board[position[0]][position[1]-1].equalsPawn(target)) {
+            pos[0] = position[0];
+            pos[1] = position[1] - 1;
             occupiedPosition.add(pos);
-        if(board[position[0]][position[1]+1].equalsPawn(target))
-            pos[0]=position[0];
-            pos[1]=position[1]+1;
+        }
+        if(board[position[0]][position[1]+1].equalsPawn(target)) {
+            pos[0] = position[0];
+            pos[1] = position[1] + 1;
             occupiedPosition.add(pos);
+        }
 
         return occupiedPosition;
     }
@@ -134,15 +138,14 @@ public abstract class Heuristics {
      *
      * @return true if king is on an escape tile, false otherwise
      */
-    protected boolean hasWhiteWon(){
-
+    public boolean hasWhiteWon(){
         int[] posKing = kingPosition(state);
         boolean result;
         result = posKing[0] == 0 || posKing[0] == 8 || posKing[1] == 0 || posKing[1] == 8;
         return result;
     }
 
-    protected boolean safePositionKing(State state,int[] kingPosition){
+    public boolean safePositionKing(State state,int[] kingPosition){
         if(kingPosition[0] > 2 && kingPosition[0] < 6) {
             if (kingPosition[1] > 2 && kingPosition[1] < 6) {
                 return true;
@@ -156,72 +159,78 @@ public abstract class Heuristics {
         boolean col = false;
         boolean row = false;
         if(!safePositionKing(state,kingPosition)){
-            if(!(kingPosition[1] > 2 && kingPosition[1] < 6) && !(kingPosition[0] > 2 && kingPosition[0] < 6)){
-                //yes row yes col
+            if((!(kingPosition[1] > 2 && kingPosition[1] < 6)) && (!(kingPosition[0] > 2 && kingPosition[0] < 6))){
+                //not safe row not safe col
                 col = checkFreeColumn(state, kingPosition);
                 row = checkFreeRow(state,kingPosition);
+                System.out.println(col);
             }
-            if(!(kingPosition[0] > 2 && kingPosition[0] < 6)){
-                //no row yes col
+            if((kingPosition[1] > 2 && kingPosition[1] < 6)){
+                // safe row not safe col
                 row = checkFreeRow(state, kingPosition);
             }
-            if(!(kingPosition[1] > 2 && kingPosition[1] < 6)) {
-                //no row yes col
+            if((kingPosition[0] > 2 && kingPosition[0] < 6)) {
+                // safe col not safe row
                 col = checkFreeColumn(state, kingPosition);
             }
+            return (col || row);
+        }
+        System.out.println("NOT ENTERED");
         return (col || row);
-        }
-        return false;
     }
 
     //TODO maybe better return a way to understand were
-    protected boolean checkFreeColumn(State state,int[] position){
+    public boolean checkFreeRow(State state,int[] position){
         int row=position[0];
         int column=position[1];
         int[] currentPosition = new int[2];
-        boolean freecolumn=true;
-        //going up
-        for(int i = row; i<=8; i++) {
-            currentPosition[0]=i;
-            currentPosition[1]=column;
-            if (checkOccupiedPosition(state,currentPosition)) {
-                freecolumn = false;
-            }
-        }
-        //going down
-        for(int i=row;i>=0;i--) {
-            currentPosition[0]=i;
-            currentPosition[1]=column;
-            if (checkOccupiedPosition(state,currentPosition)) {
-                freecolumn = false;
-            }
-        }
-        return freecolumn;
-    }
-
-    //TODO maybe better return a way to understand were
-    protected boolean checkFreeRow(State state,int[] position){
-        int row=position[0];
-        int column=position[1];
-        int[] currentPosition = new int[2];
-        boolean freeRow=true;
+        int countRight=0;
+        int countLeft=0;
         //going right
-        for(int i=column;i<=8;i++) {
+        for(int i = column+1; i<=8; i++) {
             currentPosition[0]=row;
             currentPosition[1]=i;
             if (checkOccupiedPosition(state,currentPosition)) {
-                freeRow = false;
+                countRight++;
             }
         }
         //going left
-        for(int i=row;i>=0;i--) {
+        for(int i=column-1;i>=0;i--) {
             currentPosition[0]=row;
             currentPosition[1]=i;
-            if (checkOccupiedPosition(state,currentPosition)) {
-                freeRow = false;
+            if (checkOccupiedPosition(state,currentPosition)){
+                countLeft++;
             }
         }
-        return freeRow;
+        return (countRight==0 || countLeft==0);
+    }
+
+    //TODO maybe better return a way to understand were
+    public boolean checkFreeColumn(State state,int[] position){
+        //lock column
+        int row=position[0];
+        int column=position[1];
+        int[] currentPosition = new int[2];
+        int countUp=0;
+        int countDown=0;
+        //going down
+        for(int i=row+1;i<=8;i++) {
+            currentPosition[0]=i;
+            currentPosition[1]=column;
+            if (checkOccupiedPosition(state,currentPosition)) {
+                countDown++;
+            }
+        }
+        //going up
+        for(int i=row-1;i>=0;i--) {
+            currentPosition[0]=i;
+            currentPosition[1]=column;
+            if (checkOccupiedPosition(state,currentPosition)) {
+                System.out.println("CONTATO");
+                countUp++;
+            }
+        }
+        return (countDown==0 || countUp==0);
     }
 
     public boolean checkOccupiedPosition(State state,int[] position){
