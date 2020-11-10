@@ -12,14 +12,15 @@ public class BlackHeuristics extends Heuristics {
     private final int NUM_TILES_ON_RHOMBUS = 16;
 
     private final Map<String,Double> weights;
-    private final List<int[]> rhombus;
+    private String[] keys;
+    private final int[][] rhombus = {{1,3},{1,4},{2,2},{2,5},{3,1},{3,6},{4,0},{4,7},{5,0},{5,7},{6,1},
+            {6,6},{7,2},{7,5},{8,3},{8,4}};
     private int numberOfBlack;
     private int numberOfWhite;
 
     public BlackHeuristics(State state) {
 
         super(state);
-
         //Loading weights
         weights = new HashMap<String, Double>();
         weights.put("Black", 0.5);
@@ -28,23 +29,14 @@ public class BlackHeuristics extends Heuristics {
         weights.put("Rhombus", 0.7);
         weights.put("NextWhiteWins",0.7);
 
-        //Loading rhombus tiles positions
-        int[] buf = new int[2];
-        rhombus = new ArrayList<int[]>();
-        int[] rows = {1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8};
-        int[] columns = {3,4,2,5,1,6,0,7,0,7,1,6,2,5,3,4};
-        for (int i = 0; i < NUM_TILES_ON_RHOMBUS; i++){
-            buf[0] = rows[i];
-            buf[1] = columns[i];
-            rhombus.add(buf);
-        }
+        keys = new String[weights.size()];
+        keys = weights.keySet().toArray(new String[0]);
 
     }
 
     @Override
     public double evaluateState() {
 
-        /*
 
         if (hasWhiteWon()){
 
@@ -56,33 +48,36 @@ public class BlackHeuristics extends Heuristics {
 
             //Atomic functions to combine to get utility value
             numberOfBlack = state.getNumberOf(State.Pawn.BLACK);
+            System.out.println("Black pawns: " + numberOfBlack);
             numberOfWhite = state.getNumberOf(State.Pawn.WHITE);
-            int pawnsNearKing = checkNearPawns(state, KING_POSITION,State.Turn.BLACK.toString());
+            System.out.println("Number of white pawns: " + numberOfWhite);
+            int pawnsNearKing = checkNearPawns(state, kingPosition(state),State.Turn.BLACK.toString());
+            System.out.println("Number of pawns near to the king:" + pawnsNearKing);
             int numberOfPawnsOnRhombus = getNumberOnRhombus();
+            System.out.println("Number of rhombus: " + numberOfPawnsOnRhombus);
             int nextMoveWhiteWins = nextMoveWhiteWon();
+            System.out.println("Next move wins: " + nextMoveWhiteWins);
 
 
             //Weighted sum of functions to get final utility value
-            String[] mapKeys = (String[]) weights.keySet().toArray();
-            List<Integer> atomicUtilities = new ArrayList<Integer>();
-            atomicUtilities.add(numberOfBlack);
-            atomicUtilities.add(numberOfWhite);
-            atomicUtilities.add(pawnsNearKing);
-            atomicUtilities.add(numberOfPawnsOnRhombus);
-            atomicUtilities.add(nextMoveWhiteWins);
-            Integer[] values = (Integer[]) atomicUtilities.toArray();
+            Map<String,Integer> atomicUtilities = new HashMap<String,Integer>();
+            atomicUtilities.put("Black",numberOfBlack);
+            atomicUtilities.put("White",numberOfWhite);
+            atomicUtilities.put("NearKing",pawnsNearKing);
+            atomicUtilities.put("Rhombus",numberOfPawnsOnRhombus);
+            atomicUtilities.put("NextWhiteWins",nextMoveWhiteWins);
 
-            for (int i = 0; i <= weights.size(); i++){
-                utilityValue += weights.get(mapKeys[i]) * values[i];
+            for (int i = 0; i < weights.size(); i++){
+                utilityValue += weights.get(keys[i]) * atomicUtilities.get(keys[i]);
+                System.out.println(keys[i] + ": " + weights.get(keys[i]) + "*" + atomicUtilities.get(keys[i]) + "= "
+                + weights.get(keys[i]) * atomicUtilities.get(keys[i]));
             }
 
             return utilityValue;
 
 
         }
-        */
 
-    return new Random().nextDouble();
 
     }
 
@@ -116,12 +111,12 @@ public class BlackHeuristics extends Heuristics {
 
     private int nextMoveWhiteWon(){
 
-        int[] posKing = kingPosition(state);
+        boolean hasWon = kingGoesForWin(state);
 
-
-
-
-
-        return new Random().nextInt();
+        if(hasWon){
+            return -5;
+        }else{
+            return 1;
+        }
     }
 }

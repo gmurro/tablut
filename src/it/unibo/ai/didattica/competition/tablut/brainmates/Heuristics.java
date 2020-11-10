@@ -80,21 +80,25 @@ public abstract class Heuristics {
         int[] pos = new int[2];
         //GET TURN
         State.Pawn[][] board = state.getBoard();
-        if(board[position[0]-1][position[1]].equalsPawn(target))
-            pos[0]=position[0]-1;
-            pos[1]=position[1];
+        if(board[position[0]-1][position[1]].equalsPawn(target)) {
+            pos[0] = position[0] - 1;
+            pos[1] = position[1];
             occupiedPosition.add(pos);
-        if(board[position[0]+1][position[1]].equalsPawn(target))
-            pos[0]=position[0]+1;
+        }
+        if(board[position[0]+1][position[1]].equalsPawn(target)) {
+            pos[0] = position[0] + 1;
             occupiedPosition.add(pos);
-        if(board[position[0]][position[1]-1].equalsPawn(target))
-            pos[0]=position[0];
-            pos[1]=position[1]-1;
+        }
+        if(board[position[0]][position[1]-1].equalsPawn(target)) {
+            pos[0] = position[0];
+            pos[1] = position[1] - 1;
             occupiedPosition.add(pos);
-        if(board[position[0]][position[1]+1].equalsPawn(target))
-            pos[0]=position[0];
-            pos[1]=position[1]+1;
+        }
+        if(board[position[0]][position[1]+1].equalsPawn(target)) {
+            pos[0] = position[0];
+            pos[1] = position[1] + 1;
             occupiedPosition.add(pos);
+        }
 
         return occupiedPosition;
     }
