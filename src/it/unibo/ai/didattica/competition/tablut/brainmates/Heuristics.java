@@ -135,7 +135,6 @@ public abstract class Heuristics {
      * @return true if king is on an escape tile, false otherwise
      */
     public boolean hasWhiteWon(){
-
         int[] posKing = kingPosition(state);
         boolean result;
         result = posKing[0] == 0 || posKing[0] == 8 || posKing[1] == 0 || posKing[1] == 8;
@@ -161,15 +160,14 @@ public abstract class Heuristics {
                 col = checkFreeColumn(state, kingPosition);
                 row = checkFreeRow(state,kingPosition);
                 System.out.println(col);
-
             }
             if((kingPosition[1] > 2 && kingPosition[1] < 6)){
                 // safe row not safe col
-                row = checkFreeColumn(state, kingPosition);
+                row = checkFreeRow(state, kingPosition);
             }
             if((kingPosition[0] > 2 && kingPosition[0] < 6)) {
                 // safe col not safe row
-                col = checkFreeRow(state, kingPosition);
+                col = checkFreeColumn(state, kingPosition);
             }
             return (col || row);
         }
@@ -224,6 +222,7 @@ public abstract class Heuristics {
             currentPosition[0]=i;
             currentPosition[1]=column;
             if (checkOccupiedPosition(state,currentPosition)) {
+                System.out.println("CONTATO");
                 countUp++;
             }
         }
