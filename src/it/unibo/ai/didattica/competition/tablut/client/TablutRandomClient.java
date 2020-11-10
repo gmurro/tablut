@@ -171,6 +171,7 @@ public class TablutRandomClient extends TablutClient {
 							e1.printStackTrace();
 						}
 
+						System.out.println("try: " + a.toString());
 						try {
 							rules.checkMove(state, a);
 							found = true;

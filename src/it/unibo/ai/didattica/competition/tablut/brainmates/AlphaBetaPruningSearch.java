@@ -1,65 +1,42 @@
 package it.unibo.ai.didattica.competition.tablut.brainmates;
 
 import aima.core.search.adversarial.Game;
-import aima.core.search.framework.Metrics;
 import it.unibo.ai.didattica.competition.tablut.domain.Action;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
- * Artificial Intelligence A Modern Approach (3rd Ed.): Page 173.<br>
- * <p>
- * <pre>
- * <code>
- * function ALPHA-BETA-SEARCH(state) returns an action
- *   v = MAX-VALUE(state, -infinity, +infinity)
- *   return the action in ACTIONS(state) with value v
+ * Implementation of MinMax algorithm with AlphaBeta pruning.
  *
- * function MAX-VALUE(state, alpha, beta) returns a utility value
- *   if TERMINAL-TEST(state) then return UTILITY(state)
- *   v = -infinity
- *   for each a in ACTIONS(state) do
- *     v = MAX(v, MIN-VALUE(RESULT(s, a), alpha, beta))
- *     if v >= beta then return v
- *     alpha = MAX(alpha, v)
- *   return v
- *
- * function MIN-VALUE(state, alpha, beta) returns a utility value
- *   if TERMINAL-TEST(state) then return UTILITY(state)
- *   v = infinity
- *   for each a in ACTIONS(state) do
- *     v = MIN(v, MAX-VALUE(RESULT(s,a), alpha, beta))
- *     if v <= alpha then return v
- *     beta = MIN(beta, v)
- *   return v
- * </code>
- * </pre>
- * <p>
- * Figure 5.7 The alpha-beta search algorithm. Notice that these routines are
- * the same as the MINIMAX functions in Figure 5.3, except for the two lines in
- * each of MIN-VALUE and MAX-VALUE that maintain alpha and beta (and the
- * bookkeeping to pass these parameters along).
- *
- * @author Ruediger Lunde
+ * @author Giuseppe Murro
  */
 public class AlphaBetaPruningSearch{
 
-    public final static String METRICS_NODES_EXPANDED = "nodesExpanded";
 
     private Game<State, Action, State.Turn> game;
     private int maxDepth;
     private HashMap<Integer,Integer> nodesExpanded;
+    private boolean logEnabled;
+    private AlphaBetaPruningSearch.Timer timer;
 
     /**
      * Creates a new search object for a given game.
      */
-    public static AlphaBetaPruningSearch createFor(Game<State, Action, State.Turn> game, int maxDepth) {
-        return new AlphaBetaPruningSearch(game, maxDepth);
+    public static AlphaBetaPruningSearch createFor(Game<State, Action, State.Turn> game, int maxDepth, int time) {
+        return new AlphaBetaPruningSearch(game, maxDepth, time);
     }
 
-    public AlphaBetaPruningSearch(Game<State, Action, State.Turn> game, int maxDepth) {
+    /**
+     * Costurctor for this class.
+     *
+     * @param game Object that implement Game class of AIMA core
+     * @param maxDepth Depth of the tree up to which the search is performed (the first level is 0).
+     * @param time Maximum time in seconds after which a value is returned.
+     */
+    public AlphaBetaPruningSearch(Game<State, Action, State.Turn> game, int maxDepth, int time) {
         this.game = game;
         this.maxDepth = maxDepth;
 
@@ -68,18 +45,42 @@ public class AlphaBetaPruningSearch{
         for (int i=0; i<=maxDepth; i++) {
             nodesExpanded.put(i, 0);
         }
+
+        this.timer = new AlphaBetaPruningSearch.Timer(time);
+    }
+
+    /**
+     * Method to enable log and to debug algorithm.
+     * @param logEnabled
+     */
+    public void setLogEnabled(boolean logEnabled) {
+        this.logEnabled = logEnabled;
     }
 
 
+    /**
+     * Method that perform minmax algorithm.
+     *
+     * @param state State from whitch the search begins.
+     * @return Best action performed.
+     */
     public Action makeDecision(State state) {
+
+        // start timer
+        this.timer.start();
+
         Action result = null;
         double resultValue = Double.NEGATIVE_INFINITY;
-        State.Turn player = game.getPlayer(state);
 
+        // the first level (0 level) on tree have always only one node: the current state
         nodesExpanded.put(0,1);
 
+        // get kind of player that is playing
+        State.Turn player = game.getPlayer(state);
 
-        // Recur for each children
+        List<Action> list = game.getActions(state);
+
+        // Recur for each possible action for current player
         for (Action action : game.getActions(state)) {
 
 
@@ -92,9 +93,10 @@ public class AlphaBetaPruningSearch{
                 result = action;
                 resultValue = value;
             }
+
         }
-        System.out.println("Best Action for "+result.getTurn() + " is:  "+result.getFrom()+"-->"+result.getTo()+"  (val: "+resultValue+")");
-        System.out.println("Node expanded in tree search:");
+        System.out.println("\nBest Action for "+result.getTurn() + " is:  "+result.getFrom()+"-->"+result.getTo()+"  (val: "+resultValue+")");
+        System.out.println("Node expanded in tree search in "+timer.getTimer()+" s:");
         System.out.println(printNodesExpanded());
         return result;
     }
@@ -104,15 +106,20 @@ public class AlphaBetaPruningSearch{
         // increment node expanded at depth = maxDepth-depth
         nodesExpanded.put(maxDepth-depth, nodesExpanded.get(maxDepth-depth) + 1 );
 
-        /*System.out.println("STATE "+nodesExpanded.get(maxDepth-depth)+" at level "+(maxDepth-depth));
-        System.out.println(state);*/
+        if (this.logEnabled) {
+            System.out.println("STATE "+nodesExpanded.get(maxDepth-depth)+" at level "+(maxDepth-depth));
+            System.out.println(state);
+        }
 
         // Terminating condition. i.e
         // leaf node is reached
-        if (game.isTerminal(state) || depth == 0) {
+        if (game.isTerminal(state) || depth == 0 || this.timer.timeOutOccurred()) {
             double utility = game.getUtility(state, player);
-            /*System.out.println(game.isTerminal(state));
-            System.out.println("UTILITY of state "+nodesExpanded.get(maxDepth-depth)+" at level "+(maxDepth-depth)+": "+utility);*/
+
+            if (this.logEnabled) {
+                System.out.println("UTILITY of state " + nodesExpanded.get(maxDepth - depth) + " at level " + (maxDepth - depth) + ": " + utility+"\n");
+            }
+
             return utility;
         }
 
@@ -144,15 +151,20 @@ public class AlphaBetaPruningSearch{
         // increment node expanded at depth = maxDepth-depth
         nodesExpanded.put(maxDepth-depth, nodesExpanded.get(maxDepth-depth) + 1 );
 
-        /*System.out.println("STATE "+nodesExpanded.get(maxDepth-depth)+" at level "+(maxDepth-depth));
-        System.out.println(state);*/
+        if (this.logEnabled) {
+            System.out.println("STATE " + nodesExpanded.get(maxDepth - depth) + " at level " + (maxDepth - depth));
+            System.out.println(state);
+        }
 
         // Terminating condition. i.e
         // leaf node is reached
-        if (game.isTerminal(state) || depth == 0) {
+        if (game.isTerminal(state) || depth == 0 || this.timer.timeOutOccurred()) {
             double utility = game.getUtility(state, player);
-            /*System.out.println(game.isTerminal(state));
-            System.out.println("UTILITY of state "+nodesExpanded.get(maxDepth-depth)+" at level "+(maxDepth-depth)+": "+utility);*/
+
+            if (this.logEnabled) {
+                System.out.println("UTILITY of state " + nodesExpanded.get(maxDepth - depth) + " at level " + (maxDepth - depth) + ": " + utility+"\n");
+            }
+
             return utility;
         }
 
@@ -178,9 +190,6 @@ public class AlphaBetaPruningSearch{
         return minEval;
     }
 
-
-
-
     public HashMap<Integer, Integer> getNodesExpanded() {
         return nodesExpanded;
     }
@@ -191,5 +200,29 @@ public class AlphaBetaPruningSearch{
             message.append("Depth "+me.getKey() + ": " + me.getValue()+" nodes\n");
         }
         return  message.toString();
+    }
+
+
+
+    private static class Timer {
+        private long duration;
+        private long startTime;
+
+        public Timer(int maxSeconds) {
+            this.duration = (long)(1000 * maxSeconds);
+        }
+
+        public void start() {
+            this.startTime = System.currentTimeMillis();
+        }
+
+        public double getTimer() {
+            return (double)(System.currentTimeMillis() - this.startTime)/1000;
+        }
+
+        public boolean timeOutOccurred() {
+            boolean overTime = System.currentTimeMillis() > this.startTime + this.duration;
+            return overTime;
+        }
     }
 }

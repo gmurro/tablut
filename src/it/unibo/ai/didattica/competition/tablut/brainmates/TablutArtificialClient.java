@@ -133,7 +133,7 @@ public class TablutArtificialClient extends TablutClient{
 
                     Action a = findBestMove(tablutGame, state);
 
-                    System.out.println("Mossa scelta: " + a.toString());
+                    System.out.println("Action selected: " + a.toString());
                     try {
                         this.write(a);
                     } catch (ClassNotFoundException | IOException e) {
@@ -173,7 +173,8 @@ public class TablutArtificialClient extends TablutClient{
     private Action findBestMove(GameAshtonTablut tablutGame, State state) {
 
         // TODO depth
-        AlphaBetaPruningSearch search = new AlphaBetaPruningSearch(tablutGame, 3);
+        AlphaBetaPruningSearch search = new AlphaBetaPruningSearch(tablutGame, 3, 55);
+        search.setLogEnabled(false);
         return search.makeDecision(state);
     }
 }

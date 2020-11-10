@@ -21,7 +21,8 @@ public class AlphaBetaPruningSearchTest {
         //Arrange
         GameAshtonTablut tablutGame = new GameAshtonTablut(99, 2, "garbage", "white_ai", "black_ai");
         State state = buildState();
-        AlphaBetaPruningSearch search = new AlphaBetaPruningSearch(tablutGame, 2);
+        AlphaBetaPruningSearch search = new AlphaBetaPruningSearch(tablutGame, 3,10000);
+        search.setLogEnabled(true);
 
         //Act
         Action action = search.makeDecision(state);
@@ -56,8 +57,8 @@ public class AlphaBetaPruningSearchTest {
 
         board[4][4] = State.Pawn.THRONE;
 
-        board[3][4] = State.Pawn.KING;
-
+        board[2][4] = State.Pawn.KING;
+        /*
         board[2][4] = State.Pawn.WHITE;
         board[3][3] = State.Pawn.WHITE;
         board[5][4] = State.Pawn.WHITE;
@@ -66,9 +67,11 @@ public class AlphaBetaPruningSearchTest {
         board[4][3] = State.Pawn.WHITE;
         board[4][5] = State.Pawn.WHITE;
         board[4][6] = State.Pawn.WHITE;
+        */
 
-        board[1][3] = State.Pawn.BLACK;
-        board[2][3] = State.Pawn.BLACK;
+        board[2][8] = State.Pawn.BLACK;
+        board[3][3] = State.Pawn.BLACK;
+        /*
         board[0][4] = State.Pawn.BLACK;
         board[0][5] = State.Pawn.BLACK;
         board[1][2] = State.Pawn.BLACK;
@@ -83,7 +86,7 @@ public class AlphaBetaPruningSearchTest {
         board[3][8] = State.Pawn.BLACK;
         board[4][8] = State.Pawn.BLACK;
         board[5][8] = State.Pawn.BLACK;
-        board[6][7] = State.Pawn.BLACK;
+        board[6][7] = State.Pawn.BLACK;*/
 
 
 
@@ -93,7 +96,7 @@ public class AlphaBetaPruningSearchTest {
         State state = new StateTablut();
 
         // set turn
-        state.setTurn(State.Turn.WHITE);
+        state.setTurn(State.Turn.BLACK);
 
         // set board
         state.setBoard(board);
