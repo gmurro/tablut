@@ -770,12 +770,18 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 			return 0.0;
 
 		Heuristics heuristics = null;
-		if (turn.equals(State.Turn.WHITE)) {
+		if (state.getTurn().equals(State.Turn.WHITE)) {
 			heuristics = new WhiteHeuristics(state);
 		} else {
 			heuristics = new BlackHeuristics(state);
 		}
-		return heuristics.evaluateState();
+		if (turn.equals(State.Turn.WHITE) &&  heuristics instanceof WhiteHeuristics
+			|| turn.equals(State.Turn.BLACK) &&  heuristics instanceof BlackHeuristics ) {
+			return heuristics.evaluateState();
+		} else {
+			return - heuristics.evaluateState();
+		}
+
 	}
 
 
