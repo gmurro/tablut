@@ -49,7 +49,7 @@ public class WhiteHeuristics extends Heuristics {
         int blackNotInSquare = GameAshtonTablut.NUM_BLACK - getNumberOnInnerSquare(State.Pawn.BLACK);
         int whiteInSquare = getNumberOnInnerSquare(State.Pawn.WHITE);
         int bestPositions = getNumberOnBestPositions();
-        int numEscapes = fun();
+        int numEscapes = countWinWays(state);
         int blackSurroundKing = checkNearPawns(state, kingPosition(state),State.Turn.BLACK.toString());
 
         Map<String, Integer> values = new HashMap<String, Integer>();
