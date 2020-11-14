@@ -14,7 +14,7 @@ public class WhiteHeuristics extends Heuristics {
     private final static int END_SQUARE = 6;
 
     //matrix of favourite white positions in the initial stages of the game
-    private final static int[] bestPositions = {};
+    private final static int[][] bestPositions = {{2,5},{3,3},{5,3},{6,5}};
 
     private Map<String,Double> weights;
     private Map<String,Double> values;
@@ -28,10 +28,10 @@ public class WhiteHeuristics extends Heuristics {
         //initializing weights
         weights = new HashMap<String,Double>();
         //Square is the the central area delimited by initial configuration of white pawns
-        weights.put("blackNotInSquare", 0.5);
+        weights.put("blackNotInSquare", 0.8);
         weights.put("whiteInSquare", 0.5 );
         //Positions which are the best moves at the beginning of the game
-        weights.put("bestPositions", 0.7);
+        weights.put("bestPositions", 0.6);
         weights.put("numberEscapesKing", 0.7);
         weights.put("blackSurroundKing", 0.6);
 
@@ -48,7 +48,7 @@ public class WhiteHeuristics extends Heuristics {
 
         int blackNotInSquare = GameAshtonTablut.NUM_BLACK - getNumberOnInnerSquare(State.Pawn.BLACK);
         int whiteInSquare = getNumberOnInnerSquare(State.Pawn.WHITE);
-        int bestPositions = fun();
+        int bestPositions = getNumberOnBestPositions();
         int numEscapes = fun();
         int blackSurroundKing = checkNearPawns(state, kingPosition(state),State.Turn.BLACK.toString());
 
@@ -81,6 +81,24 @@ public class WhiteHeuristics extends Heuristics {
                 if(state.getPawn(i,j).equalsPawn(color.toString())){
                     num++;
                 }
+            }
+        }
+
+        return num;
+    }
+
+
+    /**
+     *
+     * @return
+     */
+    private int getNumberOnBestPositions(){
+
+        int num = 0;
+
+        for(int[] pos: bestPositions){
+            if(state.getPawn(pos[0],pos[1]).equalsPawn(State.Pawn.WHITE.toString())){
+                num++;
             }
         }
 
