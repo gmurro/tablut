@@ -1,5 +1,6 @@
 package it.unibo.ai.didattica.competition.tablut.brainmates;
 
+import it.unibo.ai.didattica.competition.tablut.domain.GameAshtonTablut;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 
 import java.util.HashMap;
@@ -7,6 +8,13 @@ import java.util.Map;
 import java.util.Random;
 
 public class WhiteHeuristics extends Heuristics {
+
+    //row and colons limit of the square used in the first stages of the game
+    private final static int START_SQUARE = 2;
+    private final static int END_SQUARE = 6;
+
+    //matrix of favourite white positions in the initial stages of the game
+    private final static int[] bestPositions = {};
 
     private Map<String,Double> weights;
     private Map<String,Double> values;
@@ -38,8 +46,8 @@ public class WhiteHeuristics extends Heuristics {
 
         double utilityValue = 0;
 
-        int blackNotInSquare = fun();
-        int whiteInSquare = fun();
+        int blackNotInSquare = GameAshtonTablut.NUM_BLACK - getNumberOnInnerSquare(State.Pawn.BLACK);
+        int whiteInSquare = getNumberOnInnerSquare(State.Pawn.WHITE);
         int bestPositions = fun();
         int numEscapes = fun();
         int blackSurroundKing = checkNearPawns(state, kingPosition(state),State.Turn.BLACK.toString());
@@ -57,5 +65,25 @@ public class WhiteHeuristics extends Heuristics {
 
 
         return utilityValue;
+    }
+
+    /**
+     *
+     * @param color pawn type we are looking for in the square
+     * @return number of 'color' pawn in the square
+     */
+    private int getNumberOnInnerSquare(State.Pawn color){
+
+        int num = 0;
+
+        for(int i = START_SQUARE; i <= END_SQUARE; i++){
+            for(int j = START_SQUARE; j <= END_SQUARE; j++){
+                if(state.getPawn(i,j).equalsPawn(color.toString())){
+                    num++;
+                }
+            }
+        }
+
+        return num;
     }
 }

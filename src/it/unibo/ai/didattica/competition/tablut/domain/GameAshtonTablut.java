@@ -49,6 +49,12 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 	// private List<String> strangeCitadels;
 	private List<State> drawConditions;
 
+	//information about number of tiles and pawns overall
+	public final static int NUM_BLACK = 16;
+	public final static int NUM_WHITE = 8;
+	public final static int NUM_ESCAPES =16;
+	public final static int NUM_CITADELS = 16;
+
 
 
 	public GameAshtonTablut(int repeated_moves_allowed, int cache_size, String logs_folder, String whiteName,
