@@ -90,7 +90,7 @@ public class WhiteHeuristics extends Heuristics {
 
     /**
      *
-     * @return
+     * @return number of white pawns on best positions
      */
     private int getNumberOnBestPositions(){
 
