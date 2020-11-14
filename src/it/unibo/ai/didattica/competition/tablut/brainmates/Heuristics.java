@@ -7,9 +7,9 @@ import java.util.List;
 
 public abstract class Heuristics {
 
-    //TODO why?
     protected final int[] KING_POSITION = {4,4};
     protected State state;
+
 
     public Heuristics(State state) {
         this.state = state;
@@ -50,8 +50,6 @@ public abstract class Heuristics {
             return false;
     }
 
-    //TODO OPPONENT PASSATO O NO?
-    //TODO dove è circondato
     /**
      *
      * @return the number of near pawn that are target(BLACK or WHITE)
@@ -103,12 +101,13 @@ public abstract class Heuristics {
         return occupiedPosition;
     }
 
-    //method to understand if i'm gonna be eaten
+    /**method to understand if i'm gonna be eaten
     protected boolean checkDanger(State state,int[] position,String opponent){
         State.Pawn[][] board = state.getBoard();
-        //TODO come capisco se sto per essere mangiato?
+        //come capisco se sto per essere mangiato?
         return checkNearPawns(state, position, opponent) != 0;
     }
+    */
 
     /**
      *
@@ -145,6 +144,12 @@ public abstract class Heuristics {
         return result;
     }
 
+
+    /**
+     *
+     * @return true if king is on an SAFE position false otherwise
+     * SAFE POSITION = The square near the throne were it has no way to win
+     */
     public boolean safePositionKing(State state,int[] kingPosition){
         if(kingPosition[0] > 2 && kingPosition[0] < 6) {
             if (kingPosition[1] > 2 && kingPosition[1] < 6) {
@@ -154,36 +159,72 @@ public abstract class Heuristics {
         return false;
     }
 
+    /**
+     *
+     * @return true if king has some way to win and assign the value of ways to escape
+     */
     public boolean kingGoesForWin(State state){
         int[] kingPosition=this.kingPosition(state);
-        boolean col = false;
-        boolean row = false;
+        int col = 0;
+        int row = 0;
         if(!safePositionKing(state,kingPosition)){
             if((!(kingPosition[1] > 2 && kingPosition[1] < 6)) && (!(kingPosition[0] > 2 && kingPosition[0] < 6))){
                 //not safe row not safe col
-                col = checkFreeColumn(state, kingPosition);
-                row = checkFreeRow(state,kingPosition);
+                col = countFreeColumn(state, kingPosition);
+                row = countFreeRow(state,kingPosition);
                 System.out.println(col);
             }
             if((kingPosition[1] > 2 && kingPosition[1] < 6)){
                 // safe row not safe col
-                row = checkFreeRow(state, kingPosition);
+                row = countFreeRow(state, kingPosition);
             }
             if((kingPosition[0] > 2 && kingPosition[0] < 6)) {
                 // safe col not safe row
-                col = checkFreeColumn(state, kingPosition);
+                col = countFreeColumn(state, kingPosition);
             }
-            return (col || row);
+            return (col + row > 0);
         }
-        System.out.println("NOT ENTERED");
-        return (col || row);
+        return (col + row > 0);
     }
 
-    //TODO maybe better return a way to understand were
-    public boolean checkFreeRow(State state,int[] position){
+    public int countWinWays(State state){
+        int[] kingPosition=this.kingPosition(state);
+        int col = 0;
+        int row = 0;
+        if(!safePositionKing(state,kingPosition)){
+            if((!(kingPosition[1] > 2 && kingPosition[1] < 6)) && (!(kingPosition[0] > 2 && kingPosition[0] < 6))){
+                //not safe row not safe col
+                col = countFreeColumn(state, kingPosition);
+                row = countFreeRow(state,kingPosition);
+            }
+            if((kingPosition[1] > 2 && kingPosition[1] < 6)){
+                // safe row not safe col
+                row = countFreeRow(state, kingPosition);
+            }
+            if((kingPosition[0] > 2 && kingPosition[0] < 6)) {
+                // safe col not safe row
+                col = countFreeColumn(state, kingPosition);
+            }
+            System.out.println("ROW:"+row);
+            System.out.println("COL:"+col);
+            return (col + row);
+        }
+        System.out.println("ROW:"+row);
+        System.out.println("COL:"+col);
+        return (col + row);
+
+    }
+
+
+    /**
+     *
+     * @return return the number of free row that a Pawn has
+     */
+    public int countFreeRow(State state,int[] position){
         int row=position[0];
         int column=position[1];
         int[] currentPosition = new int[2];
+        int freeWays=0;
         int countRight=0;
         int countLeft=0;
         //going right
@@ -194,6 +235,8 @@ public abstract class Heuristics {
                 countRight++;
             }
         }
+        if(countRight==0)
+            freeWays++;
         //going left
         for(int i=column-1;i>=0;i--) {
             currentPosition[0]=row;
@@ -202,15 +245,22 @@ public abstract class Heuristics {
                 countLeft++;
             }
         }
-        return (countRight==0 || countLeft==0);
+        if(countLeft==0)
+            freeWays++;
+
+        return freeWays;
     }
 
-    //TODO maybe better return a way to understand were
-    public boolean checkFreeColumn(State state,int[] position){
+    /**
+     *
+     * @return return the number of free columns
+     */
+    public int countFreeColumn(State state,int[] position){
         //lock column
         int row=position[0];
         int column=position[1];
         int[] currentPosition = new int[2];
+        int freeWays=0;
         int countUp=0;
         int countDown=0;
         //going down
@@ -221,22 +271,27 @@ public abstract class Heuristics {
                 countDown++;
             }
         }
+        if(countDown==0)
+            freeWays++;
         //going up
         for(int i=row-1;i>=0;i--) {
             currentPosition[0]=i;
             currentPosition[1]=column;
-            if (checkOccupiedPosition(state,currentPosition)) {
-                System.out.println("CONTATO");
+            if (checkOccupiedPosition(state,currentPosition)){
                 countUp++;
             }
         }
-        return (countDown==0 || countUp==0);
+        if(countUp==0)
+            freeWays++;
+
+        return freeWays;
     }
 
+    /**
+     *
+     * @return true if a position is occupied, false otherwise
+     */
     public boolean checkOccupiedPosition(State state,int[] position){
-        if(state.getPawn(position[0],position[1]).equals(State.Pawn.EMPTY))
-            return false;
-        else
-            return true;
+        return !state.getPawn(position[0], position[1]).equals(State.Pawn.EMPTY);
         }
 }
