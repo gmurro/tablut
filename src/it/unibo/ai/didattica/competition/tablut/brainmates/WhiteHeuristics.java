@@ -20,6 +20,8 @@ public class WhiteHeuristics extends Heuristics {
     private Map<String,Double> values;
     private String[] keys;
 
+    private boolean flag = false;
+
 
     public WhiteHeuristics(State state) {
 
@@ -52,15 +54,28 @@ public class WhiteHeuristics extends Heuristics {
         int numEscapes = countWinWays(state);
         int blackSurroundKing = checkNearPawns(state, kingPosition(state),State.Turn.BLACK.toString());
 
+        if(flag){
+            System.out.println("Number of black not in square: " + blackNotInSquare);
+            System.out.println("Number of white in the square: " + whiteInSquare);
+            System.out.println("Number of white pawns in best positions " + bestPositions);
+            System.out.println("Number of escapes: " + numEscapes);
+            System.out.println("Number of black surrounding king: " + blackSurroundKing);
+        }
+
         Map<String, Integer> values = new HashMap<String, Integer>();
         values.put("blackNotInSquare", blackNotInSquare);
         values.put("whiteInSquare", whiteInSquare);
         values.put("bestPositions", bestPositions);
         values.put("numberEscapesKing",numEscapes);
-        values.put("blackSurroundingKing",blackSurroundKing);
+        values.put("blackSurroundKing",blackSurroundKing);
 
         for (int i=0; i < weights.size(); i++){
             utilityValue += weights.get(keys[i]) * values.get(keys[i]);
+            if(flag){
+                System.out.println(keys[i]);
+                System.out.println(weights.get(keys[i]) + " * " + values.get(keys[i]) +
+                        " = " + weights.get(keys[i]) * values.get(keys[i]));
+            }
         }
 
 
