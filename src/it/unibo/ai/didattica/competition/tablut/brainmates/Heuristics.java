@@ -205,12 +205,12 @@ public abstract class Heuristics {
                 // safe col not safe row
                 col = countFreeColumn(state, kingPosition);
             }
-            System.out.println("ROW:"+row);
-            System.out.println("COL:"+col);
+            //System.out.println("ROW:"+row);
+            //System.out.println("COL:"+col);
             return (col + row);
         }
-        System.out.println("ROW:"+row);
-        System.out.println("COL:"+col);
+        //System.out.println("ROW:"+row);
+        //System.out.println("COL:"+col);
         return (col + row);
 
     }

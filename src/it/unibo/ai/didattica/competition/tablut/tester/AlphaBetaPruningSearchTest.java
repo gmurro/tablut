@@ -57,7 +57,7 @@ public class AlphaBetaPruningSearchTest {
 
         board[4][4] = State.Pawn.THRONE;
 
-        board[2][4] = State.Pawn.KING;
+        board[2][5] = State.Pawn.KING;
         /*
         board[2][4] = State.Pawn.WHITE;
         board[3][3] = State.Pawn.WHITE;

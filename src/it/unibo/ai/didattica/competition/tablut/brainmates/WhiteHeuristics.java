@@ -20,6 +20,8 @@ public class WhiteHeuristics extends Heuristics {
     private Map<String,Double> values;
     private String[] keys;
 
+    private int numberOfBlackEaten;
+
     private boolean flag = false;
 
 
@@ -30,8 +32,9 @@ public class WhiteHeuristics extends Heuristics {
         //initializing weights
         weights = new HashMap<String,Double>();
         //Square is the the central area delimited by initial configuration of white pawns
-        weights.put("blackNotInSquare", 0.8);
-        weights.put("whiteInSquare", 0.5 );
+        //weights.put("blackNotInSquare", 0.8);
+        //weights.put("whiteInSquare", 0.5 );
+        weights.put("Black",0.5);
         //Positions which are the best moves at the beginning of the game
         weights.put("bestPositions", 0.6);
         weights.put("numberEscapesKing", 0.7);
@@ -48,23 +51,25 @@ public class WhiteHeuristics extends Heuristics {
 
         double utilityValue = 0;
 
-        int blackNotInSquare = GameAshtonTablut.NUM_BLACK - getNumberOnInnerSquare(State.Pawn.BLACK);
-        int whiteInSquare = getNumberOnInnerSquare(State.Pawn.WHITE);
+        //int blackNotInSquare = GameAshtonTablut.NUM_BLACK - getNumberOnInnerSquare(State.Pawn.BLACK);
+        //int whiteInSquare = getNumberOnInnerSquare(State.Pawn.WHITE);
+        int numberOfBlackEaten = 10 * (GameAshtonTablut.NUM_BLACK - state.getNumberOf(State.Pawn.BLACK)) / GameAshtonTablut.NUM_BLACK;
         int bestPositions = getNumberOnBestPositions();
         int numEscapes = countWinWays(state);
         int blackSurroundKing = checkNearPawns(state, kingPosition(state),State.Turn.BLACK.toString());
 
         if(flag){
-            System.out.println("Number of black not in square: " + blackNotInSquare);
-            System.out.println("Number of white in the square: " + whiteInSquare);
+            //System.out.println("Number of black not in square: " + blackNotInSquare);
+            //System.out.println("Number of white in the square: " + whiteInSquare);
             System.out.println("Number of white pawns in best positions " + bestPositions);
             System.out.println("Number of escapes: " + numEscapes);
             System.out.println("Number of black surrounding king: " + blackSurroundKing);
         }
 
         Map<String, Integer> values = new HashMap<String, Integer>();
-        values.put("blackNotInSquare", blackNotInSquare);
-        values.put("whiteInSquare", whiteInSquare);
+        //values.put("blackNotInSquare", blackNotInSquare);
+        //values.put("whiteInSquare", whiteInSquare);
+        values.put("Black", numberOfBlackEaten);
         values.put("bestPositions", bestPositions);
         values.put("numberEscapesKing",numEscapes);
         values.put("blackSurroundKing",blackSurroundKing);

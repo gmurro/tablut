@@ -773,7 +773,7 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 				|| (turn.equals(State.Turn.WHITE) && state.getTurn().equals(State.Turn.BLACKWIN)))
 			return Double.NEGATIVE_INFINITY;
 		else if (state.getTurn().equals(State.Turn.DRAW))
-			return 0.0;
+			return -1000;
 
 		Heuristics heuristics = null;
 		if (state.getTurn().equals(State.Turn.WHITE)) {

@@ -1,5 +1,6 @@
 package it.unibo.ai.didattica.competition.tablut.brainmates;
 
+import it.unibo.ai.didattica.competition.tablut.domain.GameAshtonTablut;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 
 import java.util.*;
@@ -16,14 +17,14 @@ public class BlackHeuristics extends Heuristics {
     private final int[][] rhombus = {{1,3},{1,4},{2,2},{2,5},{3,1},{3,6},{4,0},{4,7},{5,0},{5,7},{6,1},
             {6,6},{7,2},{7,5},{8,3},{8,4}};
     private int numberOfBlack;
-    private int numberOfWhite;
+    private int numberOfWhiteEaten;
 
     public BlackHeuristics(State state) {
 
         super(state);
         //Loading weights
         weights = new HashMap<String, Double>();
-        weights.put("Black", 0.5);
+        //weights.put("Black", 0.5);
         weights.put("White",0.5);
         weights.put("NearKing",0.7);
         weights.put("Rhombus", 0.7);
@@ -40,29 +41,29 @@ public class BlackHeuristics extends Heuristics {
         double utilityValue = 0.0;
 
         //Atomic functions to combine to get utility value
-        numberOfBlack = state.getNumberOf(State.Pawn.BLACK);
-        System.out.println("Black pawns: " + numberOfBlack);
-        numberOfWhite = state.getNumberOf(State.Pawn.WHITE);
-        System.out.println("Number of white pawns: " + numberOfWhite);
+        //numberOfBlack = state.getNumberOf(State.Pawn.BLACK);
+        //System.out.println("Black pawns: " + numberOfBlack);
+        numberOfWhiteEaten = 10 * (GameAshtonTablut.NUM_WHITE - state.getNumberOf(State.Pawn.WHITE)) / GameAshtonTablut.NUM_WHITE;
+        //System.out.println("Number of white pawns: " + numberOfWhite);
         int pawnsNearKing = checkNearPawns(state, kingPosition(state),State.Turn.BLACK.toString());
-        System.out.println("Number of pawns near to the king:" + pawnsNearKing);
+        //System.out.println("Number of pawns near to the king:" + pawnsNearKing);
         int numberOfPawnsOnRhombus = getNumberOnRhombus();
-        System.out.println("Number of rhombus: " + numberOfPawnsOnRhombus);
+        //System.out.println("Number of rhombus: " + numberOfPawnsOnRhombus);
         int nextMoveWhiteWins = nextMoveWhiteWon();
-        System.out.println("Next move wins: " + nextMoveWhiteWins);
+        //System.out.println("Next move wins: " + nextMoveWhiteWins);
 
 
         //Weighted sum of functions to get final utility value
         Map<String,Integer> atomicUtilities = new HashMap<String,Integer>();
-        atomicUtilities.put("Black",numberOfBlack);
-        atomicUtilities.put("White",numberOfWhite);
+        //atomicUtilities.put("Black",numberOfBlack);
+        atomicUtilities.put("White", numberOfWhiteEaten);
         atomicUtilities.put("NearKing",pawnsNearKing);
         atomicUtilities.put("Rhombus",numberOfPawnsOnRhombus);
         atomicUtilities.put("NextWhiteWins",nextMoveWhiteWins);
 
         for (int i = 0; i < weights.size(); i++){
             utilityValue += weights.get(keys[i]) * atomicUtilities.get(keys[i]);
-            System.out.println(keys[i] + ": " + weights.get(keys[i]) + "*" + atomicUtilities.get(keys[i]) + "= " + weights.get(keys[i]) * atomicUtilities.get(keys[i]));
+            //System.out.println(keys[i] + ": " + weights.get(keys[i]) + "*" + atomicUtilities.get(keys[i]) + "= " + weights.get(keys[i]) * atomicUtilities.get(keys[i]));
         }
 
         return utilityValue;
