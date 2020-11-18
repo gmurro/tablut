@@ -16,8 +16,8 @@ public class BlackHeuristics extends Heuristics {
     private String[] keys;
     private final int[][] rhombus = {{1,3},{1,4},{2,2},{2,5},{3,1},{3,6},{4,0},{4,7},{5,0},{5,7},{6,1},
             {6,6},{7,2},{7,5},{8,3},{8,4}};
-    private int numberOfBlack;
-    private int numberOfWhiteEaten;
+    private double numberOfBlack;
+    private double numberOfWhiteEaten;
 
     public BlackHeuristics(State state) {
 
@@ -41,20 +41,20 @@ public class BlackHeuristics extends Heuristics {
         double utilityValue = 0.0;
 
         //Atomic functions to combine to get utility value
-        numberOfBlack = state.getNumberOf(State.Pawn.BLACK) / GameAshtonTablut.NUM_BLACK;
+        numberOfBlack = (double) state.getNumberOf(State.Pawn.BLACK) / GameAshtonTablut.NUM_BLACK;
         //System.out.println("Black pawns: " + numberOfBlack);
-        numberOfWhiteEaten = (GameAshtonTablut.NUM_WHITE - state.getNumberOf(State.Pawn.WHITE)) / GameAshtonTablut.NUM_WHITE;
+        numberOfWhiteEaten = (double) (GameAshtonTablut.NUM_WHITE - state.getNumberOf(State.Pawn.WHITE)) / GameAshtonTablut.NUM_WHITE;
         //System.out.println("Number of white pawns: " + numberOfWhite);
-        int pawnsNearKing = checkNearPawns(state, kingPosition(state),State.Turn.BLACK.toString()) / getNumEatenPositions(state);
+        double  pawnsNearKing = (double)  checkNearPawns(state, kingPosition(state),State.Turn.BLACK.toString()) / getNumEatenPositions(state);
         //System.out.println("Number of pawns near to the king:" + pawnsNearKing);
-        int numberOfPawnsOnRhombus = getNumberOnRhombus() / NUM_TILES_ON_RHOMBUS;
+        double numberOfPawnsOnRhombus = (double) getNumberOnRhombus() / NUM_TILES_ON_RHOMBUS;
         //System.out.println("Number of rhombus: " + numberOfPawnsOnRhombus);
-        int nextMoveWhiteWins = nextMoveWhiteWon();
+        double nextMoveWhiteWins = nextMoveWhiteWon();
         //System.out.println("Next move wins: " + nextMoveWhiteWins);
 
 
         //Weighted sum of functions to get final utility value
-        Map<String,Integer> atomicUtilities = new HashMap<String,Integer>();
+        Map<String,Double> atomicUtilities = new HashMap<String,Double>();
         atomicUtilities.put("Black",numberOfBlack);
         atomicUtilities.put("WhiteEaten", numberOfWhiteEaten);
         atomicUtilities.put("NearKing",pawnsNearKing);

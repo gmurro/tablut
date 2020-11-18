@@ -20,8 +20,9 @@ public class GameAshtonTablutTest {
         // test getActions(State state)
         testGetActions();
 
+
         // test getResult(State state, Action action)
-        //testGetResult();
+        testGetResult();
 
     }
 
@@ -33,10 +34,12 @@ public class GameAshtonTablutTest {
 
 
         //Act
+        long startTime = System.currentTimeMillis();
         List<Action> actions = tablutGame.getActions(state);
+        System.out.println("Time to find possible actions in ms: "+(System.currentTimeMillis() -startTime));
 
         //Show
-        System.out.println(actions);
+        System.out.println("\nPossible actions: "+actions);
     }
 
     public static void testGetResult()  {
@@ -53,7 +56,9 @@ public class GameAshtonTablutTest {
 
 
         //Act
+        long startTime1 = System.currentTimeMillis();
         State newState = tablutGame.getResult(state, action);
+        System.out.println("Time to get result in ms: "+(System.currentTimeMillis() -startTime1));
 
         //Show
         System.out.println(newState);
@@ -92,17 +97,16 @@ public class GameAshtonTablutTest {
         board[3][4] = State.Pawn.KING;
 
         board[2][4] = State.Pawn.WHITE;
-        board[3][3] = State.Pawn.WHITE;
+        /*board[3][3] = State.Pawn.WHITE;
         board[5][4] = State.Pawn.WHITE;
         board[6][4] = State.Pawn.WHITE;
         board[4][2] = State.Pawn.WHITE;
         board[4][3] = State.Pawn.WHITE;
         board[4][5] = State.Pawn.WHITE;
         board[4][6] = State.Pawn.WHITE;
-
+*/
         board[1][3] = State.Pawn.BLACK;
         board[2][3] = State.Pawn.BLACK;
-        /*
         board[0][4] = State.Pawn.BLACK;
         board[0][5] = State.Pawn.BLACK;
         board[1][2] = State.Pawn.BLACK;
@@ -118,7 +122,7 @@ public class GameAshtonTablutTest {
         board[4][8] = State.Pawn.BLACK;
         board[5][8] = State.Pawn.BLACK;
         board[6][7] = State.Pawn.BLACK;
-        */
+
 
 
 

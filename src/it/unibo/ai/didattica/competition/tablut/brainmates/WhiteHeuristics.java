@@ -37,7 +37,7 @@ public class WhiteHeuristics extends Heuristics {
         //Positions which are the best moves at the beginning of the game
         //weights.put("bestPositions", 0.6);
         weights.put("numberOfBlackEaten",0.5);
-        weights.put("numberWhiteAlive",0.5);
+        weights.put("numberOfWhiteAlive",0.5);
         weights.put("numberOfWinEscapesKing", 0.5);
         weights.put("blackSurroundKing", 0.5);
 
@@ -55,10 +55,10 @@ public class WhiteHeuristics extends Heuristics {
         //int blackNotInSquare = GameAshtonTablut.NUM_BLACK - getNumberOnInnerSquare(State.Pawn.BLACK);
         //int whiteInSquare = getNumberOnInnerSquare(State.Pawn.WHITE);
         //int bestPositions = getNumberOnBestPositions();
-        int numberOfWhiteAlive = (state.getNumberOf(State.Pawn.WHITE)) / GameAshtonTablut.NUM_WHITE;
-        int numberOfBlackEaten = (GameAshtonTablut.NUM_BLACK - state.getNumberOf(State.Pawn.BLACK)) / GameAshtonTablut.NUM_BLACK;
-        int numberOfWinEscapesKing = countWinWays(state);
-        int blackSurroundKing = (getNumEatenPositions(state) - checkNearPawns(state, kingPosition(state),State.Turn.BLACK.toString())) / getNumEatenPositions(state);
+        double numberOfWhiteAlive =  (double)(state.getNumberOf(State.Pawn.WHITE)) / GameAshtonTablut.NUM_WHITE;
+        double numberOfBlackEaten = (double)(GameAshtonTablut.NUM_BLACK - state.getNumberOf(State.Pawn.BLACK)) / GameAshtonTablut.NUM_BLACK;
+        double numberOfWinEscapesKing = (double)countWinWays(state)/4;
+        double blackSurroundKing = (double)(getNumEatenPositions(state) - checkNearPawns(state, kingPosition(state),State.Turn.BLACK.toString())) / getNumEatenPositions(state);
 
         if(flag){
             //System.out.println("Number of black not in square: " + blackNotInSquare);
@@ -68,7 +68,7 @@ public class WhiteHeuristics extends Heuristics {
             System.out.println("Number of black surrounding king: " + blackSurroundKing);
         }
 
-        Map<String, Integer> values = new HashMap<String, Integer>();
+        Map<String, Double> values = new HashMap<String, Double>();
         //values.put("blackNotInSquare", blackNotInSquare);
         //values.put("whiteInSquare", whiteInSquare);
         //values.put("bestPositions", bestPositions);

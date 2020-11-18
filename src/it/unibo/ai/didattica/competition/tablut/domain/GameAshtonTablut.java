@@ -579,7 +579,7 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 		return state.getTurn();
 	}
 
-	// List of all possible actions
+
 
 	/**
 	 * List of all possible actions for current player.
@@ -590,95 +590,158 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 	 */
 	@Override
 	public List<Action> getActions(State state) {
-		//System.out.println("\n\nTURN:"+state.getTurn()+"\n\n");
-
-		/* list of position of pawns that color == current player
-		 * for WHITE player: white pawns && king
-		 * for BALCK player: balck pawns
-		 */
-		List<int[]> pawns = new ArrayList<int[]>();
-
-		/* list of position of empty cells
-		 */
-		List<int[]> empty = new ArrayList<int[]>();
-
-
-		if(state.getTurn().equals(State.Turn.WHITE)) {
-			int[] buf;
-			for (int i = 0; i < state.getBoard().length; i++) {
-				for (int j = 0; j < state.getBoard().length; j++) {
-					if (state.getPawn(i, j).equalsPawn(State.Pawn.WHITE.toString())
-							|| state.getPawn(i, j).equalsPawn(State.Pawn.KING.toString())) {
-						buf = new int[2];
-						buf[0] = i;
-						buf[1] = j;
-						pawns.add(buf);
-					} else if (state.getPawn(i, j).equalsPawn(State.Pawn.EMPTY.toString())) {
-						buf = new int[2];
-						buf[0] = i;
-						buf[1] = j;
-						empty.add(buf);
-					}
-				}
-			}
-		} else if (state.getTurn().equals(State.Turn.BLACK)){
-			int[] buf;
-			for (int i = 0; i < state.getBoard().length; i++) {
-				for (int j = 0; j < state.getBoard().length; j++) {
-					if (state.getPawn(i, j).equalsPawn(State.Pawn.BLACK.toString())) {
-						buf = new int[2];
-						buf[0] = i;
-						buf[1] = j;
-						pawns.add(buf);
-					} else if (state.getPawn(i, j).equalsPawn(State.Pawn.EMPTY.toString())) {
-						buf = new int[2];
-						buf[0] = i;
-						buf[1] = j;
-						empty.add(buf);
-					}
-				}
-			}
-		}
+		State.Turn turn = state.getTurn();
 
 		List<Action> possibleActions = new ArrayList<Action>();
 
-		for (int i = 0; i<pawns.size(); i++) {
-			int[] pawn = pawns.get(i);
-			int rowPawn = pawn[0];
-			int colPawn = pawn[1];
+		for (int i = 0; i < state.getBoard().length; i++) {
+			for (int j = 0; j < state.getBoard().length; j++) {
 
+				// if pawn color  is equal of turn color
+				if (state.getPawn(i, j).toString().equals(turn.toString()) ||
+						(state.getPawn(i, j).equals(State.Pawn.KING) && turn.equals(State.Turn.WHITE)) ) {
 
-			for (int j = 0; j<empty.size(); j++) {
-				int[] emptyTile = empty.get(j);
-				int rowEmptyTile = emptyTile[0];
-				int colEmptyTile = emptyTile[1];
+					// search on top of pawn
+					for (int k=i-1; k>=0; k--) {
 
-				if (rowEmptyTile == rowPawn || colEmptyTile == colPawn) {
-					String from = state.getBox(rowPawn, colPawn);
-					String to = state.getBox(rowEmptyTile, colEmptyTile);
+						// break if we are moving on a citadel
+						if (citadels.contains(state.getBox(k, j))) {
+							break;
+						}
+						// check if we are moving on a empy cell
+						else if (state.getPawn(k, j).equalsPawn(State.Pawn.EMPTY.toString())) {
 
-					Action action = null;
-					try {
-						action = new Action(from, to, state.getTurn());
-					} catch (IOException e) {
-						e.printStackTrace();
+							String from = state.getBox(i, j);
+							String to = state.getBox(k, j);
+
+							Action action = null;
+							try {
+								action = new Action(from, to, turn);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+
+							//System.out.println("try: " + action.toString());
+							try {
+								isPossibleMove(state.clone(), action);
+								possibleActions.add(action);
+
+							} catch (Exception e) {
+
+							}
+						} else {
+							// there is a pawn in the same column and it cannot be crossed
+							break;
+						}
 					}
 
-					//System.out.println("try: " + action.toString());
-					try {
-						isPossibleMove(state.clone(), action);
-						possibleActions.add(action);
+					// search on bottom of pawn
+					for (int k=i+1; k<state.getBoard().length; k++) {
 
-					} catch (Exception e) {
+						// break if we are moving on a citadel
+						if (citadels.contains(state.getBox(k, j))) {
+							break;
+						}
+						// check if we are moving on a empy cell
+						else if (state.getPawn(k, j).equalsPawn(State.Pawn.EMPTY.toString())){
 
+							String from = state.getBox(i, j);
+							String to = state.getBox(k, j);
+
+							Action action = null;
+							try {
+								action = new Action(from, to, turn);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+
+							//System.out.println("try: " + action.toString());
+							try {
+								isPossibleMove(state.clone(), action);
+								possibleActions.add(action);
+
+							} catch (Exception e) {
+
+							}
+						} else {
+							// there is a pawn in the same column and it cannot be crossed
+							break;
+						}
 					}
 
+					// search on left of pawn
+					for (int k=j-1; k>=0; k--) {
 
+
+						// break if we are moving on a citadel
+						if (citadels.contains(state.getBox(i, k))) {
+							break;
+						}
+						// check if we are moving on a empy cell
+						else if (state.getPawn(i, k).equalsPawn(State.Pawn.EMPTY.toString())){
+
+							String from = state.getBox(i, j);
+							String to = state.getBox(i, k);
+
+							Action action = null;
+							try {
+								action = new Action(from, to, turn);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+
+							//System.out.println("try: " + action.toString());
+							try {
+								isPossibleMove(state.clone(), action);
+								possibleActions.add(action);
+
+							} catch (Exception e) {
+
+							}
+						} else {
+							// there is a pawn in the same row and it cannot be crossed
+							break;
+						}
+					}
+
+					// search on right of pawn
+					for (int k=j+1; k<state.getBoard().length; k++) {
+
+
+						// break if we are moving on a citadel
+						if (citadels.contains(state.getBox(i, k))) {
+							break;
+						}
+						// check if we are moving on a empy cell
+						else if (state.getPawn(i, k).equalsPawn(State.Pawn.EMPTY.toString())){
+
+							String from = state.getBox(i, j);
+							String to = state.getBox(i, k);
+
+							Action action = null;
+							try {
+								action = new Action(from, to, turn);
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+
+							//System.out.println("try: " + action.toString());
+							try {
+								isPossibleMove(state.clone(), action);
+								possibleActions.add(action);
+
+							} catch (Exception e) {
+
+							}
+						} else {
+							// there is a pawn in the same row and it cannot be crossed
+							break;
+						}
+					}
 				}
+
 			}
-
 		}
-
 		return possibleActions;
 	}
 
@@ -776,18 +839,12 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 			return -1000;
 
 		Heuristics heuristics = null;
-		if (state.getTurn().equals(State.Turn.WHITE)) {
+		if (turn.equals(State.Turn.WHITE)) {
 			heuristics = new WhiteHeuristics(state);
 		} else {
 			heuristics = new BlackHeuristics(state);
 		}
-		if (turn.equals(State.Turn.WHITE) &&  heuristics instanceof WhiteHeuristics
-			|| turn.equals(State.Turn.BLACK) &&  heuristics instanceof BlackHeuristics ) {
-			return heuristics.evaluateState();
-		} else {
-			return - heuristics.evaluateState();
-		}
-
+		return heuristics.evaluateState();
 	}
 
 
