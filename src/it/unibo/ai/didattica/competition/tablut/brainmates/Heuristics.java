@@ -295,7 +295,9 @@ public abstract class Heuristics {
         return !state.getPawn(position[0], position[1]).equals(State.Pawn.EMPTY);
         }
 
-    public int getNumEatenPositions(State state, int[] kingPosition){
+    public int getNumEatenPositions(State state){
+
+        int[] kingPosition = kingPosition(state);
 
         if (kingPosition[0] == 4 && kingPosition[1] == 4){
             return 4;
