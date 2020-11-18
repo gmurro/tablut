@@ -45,7 +45,7 @@ public class BlackHeuristics extends Heuristics {
         //System.out.println("Black pawns: " + numberOfBlack);
         numberOfWhiteEaten = (GameAshtonTablut.NUM_WHITE - state.getNumberOf(State.Pawn.WHITE)) / GameAshtonTablut.NUM_WHITE;
         //System.out.println("Number of white pawns: " + numberOfWhite);
-        int pawnsNearKing = checkNearPawns(state, kingPosition(state),State.Turn.BLACK.toString());
+        int pawnsNearKing = checkNearPawns(state, kingPosition(state),State.Turn.BLACK.toString()) / getNumEatenPositions(state, kingPosition(state));
         //System.out.println("Number of pawns near to the king:" + pawnsNearKing);
         int numberOfPawnsOnRhombus = getNumberOnRhombus() / NUM_TILES_ON_RHOMBUS;
         //System.out.println("Number of rhombus: " + numberOfPawnsOnRhombus);

@@ -294,4 +294,17 @@ public abstract class Heuristics {
     public boolean checkOccupiedPosition(State state,int[] position){
         return !state.getPawn(position[0], position[1]).equals(State.Pawn.EMPTY);
         }
+
+    public int getNumEatenPositions(State state, int[] kingPosition){
+
+        if (kingPosition[0] == 4 && kingPosition[1] == 4){
+            return 4;
+        } else if ((kingPosition[0] == 3 && kingPosition[1] == 4) || (kingPosition[0] == 4 && kingPosition[1] == 3)
+                   || (kingPosition[0] == 5 && kingPosition[1] == 4) || (kingPosition[0] == 4 && kingPosition[1] == 5)){
+            return 3;
+        } else{
+            return 2;
+        }
+
+    }
 }
