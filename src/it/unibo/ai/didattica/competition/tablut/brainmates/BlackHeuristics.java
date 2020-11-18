@@ -24,11 +24,11 @@ public class BlackHeuristics extends Heuristics {
         super(state);
         //Loading weights
         weights = new HashMap<String, Double>();
-        //weights.put("Black", 0.5);
-        weights.put("White",0.5);
-        weights.put("NearKing",0.7);
-        weights.put("Rhombus", 0.7);
-        weights.put("NextWhiteWins",0.7);
+        weights.put("Black", 0.5);
+        weights.put("WhiteEaten",0.5);
+        weights.put("NearKing",0.5);
+        weights.put("Rhombus", 0.5);
+        weights.put("NextWhiteWins",0.5);
 
         keys = new String[weights.size()];
         keys = weights.keySet().toArray(new String[0]);
@@ -41,13 +41,13 @@ public class BlackHeuristics extends Heuristics {
         double utilityValue = 0.0;
 
         //Atomic functions to combine to get utility value
-        //numberOfBlack = state.getNumberOf(State.Pawn.BLACK);
+        numberOfBlack = state.getNumberOf(State.Pawn.BLACK) / GameAshtonTablut.NUM_BLACK;
         //System.out.println("Black pawns: " + numberOfBlack);
-        numberOfWhiteEaten = 10 * (GameAshtonTablut.NUM_WHITE - state.getNumberOf(State.Pawn.WHITE)) / GameAshtonTablut.NUM_WHITE;
+        numberOfWhiteEaten = (GameAshtonTablut.NUM_WHITE - state.getNumberOf(State.Pawn.WHITE)) / GameAshtonTablut.NUM_WHITE;
         //System.out.println("Number of white pawns: " + numberOfWhite);
         int pawnsNearKing = checkNearPawns(state, kingPosition(state),State.Turn.BLACK.toString());
         //System.out.println("Number of pawns near to the king:" + pawnsNearKing);
-        int numberOfPawnsOnRhombus = getNumberOnRhombus();
+        int numberOfPawnsOnRhombus = getNumberOnRhombus() / NUM_TILES_ON_RHOMBUS;
         //System.out.println("Number of rhombus: " + numberOfPawnsOnRhombus);
         int nextMoveWhiteWins = nextMoveWhiteWon();
         //System.out.println("Next move wins: " + nextMoveWhiteWins);
@@ -55,8 +55,8 @@ public class BlackHeuristics extends Heuristics {
 
         //Weighted sum of functions to get final utility value
         Map<String,Integer> atomicUtilities = new HashMap<String,Integer>();
-        //atomicUtilities.put("Black",numberOfBlack);
-        atomicUtilities.put("White", numberOfWhiteEaten);
+        atomicUtilities.put("Black",numberOfBlack);
+        atomicUtilities.put("WhiteEaten", numberOfWhiteEaten);
         atomicUtilities.put("NearKing",pawnsNearKing);
         atomicUtilities.put("Rhombus",numberOfPawnsOnRhombus);
         atomicUtilities.put("NextWhiteWins",nextMoveWhiteWins);
