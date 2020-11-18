@@ -34,11 +34,12 @@ public class WhiteHeuristics extends Heuristics {
         //Square is the the central area delimited by initial configuration of white pawns
         //weights.put("blackNotInSquare", 0.8);
         //weights.put("whiteInSquare", 0.5 );
-        weights.put("Black",0.5);
         //Positions which are the best moves at the beginning of the game
-        weights.put("bestPositions", 0.6);
-        weights.put("numberEscapesKing", 0.7);
-        weights.put("blackSurroundKing", 0.6);
+        //weights.put("bestPositions", 0.6);
+        weights.put("numberOfBlackEaten",0.5);
+        weights.put("numberWhiteAlive",0.5);
+        weights.put("numberOfWinEscapesKing", 0.5);
+        weights.put("blackSurroundKing", 0.5);
 
         //Extraction of keys
         keys = new String[weights.size()];
@@ -53,25 +54,27 @@ public class WhiteHeuristics extends Heuristics {
 
         //int blackNotInSquare = GameAshtonTablut.NUM_BLACK - getNumberOnInnerSquare(State.Pawn.BLACK);
         //int whiteInSquare = getNumberOnInnerSquare(State.Pawn.WHITE);
-        int numberOfBlackEaten = 10 * (GameAshtonTablut.NUM_BLACK - state.getNumberOf(State.Pawn.BLACK)) / GameAshtonTablut.NUM_BLACK;
-        int bestPositions = getNumberOnBestPositions();
-        int numEscapes = countWinWays(state);
-        int blackSurroundKing = checkNearPawns(state, kingPosition(state),State.Turn.BLACK.toString());
+        //int bestPositions = getNumberOnBestPositions();
+        int numberOfWhiteAlive = (state.getNumberOf(State.Pawn.WHITE)) / GameAshtonTablut.NUM_WHITE;
+        int numberOfBlackEaten = (GameAshtonTablut.NUM_BLACK - state.getNumberOf(State.Pawn.BLACK)) / GameAshtonTablut.NUM_BLACK;
+        int numberOfWinEscapesKing = countWinWays(state);
+        int blackSurroundKing = (getNumEatenPositions(state) - checkNearPawns(state, kingPosition(state),State.Turn.BLACK.toString())) / getNumEatenPositions(state);
 
         if(flag){
             //System.out.println("Number of black not in square: " + blackNotInSquare);
             //System.out.println("Number of white in the square: " + whiteInSquare);
             System.out.println("Number of white pawns in best positions " + bestPositions);
-            System.out.println("Number of escapes: " + numEscapes);
+            System.out.println("Number of escapes: " + numberOfWinEscapesKing);
             System.out.println("Number of black surrounding king: " + blackSurroundKing);
         }
 
         Map<String, Integer> values = new HashMap<String, Integer>();
         //values.put("blackNotInSquare", blackNotInSquare);
         //values.put("whiteInSquare", whiteInSquare);
-        values.put("Black", numberOfBlackEaten);
-        values.put("bestPositions", bestPositions);
-        values.put("numberEscapesKing",numEscapes);
+        //values.put("bestPositions", bestPositions);
+        values.put("numberOfWhiteAlive", numberOfWhiteAlive);
+        values.put("numberOfBlackEaten", numberOfBlackEaten);
+        values.put("numberOfWinEscapesKing",numberOfWinEscapesKing);
         values.put("blackSurroundKing",blackSurroundKing);
 
         for (int i=0; i < weights.size(); i++){
