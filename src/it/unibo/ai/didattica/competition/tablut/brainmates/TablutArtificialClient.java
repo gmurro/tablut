@@ -175,7 +175,7 @@ public class TablutArtificialClient extends TablutClient{
     private Action findBestMove(GameAshtonTablut tablutGame, State state) {
 
         // TODO depth
-        ParallelAlphaBetaPruningSearch search = new ParallelAlphaBetaPruningSearch(tablutGame, 3, this.timeout );
+        AlphaBetaPruningSearch search = new AlphaBetaPruningSearch(tablutGame, 3, this.timeout );
         search.setLogEnabled(false);
         return search.makeDecision(state);
     }

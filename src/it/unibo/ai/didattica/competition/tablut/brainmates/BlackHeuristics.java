@@ -24,11 +24,11 @@ public class BlackHeuristics extends Heuristics {
         super(state);
         //Loading weights
         weights = new HashMap<String, Double>();
-        weights.put("Black", 0.5);
+        weights.put("Black", 0.7);
         weights.put("WhiteEaten",0.5);
-        weights.put("NearKing",0.5);
+        weights.put("NearKing",0.6);
         weights.put("Rhombus", 0.5);
-        weights.put("NextWhiteWins",0.5);
+        weights.put("NextWhiteWins",0.8);
 
         keys = new String[weights.size()];
         keys = weights.keySet().toArray(new String[0]);

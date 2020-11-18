@@ -37,9 +37,9 @@ public class WhiteHeuristics extends Heuristics {
         //Positions which are the best moves at the beginning of the game
         //weights.put("bestPositions", 0.6);
         weights.put("numberOfBlackEaten",0.5);
-        weights.put("numberOfWhiteAlive",0.5);
-        weights.put("numberOfWinEscapesKing", 0.5);
-        weights.put("blackSurroundKing", 0.5);
+        weights.put("numberOfWhiteAlive",0.7);
+        weights.put("numberOfWinEscapesKing", 0.6);
+        weights.put("blackSurroundKing", 0.8);
 
         //Extraction of keys
         keys = new String[weights.size()];

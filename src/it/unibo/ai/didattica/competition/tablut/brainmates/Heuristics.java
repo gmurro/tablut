@@ -172,7 +172,7 @@ public abstract class Heuristics {
                 //not safe row not safe col
                 col = countFreeColumn(state, kingPosition);
                 row = countFreeRow(state,kingPosition);
-                System.out.println(col);
+                //System.out.println(col);
             }
             if((kingPosition[1] > 2 && kingPosition[1] < 6)){
                 // safe row not safe col
