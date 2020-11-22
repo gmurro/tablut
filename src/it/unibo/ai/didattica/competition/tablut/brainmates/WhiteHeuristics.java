@@ -12,6 +12,8 @@ public class WhiteHeuristics extends Heuristics {
     //row and colons limit of the square used in the first stages of the game
     private final static int START_SQUARE = 2;
     private final static int END_SQUARE = 6;
+    private final static int THRESHOLD_BEST = 2;
+    private final static int NUM_BEST_POSITION = 4;
 
     //matrix of favourite white positions in the initial stages of the game
     private final static int[][] bestPositions = {{2,5},{3,3},{5,3},{6,5}};
@@ -35,7 +37,7 @@ public class WhiteHeuristics extends Heuristics {
         //weights.put("blackNotInSquare", 0.8);
         //weights.put("whiteInSquare", 0.5 );
         //Positions which are the best moves at the beginning of the game
-        //weights.put("bestPositions", 0.6);
+        weights.put("bestPositions", 5.0);
         weights.put("numberOfBlackEaten",1.5);
         weights.put("numberOfWhiteAlive",9.0);
         weights.put("numberOfWinEscapesKing", 3.5);
@@ -54,7 +56,7 @@ public class WhiteHeuristics extends Heuristics {
 
         //int blackNotInSquare = GameAshtonTablut.NUM_BLACK - getNumberOnInnerSquare(State.Pawn.BLACK);
         //int whiteInSquare = getNumberOnInnerSquare(State.Pawn.WHITE);
-        //int bestPositions = getNumberOnBestPositions();
+        double bestPositions = (double) getNumberOnBestPositions() / NUM_BEST_POSITION;
         double numberOfWhiteAlive =  (double)(state.getNumberOf(State.Pawn.WHITE)) / GameAshtonTablut.NUM_WHITE;
         double numberOfBlackEaten = (double)(GameAshtonTablut.NUM_BLACK - state.getNumberOf(State.Pawn.BLACK)) / GameAshtonTablut.NUM_BLACK;
         double numberOfWinEscapesKing = (double)countWinWays(state)/4;
@@ -71,7 +73,7 @@ public class WhiteHeuristics extends Heuristics {
         Map<String, Double> values = new HashMap<String, Double>();
         //values.put("blackNotInSquare", blackNotInSquare);
         //values.put("whiteInSquare", whiteInSquare);
-        //values.put("bestPositions", bestPositions);
+        values.put("bestPositions", bestPositions);
         values.put("numberOfWhiteAlive", numberOfWhiteAlive);
         values.put("numberOfBlackEaten", numberOfBlackEaten);
         values.put("numberOfWinEscapesKing",numberOfWinEscapesKing);
@@ -119,9 +121,11 @@ public class WhiteHeuristics extends Heuristics {
 
         int num = 0;
 
-        for(int[] pos: bestPositions){
-            if(state.getPawn(pos[0],pos[1]).equalsPawn(State.Pawn.WHITE.toString())){
-                num++;
+        if (state.getNumberOf(State.Pawn.WHITE) >= GameAshtonTablut.NUM_WHITE - THRESHOLD_BEST){
+            for(int[] pos: bestPositions){
+                if(state.getPawn(pos[0],pos[1]).equalsPawn(State.Pawn.WHITE.toString())){
+                    num++;
+                }
             }
         }
 
