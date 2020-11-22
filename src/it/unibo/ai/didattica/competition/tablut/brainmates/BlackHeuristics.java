@@ -10,12 +10,18 @@ public class BlackHeuristics extends Heuristics {
     //Number of admissible loss of pawns before changing strategy
     private final int THRESHOLD = 2;
     //Number of tiles on rhombus
-    private final int NUM_TILES_ON_RHOMBUS = 16;
+    private final int NUM_TILES_ON_RHOMBUS = 8;
 
     private final Map<String,Double> weights;
     private String[] keys;
-    private final int[][] rhombus = {{1,3},{1,4},{2,2},{2,5},{3,1},{3,6},{4,0},{4,7},{5,0},{5,7},{6,1},
-            {6,6},{7,2},{7,5},{8,3},{8,4}};
+    private final int[][] rhombus = {
+                              {2,3},       {2,5},
+                        {3,2},                   {3,6},
+
+                        {5,2},                   {5,6},
+                              {7,3},       {7,5}
+    };
+
     private double numberOfBlack;
     private double numberOfWhiteEaten;
 
@@ -24,11 +30,11 @@ public class BlackHeuristics extends Heuristics {
         super(state);
         //Loading weights
         weights = new HashMap<String, Double>();
-        weights.put("Black", 0.7);
-        weights.put("WhiteEaten",0.5);
-        weights.put("NearKing",0.6);
-        weights.put("Rhombus", 0.9);
-        weights.put("NextWhiteWins",0.8);
+        weights.put("Black", 9.5);
+        weights.put("WhiteEaten",4.0);
+        weights.put("NearKing",3.5);
+        weights.put("Rhombus", 9.5);
+        weights.put("NextWhiteWins",1.5);
 
         keys = new String[weights.size()];
         keys = weights.keySet().toArray(new String[0]);
@@ -74,8 +80,8 @@ public class BlackHeuristics extends Heuristics {
      * get number of black pawns on rhombus tiles if particular conditions are satisfied
      * @return number of black pawns on tiles if premise is true, 0 otherwise
      */
-    private int getNumberOnRhombus(){
-        if (checkKingPosition(state) && numberOfBlack >= THRESHOLD) {
+    public int getNumberOnRhombus(){
+        if (checkKingPosition(state) && state.getNumberOf(State.Pawn.BLACK) >= THRESHOLD) {
             return getValuesOnRhombus();
         }else{
             return 0;
@@ -86,7 +92,7 @@ public class BlackHeuristics extends Heuristics {
      *
      * @return number of black pawns on rhombus configuration
      */
-    private int getValuesOnRhombus(){
+    public int getValuesOnRhombus(){
 
         int count = 0;
         for (int[] position : rhombus) {

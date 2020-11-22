@@ -20,8 +20,9 @@ public class BlackHeuristicsTest {
         boolean val = heuristics.checkKingPosition(state);
         boolean val2 = heuristics.kingGoesForWin(state);
         double val3 = heuristics.evaluateState();
+        double val4 = heuristics.getNumberOnRhombus();
 
-        System.out.println("Value of the heuristic in the current status: " + val3);
+        System.out.println("Value of the heuristic in the current status: " + val4);
 
 
     }
@@ -67,7 +68,7 @@ public class BlackHeuristicsTest {
         board[4][5] = State.Pawn.WHITE;
         board[4][6] = State.Pawn.WHITE;
 
-        board[0][3] = State.Pawn.BLACK;
+        board[2][3] = State.Pawn.BLACK;
         board[0][4] = State.Pawn.BLACK;
         board[0][5] = State.Pawn.BLACK;
         board[1][2] = State.Pawn.BLACK;

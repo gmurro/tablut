@@ -16,7 +16,10 @@ public class WhiteHeuristics extends Heuristics {
     private final static int NUM_BEST_POSITION = 4;
 
     //matrix of favourite white positions in the initial stages of the game
-    private final static int[][] bestPositions = {{2,5},{3,3},{5,3},{6,5}};
+    private final static int[][] bestPositions = {
+                {2,2},  {2,6},
+                {6,2},  {6,6}
+    };
 
     private Map<String,Double> weights;
     private Map<String,Double> values;
@@ -37,11 +40,11 @@ public class WhiteHeuristics extends Heuristics {
         //weights.put("blackNotInSquare", 0.8);
         //weights.put("whiteInSquare", 0.5 );
         //Positions which are the best moves at the beginning of the game
-        weights.put("bestPositions", 5.0);
-        weights.put("numberOfBlackEaten",1.5);
-        weights.put("numberOfWhiteAlive",9.0);
-        weights.put("numberOfWinEscapesKing", 3.5);
-        weights.put("blackSurroundKing", 7.0);
+        weights.put("bestPositions", 2.5);
+        weights.put("numberOfBlackEaten",6.0);
+        weights.put("numberOfWhiteAlive",8.0);
+        weights.put("numberOfWinEscapesKing", 9.0);
+        weights.put("blackSurroundKing", 5.5);
 
         //Extraction of keys
         keys = new String[weights.size()];
@@ -59,8 +62,10 @@ public class WhiteHeuristics extends Heuristics {
         double bestPositions = (double) getNumberOnBestPositions() / NUM_BEST_POSITION;
         double numberOfWhiteAlive =  (double)(state.getNumberOf(State.Pawn.WHITE)) / GameAshtonTablut.NUM_WHITE;
         double numberOfBlackEaten = (double)(GameAshtonTablut.NUM_BLACK - state.getNumberOf(State.Pawn.BLACK)) / GameAshtonTablut.NUM_BLACK;
-        double numberOfWinEscapesKing = (double)countWinWays(state)/4;
         double blackSurroundKing = (double)(getNumEatenPositions(state) - checkNearPawns(state, kingPosition(state),State.Turn.BLACK.toString())) / getNumEatenPositions(state);
+
+        int numberWinWays = countWinWays(state);
+        double numberOfWinEscapesKing = numberWinWays>1 ? (double)countWinWays(state)/4 : 0.0;
 
         if(flag){
             System.out.println("Number of white alive: " + numberOfWhiteAlive);
