@@ -81,6 +81,7 @@ public class AlphaBetaPruningSearch{
         List<Action> list = game.getActions(state);
 
         // Recur for each possible action for current player
+        int i=0;
         for (Action action : game.getActions(state)) {
 
 
@@ -89,10 +90,14 @@ public class AlphaBetaPruningSearch{
 
             // find action with max value
             double value = minValue(nextState, player, maxDepth-1, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+
+            System.out.println("\n\nCost of node "+i+": "+value);
+
             if (value >= resultValue) {
                 result = action;
                 resultValue = value;
             }
+            i++;
 
         }
         System.out.println("\nBest Action for "+result.getTurn() + " is:  "+result.getFrom()+"-->"+result.getTo()+"  (val: "+resultValue+")");

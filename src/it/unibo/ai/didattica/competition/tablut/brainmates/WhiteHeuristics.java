@@ -36,10 +36,10 @@ public class WhiteHeuristics extends Heuristics {
         //weights.put("whiteInSquare", 0.5 );
         //Positions which are the best moves at the beginning of the game
         //weights.put("bestPositions", 0.6);
-        weights.put("numberOfBlackEaten",0.5);
-        weights.put("numberOfWhiteAlive",0.7);
-        weights.put("numberOfWinEscapesKing", 0.6);
-        weights.put("blackSurroundKing", 0.8);
+        weights.put("numberOfBlackEaten",1.5);
+        weights.put("numberOfWhiteAlive",9.0);
+        weights.put("numberOfWinEscapesKing", 3.5);
+        weights.put("blackSurroundKing", 7.0);
 
         //Extraction of keys
         keys = new String[weights.size()];
@@ -61,8 +61,8 @@ public class WhiteHeuristics extends Heuristics {
         double blackSurroundKing = (double)(getNumEatenPositions(state) - checkNearPawns(state, kingPosition(state),State.Turn.BLACK.toString())) / getNumEatenPositions(state);
 
         if(flag){
-            //System.out.println("Number of black not in square: " + blackNotInSquare);
-            //System.out.println("Number of white in the square: " + whiteInSquare);
+            System.out.println("Number of white alive: " + numberOfWhiteAlive);
+
             System.out.println("Number of white pawns in best positions " + bestPositions);
             System.out.println("Number of escapes: " + numberOfWinEscapesKing);
             System.out.println("Number of black surrounding king: " + blackSurroundKing);
@@ -80,11 +80,11 @@ public class WhiteHeuristics extends Heuristics {
         for (int i=0; i < weights.size(); i++){
             utilityValue += weights.get(keys[i]) * values.get(keys[i]);
             if(flag){
-                System.out.println(keys[i]);
-                System.out.println(weights.get(keys[i]) + " * " + values.get(keys[i]) +
+                System.out.println(keys[i] + ":  "+ weights.get(keys[i]) + " * " + values.get(keys[i]) +
                         " = " + weights.get(keys[i]) * values.get(keys[i]));
             }
         }
+        //System.out.println("Utility: "+utilityValue+"\n");
 
 
         return utilityValue;

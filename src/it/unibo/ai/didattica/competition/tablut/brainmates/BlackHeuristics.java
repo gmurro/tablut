@@ -27,7 +27,7 @@ public class BlackHeuristics extends Heuristics {
         weights.put("Black", 0.7);
         weights.put("WhiteEaten",0.5);
         weights.put("NearKing",0.6);
-        weights.put("Rhombus", 0.5);
+        weights.put("Rhombus", 0.9);
         weights.put("NextWhiteWins",0.8);
 
         keys = new String[weights.size()];

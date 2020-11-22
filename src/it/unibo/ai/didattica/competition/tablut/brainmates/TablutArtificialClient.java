@@ -21,7 +21,7 @@ public class TablutArtificialClient extends TablutClient{
         String role = "";
         String name = "brAInmates";
         String ipAddress = "localhost";
-        int timeout = 55;
+        int timeout = 60;
 
         if (args.length < 1) {
             System.out.println("You must specify which player you are (WHITE or BLACK)");
@@ -175,7 +175,9 @@ public class TablutArtificialClient extends TablutClient{
     private Action findBestMove(GameAshtonTablut tablutGame, State state) {
 
         // TODO depth
-        AlphaBetaPruningSearch search = new AlphaBetaPruningSearch(tablutGame, 3, this.timeout );
+
+        // timer decreased to avoid errors from server
+        AlphaBetaPruningSearch search = new AlphaBetaPruningSearch(tablutGame, 3, this.timeout - 3 );
         search.setLogEnabled(false);
         return search.makeDecision(state);
     }
