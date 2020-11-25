@@ -15,11 +15,11 @@ public class BlackHeuristics extends Heuristics {
     private final Map<String,Double> weights;
     private String[] keys;
     private final int[][] rhombus = {
-                              {2,3},       {2,5},
-                        {3,2},                   {3,6},
+                              {1,2},       {1,6},
+                        {2,1},                   {2,7},
 
-                        {5,2},                   {5,6},
-                              {7,3},       {7,5}
+                        {6,1},                   {6,7},
+                              {7,2},       {7,6}
     };
 
     private double numberOfBlack;
@@ -30,11 +30,11 @@ public class BlackHeuristics extends Heuristics {
         super(state);
         //Loading weights
         weights = new HashMap<String, Double>();
-        weights.put("Black", 9.5);
-        weights.put("WhiteEaten",4.0);
-        weights.put("NearKing",3.5);
-        weights.put("Rhombus", 9.5);
-        weights.put("NextWhiteWins",1.5);
+        weights.put("Black", 15.0);
+        weights.put("WhiteEaten",30.0);
+        weights.put("NearKing",10.0);
+        weights.put("Rhombus", 2.5);
+        weights.put("NextWhiteWins",7.5);
 
         keys = new String[weights.size()];
         keys = weights.keySet().toArray(new String[0]);
