@@ -3,6 +3,7 @@ package it.unibo.ai.didattica.competition.tablut.brainmates;
 import it.unibo.ai.didattica.competition.tablut.domain.GameAshtonTablut;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -135,5 +136,58 @@ public class WhiteHeuristics extends Heuristics {
         }
 
         return num;
+    }
+
+    private double protectionKing(){
+
+        double result = 0.0;
+
+        int[] kingPos = kingPosition(state);
+        ArrayList<int[]> pawnsPositions = (ArrayList<int[]>) positionNearPawns(state,kingPos,State.Pawn.BLACK.toString());
+
+        //There is a black pawn that threaten the king and 2 pawns are enough to eat the king
+        if (pawnsPositions.size() == 1 && getNumEatenPositions(state) == 2){
+            int[] enemyPos = pawnsPositions.get(0);
+            //Used to store other position from where king could be eaten
+            int[] targetPosition = new int[2];
+            //Enemy right to the king
+            if(enemyPos[0] == kingPos[0] && enemyPos[1] == kingPos[1] + 1){
+                //Left to the king there is a white pawn and king is protected
+                targetPosition[0] = kingPos[0];
+                targetPosition[1] = kingPos[1] - 1;
+                if (state.getPawn(targetPosition[0],targetPosition[1]).equalsPawn(State.Pawn.WHITE.toString())){
+                    result += 0.6;
+                }
+            //Enemy left to the king
+            }else if(enemyPos[0] == kingPos[0] && enemyPos[1] == kingPos[1] -1){
+                //Right to the king there is a white pawn and king is protected
+                targetPosition[0] = kingPos[0];
+                targetPosition[1] = kingPos[1] + 1;
+                if(state.getPawn(targetPosition[0],targetPosition[1]).equalsPawn(State.Pawn.WHITE.toString())){
+                    result += 0.6;
+                }
+            //Enemy up to the king
+            }else if(enemyPos[1] == kingPos[1] && enemyPos[0] == kingPos[0] - 1){
+                //Down to the king there is a white pawn and king is protected
+                targetPosition[0] = kingPos[0] + 1;
+                targetPosition[1] = kingPos[1];
+                if(state.getPawn(targetPosition[0], targetPosition[1]).equalsPawn(State.Pawn.WHITE.toString())){
+                    result += 0.6;
+                }
+            //Enemy down to the king
+            }else{
+                //Up there is a white pawn and king is protected
+                targetPosition[0] = kingPos[0] - 1;
+                targetPosition[1] = kingPos[1];
+                if(state.getPawn(targetPosition[0], targetPosition[1]).equalsPawn(State.Pawn.WHITE.toString())){
+                    result += 0.6;
+                }
+            }
+
+            //Considering white to use as barriers for the target pawn
+            result += 0.1 * checkNearPawns(state,targetPosition,State.Pawn.WHITE.toString());
+
+        }
+        return result;
     }
 }
