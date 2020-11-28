@@ -20,7 +20,7 @@ public class WhiteHeuristicsTest {
         WhiteHeuristics heuristics = new WhiteHeuristics(state);
         double val = heuristics.evaluateState();
 
-        System.out.println("Heuristic of this state for black player: "+val);
+        System.out.println("Heuristic of this state for white player: "+val);
 
     }
 
@@ -54,14 +54,14 @@ public class WhiteHeuristicsTest {
 
         board[4][4] = State.Pawn.THRONE;
 
-        board[3][4] = State.Pawn.KING;
+        board[3][5] = State.Pawn.KING;
 
         board[2][4] = State.Pawn.WHITE;
-        board[3][3] = State.Pawn.WHITE;
+        board[3][4] = State.Pawn.WHITE;
         board[5][4] = State.Pawn.WHITE;
         board[6][4] = State.Pawn.WHITE;
         board[4][2] = State.Pawn.WHITE;
-        board[4][3] = State.Pawn.WHITE;
+        board[2][3] = State.Pawn.WHITE;
         board[4][5] = State.Pawn.WHITE;
         board[4][6] = State.Pawn.WHITE;
 
@@ -77,7 +77,7 @@ public class WhiteHeuristicsTest {
         board[4][0] = State.Pawn.BLACK;
         board[5][0] = State.Pawn.BLACK;
         board[2][1] = State.Pawn.BLACK;
-        board[3][8] = State.Pawn.BLACK;
+        board[3][6] = State.Pawn.BLACK;
         board[4][8] = State.Pawn.BLACK;
         board[5][8] = State.Pawn.BLACK;
         board[6][7] = State.Pawn.BLACK;

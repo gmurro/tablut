@@ -46,6 +46,7 @@ public class WhiteHeuristics extends Heuristics {
         weights.put("numberOfWhiteAlive",8.0);
         weights.put("numberOfWinEscapesKing", 9.0);
         weights.put("blackSurroundKing", 5.5);
+        weights.put("protectionKing", 6.0);
 
         //Extraction of keys
         keys = new String[weights.size()];
@@ -64,6 +65,9 @@ public class WhiteHeuristics extends Heuristics {
         double numberOfWhiteAlive =  (double)(state.getNumberOf(State.Pawn.WHITE)) / GameAshtonTablut.NUM_WHITE;
         double numberOfBlackEaten = (double)(GameAshtonTablut.NUM_BLACK - state.getNumberOf(State.Pawn.BLACK)) / GameAshtonTablut.NUM_BLACK;
         double blackSurroundKing = (double)(getNumEatenPositions(state) - checkNearPawns(state, kingPosition(state),State.Turn.BLACK.toString())) / getNumEatenPositions(state);
+        double protectionKing = protectionKing();
+
+        System.out.println("Protection king: " + protectionKing);
 
         int numberWinWays = countWinWays(state);
         double numberOfWinEscapesKing = numberWinWays>1 ? (double)countWinWays(state)/4 : 0.0;
@@ -84,6 +88,7 @@ public class WhiteHeuristics extends Heuristics {
         values.put("numberOfBlackEaten", numberOfBlackEaten);
         values.put("numberOfWinEscapesKing",numberOfWinEscapesKing);
         values.put("blackSurroundKing",blackSurroundKing);
+        values.put("protectionKing",protectionKing);
 
         for (int i=0; i < weights.size(); i++){
             utilityValue += weights.get(keys[i]) * values.get(keys[i]);
@@ -138,7 +143,14 @@ public class WhiteHeuristics extends Heuristics {
         return num;
     }
 
+    /***
+     *
+     * @return value according to the protection level of the king whether an enemy pawn is next to it
+     */
     private double protectionKing(){
+
+        final double VAL_NEAR = 0.6;
+        final double VAL_TOT = 1.0;
 
         double result = 0.0;
 
@@ -156,7 +168,7 @@ public class WhiteHeuristics extends Heuristics {
                 targetPosition[0] = kingPos[0];
                 targetPosition[1] = kingPos[1] - 1;
                 if (state.getPawn(targetPosition[0],targetPosition[1]).equalsPawn(State.Pawn.WHITE.toString())){
-                    result += 0.6;
+                    result += VAL_NEAR;
                 }
             //Enemy left to the king
             }else if(enemyPos[0] == kingPos[0] && enemyPos[1] == kingPos[1] -1){
@@ -164,7 +176,7 @@ public class WhiteHeuristics extends Heuristics {
                 targetPosition[0] = kingPos[0];
                 targetPosition[1] = kingPos[1] + 1;
                 if(state.getPawn(targetPosition[0],targetPosition[1]).equalsPawn(State.Pawn.WHITE.toString())){
-                    result += 0.6;
+                    result += VAL_NEAR;
                 }
             //Enemy up to the king
             }else if(enemyPos[1] == kingPos[1] && enemyPos[0] == kingPos[0] - 1){
@@ -172,7 +184,7 @@ public class WhiteHeuristics extends Heuristics {
                 targetPosition[0] = kingPos[0] + 1;
                 targetPosition[1] = kingPos[1];
                 if(state.getPawn(targetPosition[0], targetPosition[1]).equalsPawn(State.Pawn.WHITE.toString())){
-                    result += 0.6;
+                    result += VAL_NEAR;
                 }
             //Enemy down to the king
             }else{
@@ -180,12 +192,22 @@ public class WhiteHeuristics extends Heuristics {
                 targetPosition[0] = kingPos[0] - 1;
                 targetPosition[1] = kingPos[1];
                 if(state.getPawn(targetPosition[0], targetPosition[1]).equalsPawn(State.Pawn.WHITE.toString())){
-                    result += 0.6;
+                    result += VAL_NEAR;
                 }
             }
 
             //Considering white to use as barriers for the target pawn
-            result += 0.1 * checkNearPawns(state,targetPosition,State.Pawn.WHITE.toString());
+            double otherPoints = VAL_TOT - VAL_NEAR;
+            double contributionPerN = 0.0;
+            if (targetPosition[0] == 4 && targetPosition[1] == 2 || targetPosition[0] == 4 && targetPosition[1] == 6
+               || targetPosition[0] == 2 && targetPosition[1] == 4 || targetPosition[0] == 6 && targetPosition[1] == 4
+               || targetPosition[0] == 3 && targetPosition[1] == 4 || targetPosition[0] == 5 && targetPosition[1] == 4
+               || targetPosition[0] == 4 && targetPosition[1] == 3 || targetPosition[0] == 4 && targetPosition[1] == 5){
+                contributionPerN = otherPoints / 2;
+            }else{
+                contributionPerN = otherPoints / 3;
+            }
+            result += contributionPerN * checkNearPawns(state, targetPosition,State.Pawn.WHITE.toString());
 
         }
         return result;
