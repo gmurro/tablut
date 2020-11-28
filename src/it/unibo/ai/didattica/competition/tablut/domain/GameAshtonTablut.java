@@ -52,7 +52,7 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 	//information about number of tiles and pawns overall
 	public final static int NUM_BLACK = 16;
 	public final static int NUM_WHITE = 8;
-	public final static int NUM_ESCAPES =16;
+	public final static int NUM_ESCAPES = 16;
 	public final static int NUM_CITADELS = 16;
 
 
@@ -604,10 +604,11 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 					// search on top of pawn
 					for (int k=i-1; k>=0; k--) {
 
-						// break if we are moving on a citadel
-						if (citadels.contains(state.getBox(k, j))) {
+						// break if pawn is out of citadels and it is moving on a citadel
+						if (!citadels.contains(state.getBox(i, j)) && citadels.contains(state.getBox(k, j))) {
 							break;
 						}
+
 						// check if we are moving on a empy cell
 						else if (state.getPawn(k, j).equalsPawn(State.Pawn.EMPTY.toString())) {
 
@@ -638,10 +639,11 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 					// search on bottom of pawn
 					for (int k=i+1; k<state.getBoard().length; k++) {
 
-						// break if we are moving on a citadel
-						if (citadels.contains(state.getBox(k, j))) {
+						// break if pawn is out of citadels and it is moving on a citadel
+						if (!citadels.contains(state.getBox(i, j)) && citadels.contains(state.getBox(k, j))) {
 							break;
 						}
+
 						// check if we are moving on a empy cell
 						else if (state.getPawn(k, j).equalsPawn(State.Pawn.EMPTY.toString())){
 
@@ -673,10 +675,11 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 					for (int k=j-1; k>=0; k--) {
 
 
-						// break if we are moving on a citadel
-						if (citadels.contains(state.getBox(i, k))) {
+						// break if pawn is out of citadels and it is moving on a citadel
+						if (!citadels.contains(state.getBox(i, j)) && citadels.contains(state.getBox(i, k))) {
 							break;
 						}
+
 						// check if we are moving on a empy cell
 						else if (state.getPawn(i, k).equalsPawn(State.Pawn.EMPTY.toString())){
 
@@ -708,10 +711,11 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 					for (int k=j+1; k<state.getBoard().length; k++) {
 
 
-						// break if we are moving on a citadel
-						if (citadels.contains(state.getBox(i, k))) {
+						// break if pawn is out of citadels and it is moving on a citadel
+						if (!citadels.contains(state.getBox(i, j)) && citadels.contains(state.getBox(i, k))) {
 							break;
 						}
+
 						// check if we are moving on a empy cell
 						else if (state.getPawn(i, k).equalsPawn(State.Pawn.EMPTY.toString())){
 
