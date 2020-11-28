@@ -46,7 +46,7 @@ public class WhiteHeuristics extends Heuristics {
         weights.put("numberOfWhiteAlive",8.0);
         weights.put("numberOfWinEscapesKing", 9.0);
         weights.put("blackSurroundKing", 5.5);
-        weights.put("protectionKing", 6.0);
+        weights.put("protectionKing", 5.0);
 
         //Extraction of keys
         keys = new String[weights.size()];
