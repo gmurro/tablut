@@ -67,8 +67,6 @@ public class WhiteHeuristics extends Heuristics {
         double blackSurroundKing = (double)(getNumEatenPositions(state) - checkNearPawns(state, kingPosition(state),State.Turn.BLACK.toString())) / getNumEatenPositions(state);
         double protectionKing = protectionKing();
 
-        System.out.println("Protection king: " + protectionKing);
-
         int numberWinWays = countWinWays(state);
         double numberOfWinEscapesKing = numberWinWays>1 ? (double)countWinWays(state)/4 : 0.0;
 
@@ -199,15 +197,26 @@ public class WhiteHeuristics extends Heuristics {
             //Considering white to use as barriers for the target pawn
             double otherPoints = VAL_TOT - VAL_NEAR;
             double contributionPerN = 0.0;
-            if (targetPosition[0] == 4 && targetPosition[1] == 2 || targetPosition[0] == 4 && targetPosition[1] == 6
-               || targetPosition[0] == 2 && targetPosition[1] == 4 || targetPosition[0] == 6 && targetPosition[1] == 4
-               || targetPosition[0] == 3 && targetPosition[1] == 4 || targetPosition[0] == 5 && targetPosition[1] == 4
-               || targetPosition[0] == 4 && targetPosition[1] == 3 || targetPosition[0] == 4 && targetPosition[1] == 5){
-                contributionPerN = otherPoints / 2;
+
+            //Whether it is better to keep free the position
+            if (targetPosition[0] == 0 || targetPosition[0] == 8 || targetPosition[1] == 0 || targetPosition[1] == 8){
+                if(state.getPawn(targetPosition[0],targetPosition[1]).equalsPawn(State.Pawn.EMPTY.toString())){
+                    result = 1.0;
+                } else {
+                    result = 0.0;
+                }
             }else{
-                contributionPerN = otherPoints / 3;
+                if (targetPosition[0] == 4 && targetPosition[1] == 2 || targetPosition[0] == 4 && targetPosition[1] == 6
+                        || targetPosition[0] == 2 && targetPosition[1] == 4 || targetPosition[0] == 6 && targetPosition[1] == 4
+                        || targetPosition[0] == 3 && targetPosition[1] == 4 || targetPosition[0] == 5 && targetPosition[1] == 4
+                        || targetPosition[0] == 4 && targetPosition[1] == 3 || targetPosition[0] == 4 && targetPosition[1] == 5){
+                    contributionPerN = otherPoints / 2;
+                }else{
+                    contributionPerN = otherPoints / 3;
+                }
+
+                result += contributionPerN * checkNearPawns(state, targetPosition,State.Pawn.WHITE.toString());
             }
-            result += contributionPerN * checkNearPawns(state, targetPosition,State.Pawn.WHITE.toString());
 
         }
         return result;
