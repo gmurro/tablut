@@ -8,7 +8,7 @@ import java.util.*;
 public class BlackHeuristics extends Heuristics {
 
     //Number of admissible loss of pawns before changing strategy
-    private final int THRESHOLD = 2;
+    private final int THRESHOLD = 6;
     //Number of tiles on rhombus
     private final int NUM_TILES_ON_RHOMBUS = 8;
 
@@ -34,7 +34,7 @@ public class BlackHeuristics extends Heuristics {
         weights.put("WhiteEaten",30.0);
         weights.put("NearKing",10.0);
         weights.put("Rhombus", 2.5);
-        weights.put("NextWhiteWins",7.5);
+        weights.put("NextWhiteWins",5.0);
 
         keys = new String[weights.size()];
         keys = weights.keySet().toArray(new String[0]);
@@ -81,7 +81,8 @@ public class BlackHeuristics extends Heuristics {
      * @return number of black pawns on tiles if premise is true, 0 otherwise
      */
     public int getNumberOnRhombus(){
-        if (checkKingPosition(state) && state.getNumberOf(State.Pawn.BLACK) >= THRESHOLD) {
+        //(state.getNumberOf(State.Pawn.BLACK) - 8 >= state.getNumberOf(State.Pawn.WHITE));
+        if (state.getNumberOf(State.Pawn.BLACK) >= THRESHOLD) {
             return getValuesOnRhombus();
         }else{
             return 0;

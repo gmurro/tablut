@@ -848,7 +848,7 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 		} else {
 			heuristics = new BlackHeuristics(state);
 		}
-		return heuristics.evaluateState();
+		return  heuristics.evaluateState();
 	}
 
 

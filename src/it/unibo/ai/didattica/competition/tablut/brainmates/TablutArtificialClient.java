@@ -175,9 +175,14 @@ public class TablutArtificialClient extends TablutClient{
     private Action findBestMove(GameAshtonTablut tablutGame, State state) {
 
         // TODO depth
+        int depth;
+        if(state.getNumberOf(State.Pawn.BLACK)+state.getNumberOf(State.Pawn.WHITE)<21)
+            depth = 4;
+        else
+            depth = 3;
 
         // timer decreased to avoid errors from server
-        AlphaBetaPruningSearch search = new AlphaBetaPruningSearch(tablutGame, 3, this.timeout - 3 );
+        AlphaBetaPruningSearch search = new AlphaBetaPruningSearch(tablutGame, depth, this.timeout - 1 );
         search.setLogEnabled(false);
         return search.makeDecision(state);
     }
