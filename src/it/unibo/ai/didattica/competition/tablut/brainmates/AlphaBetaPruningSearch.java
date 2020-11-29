@@ -86,14 +86,14 @@ public class AlphaBetaPruningSearch{
 
 
             // build new state from given action
-            State nextState = game.getResult(state.clone(), action);
+            State nextState = game.getResult(state, action);
 
             // find action with max value
             double value = minValue(nextState, player, maxDepth-1, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
 
             System.out.println("\n\nCost of node "+i+": "+value);
 
-            if (value >= resultValue) {
+            if (value > resultValue) {
                 result = action;
                 resultValue = value;
             }

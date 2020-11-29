@@ -1,5 +1,6 @@
 package it.unibo.ai.didattica.competition.tablut.brainmates;
 
+
 import it.unibo.ai.didattica.competition.tablut.domain.*;
 
 import java.io.IOException;
@@ -175,15 +176,14 @@ public class TablutArtificialClient extends TablutClient{
     private Action findBestMove(GameAshtonTablut tablutGame, State state) {
 
         // TODO depth
-        int depth;
-        if(state.getNumberOf(State.Pawn.BLACK)+state.getNumberOf(State.Pawn.WHITE)<21)
-            depth = 4;
-        else
-            depth = 3;
 
+
+        //IterativeDeepeningAlphaBetaSearch search = new IterativeDeepeningAlphaBetaSearch(tablutGame, Double.MIN_VALUE, Double.MAX_VALUE, 10 );
+
+        MinMaxSearch search = new MinMaxSearch(tablutGame, Double.MIN_VALUE, Double.MAX_VALUE, 10 );
         // timer decreased to avoid errors from server
-        AlphaBetaPruningSearch search = new AlphaBetaPruningSearch(tablutGame, depth, this.timeout - 1 );
-        search.setLogEnabled(false);
-        return search.makeDecision(state);
+        //AlphaBetaPruningSearch search = new AlphaBetaPruningSearch(tablutGame, 3, this.timeout - 3 );
+        search.setLogEnabled(true);
+        return (Action) search.makeDecision(state);
     }
 }

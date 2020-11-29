@@ -57,36 +57,32 @@ public class AlphaBetaPruningSearchTest {
 
         board[4][4] = State.Pawn.THRONE;
 
-        board[2][5] = State.Pawn.KING;
-        /*
-        board[2][4] = State.Pawn.WHITE;
-        board[3][3] = State.Pawn.WHITE;
+        board[3][2] = State.Pawn.KING;
+
+        board[1][0] = State.Pawn.WHITE;
+        board[2][5] = State.Pawn.WHITE;
+        board[3][1] = State.Pawn.WHITE;
+        board[4][3] = State.Pawn.WHITE;
         board[5][4] = State.Pawn.WHITE;
+        board[5][6] = State.Pawn.WHITE;
+        board[6][4] = State.Pawn.WHITE;
+        /*
         board[6][4] = State.Pawn.WHITE;
         board[4][2] = State.Pawn.WHITE;
         board[4][3] = State.Pawn.WHITE;
         board[4][5] = State.Pawn.WHITE;
         board[4][6] = State.Pawn.WHITE;
         */
-
-        board[2][8] = State.Pawn.BLACK;
-        board[3][3] = State.Pawn.BLACK;
-        /*
         board[0][4] = State.Pawn.BLACK;
-        board[0][5] = State.Pawn.BLACK;
-        board[1][2] = State.Pawn.BLACK;
-        board[8][3] = State.Pawn.BLACK;
-        board[8][4] = State.Pawn.BLACK;
-        board[8][5] = State.Pawn.BLACK;
-        board[7][6] = State.Pawn.BLACK;
-        board[3][0] = State.Pawn.BLACK;
-        board[4][0] = State.Pawn.BLACK;
-        board[5][0] = State.Pawn.BLACK;
-        board[2][1] = State.Pawn.BLACK;
+        board[0][6] = State.Pawn.BLACK;
+        board[2][7] = State.Pawn.BLACK;
         board[3][8] = State.Pawn.BLACK;
         board[4][8] = State.Pawn.BLACK;
+        board[5][2] = State.Pawn.BLACK;
         board[5][8] = State.Pawn.BLACK;
-        board[6][7] = State.Pawn.BLACK;*/
+        board[6][1] = State.Pawn.BLACK;
+        board[7][6] = State.Pawn.BLACK;
+        board[8][8] = State.Pawn.BLACK;
 
 
 

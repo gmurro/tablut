@@ -754,7 +754,7 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 	public State getResult(State state, Action action) {
 
 		// muovo la pedina
-		state = this.movePawn(state, action);
+		state = this.movePawn(state.clone(), action);
 
 		// a questo punto controllo lo stato per eventuali catture
 		if (state.getTurn().equalsTurn("W")) {

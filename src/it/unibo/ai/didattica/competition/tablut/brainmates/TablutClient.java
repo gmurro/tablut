@@ -115,7 +115,7 @@ public abstract class TablutClient implements Runnable {
 	 * @throws IOException
 	 */
 	public TablutClient(String player, String name) throws UnknownHostException, IOException {
-		this(player, name, 60, "localhost");
+		this(player, name, 600, "localhost");
 	}
 
 	/**

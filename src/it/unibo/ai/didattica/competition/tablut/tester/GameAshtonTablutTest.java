@@ -18,11 +18,11 @@ public class GameAshtonTablutTest {
 
 
         // test getActions(State state)
-        testGetActions();
+        //testGetActions();
 
 
         // test getResult(State state, Action action)
-        //testGetResult();
+        testGetResult();
 
     }
 
@@ -49,7 +49,7 @@ public class GameAshtonTablutTest {
 
         Action action = null;
         try {
-            action = new Action("d2", "b2", state.getTurn());
+            action = new Action("g1", "g2", state.getTurn());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -94,11 +94,15 @@ public class GameAshtonTablutTest {
 
         board[4][4] = State.Pawn.THRONE;
 
-        board[5][4] = State.Pawn.KING;
+        board[3][2] = State.Pawn.KING;
 
+        board[1][0] = State.Pawn.WHITE;
+        board[2][5] = State.Pawn.WHITE;
+        board[3][1] = State.Pawn.WHITE;
         board[4][3] = State.Pawn.WHITE;
-        board[6][3] = State.Pawn.WHITE;
-        board[6][5] = State.Pawn.WHITE;
+        board[5][4] = State.Pawn.WHITE;
+        board[5][6] = State.Pawn.WHITE;
+        board[6][4] = State.Pawn.WHITE;
         /*
         board[6][4] = State.Pawn.WHITE;
         board[4][2] = State.Pawn.WHITE;
@@ -106,20 +110,16 @@ public class GameAshtonTablutTest {
         board[4][5] = State.Pawn.WHITE;
         board[4][6] = State.Pawn.WHITE;
         */
-        board[0][3] = State.Pawn.BLACK;
         board[0][4] = State.Pawn.BLACK;
-        board[1][6] = State.Pawn.BLACK;
-        board[3][0] = State.Pawn.BLACK;
-        board[3][4] = State.Pawn.BLACK;
-        board[4][0] = State.Pawn.BLACK;
-        board[4][1] = State.Pawn.BLACK;
+        board[0][6] = State.Pawn.BLACK;
+        board[2][7] = State.Pawn.BLACK;
+        board[3][8] = State.Pawn.BLACK;
         board[4][8] = State.Pawn.BLACK;
-        board[5][3] = State.Pawn.BLACK;
-        board[5][5] = State.Pawn.BLACK;
-        board[6][7] = State.Pawn.BLACK;
-        board[8][3] = State.Pawn.BLACK;
-        board[8][4] = State.Pawn.BLACK;
-        board[8][5] = State.Pawn.BLACK;
+        board[5][2] = State.Pawn.BLACK;
+        board[5][8] = State.Pawn.BLACK;
+        board[6][1] = State.Pawn.BLACK;
+        board[7][6] = State.Pawn.BLACK;
+        board[8][8] = State.Pawn.BLACK;
 
 
 
