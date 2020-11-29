@@ -18,8 +18,8 @@ public class WhiteHeuristics extends Heuristics {
 
     //matrix of favourite white positions in the initial stages of the game
     private final static int[][] bestPositions = {
-                {2,2},  {2,6},
-                {6,2},  {6,6}
+                {2,3},  {3,5},
+                {5,3},  {6,5}
     };
 
     private Map<String,Double> weights;
@@ -42,9 +42,9 @@ public class WhiteHeuristics extends Heuristics {
         //weights.put("whiteInSquare", 0.5 );
         //Positions which are the best moves at the beginning of the game
         weights.put("bestPositions", 2.5);
-        weights.put("numberOfBlackEaten",6.0);
-        weights.put("numberOfWhiteAlive",8.0);
-        weights.put("numberOfWinEscapesKing", 9.0);
+        weights.put("numberOfBlackEaten",20.0);
+        weights.put("numberOfWhiteAlive",10.0);
+        weights.put("numberOfWinEscapesKing", 15.0);
         weights.put("blackSurroundKing", 5.5);
         weights.put("protectionKing", 5.0);
 

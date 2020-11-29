@@ -180,7 +180,7 @@ public class TablutArtificialClient extends TablutClient{
 
         //IterativeDeepeningAlphaBetaSearch search = new IterativeDeepeningAlphaBetaSearch(tablutGame, Double.MIN_VALUE, Double.MAX_VALUE, 10 );
 
-        MinMaxSearch search = new MinMaxSearch(tablutGame, Double.MIN_VALUE, Double.MAX_VALUE, 10 );
+        MinMaxSearch search = new MinMaxSearch(tablutGame, Double.MIN_VALUE, Double.MAX_VALUE, 59 );
         // timer decreased to avoid errors from server
         //AlphaBetaPruningSearch search = new AlphaBetaPruningSearch(tablutGame, 3, this.timeout - 3 );
         search.setLogEnabled(true);
