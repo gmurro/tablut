@@ -1,7 +1,6 @@
 package it.unibo.ai.didattica.competition.tablut.brainmates.minmax;
 
 import aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch;
-import b2p.search.aima.minmax.IterativeDeepening;
 import it.unibo.ai.didattica.competition.tablut.domain.Action;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 import aima.core.search.adversarial.Game;
