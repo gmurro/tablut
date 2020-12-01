@@ -42,12 +42,12 @@ public class WhiteHeuristics extends Heuristics {
         //weights.put("blackNotInSquare", 0.8);
         //weights.put("whiteInSquare", 0.5 );
         //Positions which are the best moves at the beginning of the game
-        weights.put("bestPositions", 2.5);
-        weights.put("numberOfBlackEaten",6.0);
-        weights.put("numberOfWhiteAlive",8.0);
-        weights.put("numberOfWinEscapesKing", 9.0);
-        weights.put("blackSurroundKing", 5.5);
-        weights.put("protectionKing", 5.0);
+        weights.put("bestPositions", 2.0);
+        weights.put("numberOfBlackEaten", 20.0);
+        weights.put("numberOfWhiteAlive", 35.0);
+        weights.put("numberOfWinEscapesKing", 18.0);
+        weights.put("blackSurroundKing", 7.0);
+        weights.put("protectionKing", 18.0);
 
         //Extraction of keys
         keys = new String[weights.size()];
