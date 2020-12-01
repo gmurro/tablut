@@ -1,5 +1,6 @@
-package it.unibo.ai.didattica.competition.tablut.brainmates;
+package it.unibo.ai.didattica.competition.tablut.brainmates.heuristics;
 
+import it.unibo.ai.didattica.competition.tablut.brainmates.heuristics.Heuristics;
 import it.unibo.ai.didattica.competition.tablut.domain.GameAshtonTablut;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 
