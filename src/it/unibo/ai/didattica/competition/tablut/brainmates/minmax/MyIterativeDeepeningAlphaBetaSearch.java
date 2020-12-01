@@ -6,6 +6,9 @@ import it.unibo.ai.didattica.competition.tablut.domain.State;
 import aima.core.search.adversarial.Game;
 import it.unibo.ai.didattica.competition.tablut.domain.GameAshtonTablut;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Custom implementation of AIMA iterative deepening Minimax search with alpha-beta pruning
@@ -24,10 +27,20 @@ public class MyIterativeDeepeningAlphaBetaSearch extends IterativeDeepeningAlpha
     }
 
 
+    /**
+     * Method that estimates the value for (not necessarily
+     * terminal) states. This implementation returns the utility value for
+     * terminal states and heuristic value for non-terminal
+     * states.
+     */
     @Override
     protected double eval(State state, State.Turn player) {
+        // needed to make heuristicEvaluationUsed = true, if the state evaluated isn't terminal
         super.eval(state, player);
+
+        // return heuristic value for given state
         return game.getUtility(state, player);
     }
+
 
 }

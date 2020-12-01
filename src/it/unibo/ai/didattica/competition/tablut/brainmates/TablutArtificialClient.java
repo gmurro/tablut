@@ -1,6 +1,7 @@
 package it.unibo.ai.didattica.competition.tablut.brainmates;
 
 
+import it.unibo.ai.didattica.competition.tablut.brainmates.minmax.CustomIterativeDeepeningAlphaBetaSearch;
 import it.unibo.ai.didattica.competition.tablut.brainmates.minmax.MyIterativeDeepeningAlphaBetaSearch;
 import it.unibo.ai.didattica.competition.tablut.client.TablutClient;
 import it.unibo.ai.didattica.competition.tablut.domain.*;
@@ -28,17 +29,14 @@ public class TablutArtificialClient extends TablutClient {
             System.out.println("You must specify which player you are (WHITE or BLACK)");
             System.exit(-1);
         } else {
-            System.out.println(args[0]);
             role = (args[0]);
         }
         if (args.length == 2) {
-            System.out.println(args[1]);
             timeout = Integer.parseInt(args[1]);
         }
         if (args.length == 3) {
             ipAddress = args[2];
         }
-        System.out.println("Selected client: " + args[0]);
 
         TablutArtificialClient client = new TablutArtificialClient(role, name, timeout, ipAddress, gameType);
         client.run();
@@ -59,8 +57,21 @@ public class TablutArtificialClient extends TablutClient {
         state.setTurn(State.Turn.WHITE);
 
         // set type of game
-        GameAshtonTablut tablutGame = new GameAshtonTablut(99, 2, "garbage", "white_ai", "black_ai");;
-        System.out.println("Ashton Tablut game");
+        GameAshtonTablut tablutGame = new GameAshtonTablut(0, -1, "garbage", "white_ai", "black_ai");;
+
+
+        System.out.println("\n"+
+               "+-------------------------  Ashton Tablut game challenge 2020/21  ------------------------+");
+        System.out.println(
+               "|    ██████╗ ██████╗  █████╗ ██╗███╗   ██╗███╗   ███╗ █████╗ ████████╗███████╗███████╗    |\n" +
+               "|    ██╔══██╗██╔══██╗██╔══██╗██║████╗  ██║████╗ ████║██╔══██╗╚══██╔══╝██╔════╝██╔════╝    |\n" +
+               "|    ██████╔╝██████╔╝███████║██║██╔██╗ ██║██╔████╔██║███████║   ██║   █████╗  ███████╗    |\n" +
+               "|    ██╔══██╗██╔══██╗██╔══██║██║██║╚██╗██║██║╚██╔╝██║██╔══██║   ██║   ██╔══╝  ╚════██║    |\n" +
+               "|    ██████╔╝██║  ██║██║  ██║██║██║ ╚████║██║ ╚═╝ ██║██║  ██║   ██║   ███████╗███████║    |\n" +
+               "|    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚══════╝    |");
+
+        System.out.println(
+               "+-------------  Made by Giuseppe Murro, Giuseppe Boezio, Salvatore Pisciotta  ------------+\n");
 
 
         // attribute player depends to first parameter passed to main
@@ -73,7 +84,6 @@ public class TablutArtificialClient extends TablutClient {
             try {
                 this.read();
             } catch (ClassNotFoundException | IOException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
                 System.exit(1);
             }
@@ -90,15 +100,16 @@ public class TablutArtificialClient extends TablutClient {
 
                 // if is my turn (WHITE)
                 if (state.getTurn().equals(StateTablut.Turn.WHITE)) {
-                    //TODO WHITE actions
 
+                    System.out.println("\nSearching a suitable move... ");
+
+                    // search the best move in search tree
                     Action a = findBestMove(tablutGame, state);
 
-                    System.out.println("Mossa scelta: " + a.toString());
+                    System.out.println("\nAction selected: " + a.toString());
                     try {
                         this.write(a);
                     } catch (ClassNotFoundException | IOException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
 
@@ -106,7 +117,7 @@ public class TablutArtificialClient extends TablutClient {
 
                 // if is turn of oppenent (BLACK)
                 else if (state.getTurn().equals(StateTablut.Turn.BLACK)) {
-                    System.out.println("Waiting for your opponent move... ");
+                    System.out.println("Waiting for your opponent move...\n");
                 }
                 // if I WIN
                 else if (state.getTurn().equals(StateTablut.Turn.WHITEWIN)) {
@@ -130,15 +141,16 @@ public class TablutArtificialClient extends TablutClient {
 
                 // if is my turn (BLACK)
                 if (this.getCurrentState().getTurn().equals(StateTablut.Turn.BLACK)) {
-                    //TODO BLACK actions
 
+                    System.out.println("\nSearching a suitable move... ");
+
+                    // search the best move in search tree
                     Action a = findBestMove(tablutGame, state);
 
-                    System.out.println("Action selected: " + a.toString());
+                    System.out.println("\nAction selected: " + a.toString());
                     try {
                         this.write(a);
                     } catch (ClassNotFoundException | IOException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
 
@@ -146,7 +158,7 @@ public class TablutArtificialClient extends TablutClient {
 
                 // if is turn of oppenent (WHITE)
                 else if (state.getTurn().equals(StateTablut.Turn.WHITE)) {
-                    System.out.println("Waiting for your opponent move... ");
+                    System.out.println("Waiting for your opponent move...\n");
                 }
 
                 // if I LOSE
@@ -171,8 +183,12 @@ public class TablutArtificialClient extends TablutClient {
     }
 
 
-
-
+    /**
+     * Method that find a suitable moves searching in game tree
+     * @param tablutGame Current game
+     * @param state Current state
+     * @return Action that is been evaluated as best
+     */
     private Action findBestMove(GameAshtonTablut tablutGame, State state) {
 
         MyIterativeDeepeningAlphaBetaSearch search = new MyIterativeDeepeningAlphaBetaSearch(tablutGame, Double.MIN_VALUE, Double.MAX_VALUE, this.timeout - 2 );

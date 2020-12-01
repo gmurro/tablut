@@ -22,10 +22,10 @@ import it.unibo.ai.didattica.competition.tablut.exceptions.*;
  * Game engine inspired by the Ashton Rules of Tablut
  * 
  * 
- * @author A. Piretti, Andrea Galassi
+ * @author A. Piretti, Andrea Galassi, Giuseppe Murro
  *
  */
-public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game<State, Action, State.Turn> {
+public class GameAshtonTablut implements Game, Cloneable, aima.core.search.adversarial.Game<State, Action, State.Turn> {
 
 	/**
 	 * Number of repeated states that can occur before a draw
@@ -89,7 +89,7 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 		loggGame.setUseParentHandlers(false);
 		loggGame.addHandler(this.fh);
 		this.fh.setFormatter(new SimpleFormatter());
-		loggGame.setLevel(Level.FINE);
+		loggGame.setLevel(Level.OFF);
 		loggGame.fine("Players:\t" + whiteName + "\tvs\t" + blackName);
 		loggGame.fine("Repeated moves allowed:\t" + repeated_moves_allowed + "\tCache:\t" + cache_size);
 		loggGame.fine("Inizio partita");
@@ -118,6 +118,8 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 		// this.strangeCitadels.add("i5");
 		// this.strangeCitadels.add("e9");
 	}
+
+
 
 
 	/**
@@ -589,6 +591,11 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 		return new State.Turn[0];
 	}
 
+	/**
+	 * Get the player who has to make the next move
+	 * @param state Current state
+	 * @return Turn of the game (W or B)
+	 */
 	@Override
 	public State.Turn getPlayer(State state) {
 		return state.getTurn();
@@ -597,10 +604,10 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 
 
 	/**
-	 * Method that compute a list of all possible actions for current player.
+	 * Method that compute a list of all possible actions for current player according to the rules of game.
 	 *
 	 * @param state Current state of board
-	 * @return List of Action allowed from current state
+	 * @return List of Action allowed from current state for all pawns
 	 */
 	@Override
 	public List<Action> getActions(State state) {
@@ -765,24 +772,29 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 
 
 	/**
+	 * Method that perform an action in a given state and return resulting state
 	 *
-	 * @param state
-	 * @param action
-	 * @return
+	 * @param state Current state
+	 * @param action Action admissible on the given state
+	 * @return State obtained after performing the action
 	 */
 	@Override
 	public State getResult(State state, Action action) {
 
-		// muovo la pedina
+		// move pawn
 		state = this.movePawn(state.clone(), action);
 
-		// a questo punto controllo lo stato per eventuali catture
+		// check the state for any capture
 		if (state.getTurn().equalsTurn("W")) {
 			state = this.checkCaptureBlack(state, action);
 		} else if (state.getTurn().equalsTurn("B")) {
 			state = this.checkCaptureWhite(state, action);
 		}
 
+
+		//TODO This version of code doesn't check draws
+
+		/*
 		// if something has been captured, clear cache for draws
 		if (this.movesWithutCapturing == 0) {
 			this.drawConditions.clear();
@@ -796,11 +808,6 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 			//System.out.println(s.toString());
 
 			if (s.equals(state)) {
-				// DEBUG: //
-				// System.out.println("UGUALI:");
-				// System.out.println("STATO VECCHIO:\t" + s.toLinearString());
-				// System.out.println("STATO NUOVO:\t" +
-				// state.toLinearString());
 
 				trovati++;
 				if (trovati > repeated_moves_allowed) {
@@ -828,11 +835,16 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 
 		this.loggGame.fine("Stato:\n" + state.toString());
 		//System.out.println("Stato:\n" + state.toString());
-
+		*/
 		return state;
 	}
 
-
+	/**
+	 * Check if a state is terminal, it means that one of player wins or draw.
+	 *
+	 * @param state Current state
+	 * @return Return true if teh current state is terminal, otherwise false
+	 */
 	@Override
 	public boolean isTerminal(State state) {
 		if (state.getTurn().equals(State.Turn.WHITEWIN) || state.getTurn().equals(State.Turn.BLACKWIN) || state.getTurn().equals(State.Turn.DRAW)) {
@@ -842,38 +854,10 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 	}
 
 
-	/**
-	 * Method to check is givev an action, it is allowed from the current state according to the rules of game.
-	 *
-	 * @param state Current state
-	 * @param turn Action that you would perform on state
-	 * @return It return true if "a" is a possible move from current state,
-	 * 		   otherwise it throws an exception
-	 */
-	@Override
-	public double getUtility(State state, State.Turn turn) {
-
-		if ((turn.equals(State.Turn.BLACK) && state.getTurn().equals(State.Turn.BLACKWIN))
-				|| (turn.equals(State.Turn.WHITE) && state.getTurn().equals(State.Turn.WHITEWIN)))
-			return Double.POSITIVE_INFINITY;
-		else if ((turn.equals(State.Turn.BLACK) && state.getTurn().equals(State.Turn.WHITEWIN))
-				|| (turn.equals(State.Turn.WHITE) && state.getTurn().equals(State.Turn.BLACKWIN)))
-			return Double.NEGATIVE_INFINITY;
-		else if (state.getTurn().equals(State.Turn.DRAW))
-			return -1000;
-
-		Heuristics heuristics = null;
-		if (turn.equals(State.Turn.WHITE)) {
-			heuristics = new WhiteHeuristics(state);
-		} else {
-			heuristics = new BlackHeuristics(state);
-		}
-		return  heuristics.evaluateState();
-	}
 
 
 	/**
-	 * Method to check is givev an action, it is allowed from the current state according to the rules of game.
+	 * Method to check if given an action, it is allowed from the current state according to the rules of game.
 	 *
 	 * @param state Current state
 	 * @param a Action that you would perform on state
@@ -1035,5 +1019,43 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 			}
 		}
 		return true;
+	}
+
+
+
+	/**
+	 * Method to evaluate a state using heuristics
+	 *
+	 * @param state Current state
+	 * @param turn Player that want find the best moves in the search space
+	 * @return Evaluation of the state
+	 */
+	@Override
+	public double getUtility(State state, State.Turn turn) {
+
+		// if it is a terminal state
+		if ((turn.equals(State.Turn.BLACK) && state.getTurn().equals(State.Turn.BLACKWIN))
+				|| (turn.equals(State.Turn.WHITE) && state.getTurn().equals(State.Turn.WHITEWIN)))
+			return Double.POSITIVE_INFINITY;
+		else if ((turn.equals(State.Turn.BLACK) && state.getTurn().equals(State.Turn.WHITEWIN))
+				|| (turn.equals(State.Turn.WHITE) && state.getTurn().equals(State.Turn.BLACKWIN)))
+			return Double.NEGATIVE_INFINITY;
+		/*else if (state.getTurn().equals(State.Turn.DRAW))
+			return -1000;*/
+
+
+		// if it isn't a terminal state
+		Heuristics heuristics = null;
+		if (turn.equals(State.Turn.WHITE)) {
+			heuristics = new WhiteHeuristics(state);
+		} else {
+			heuristics = new BlackHeuristics(state);
+		}
+		return  heuristics.evaluateState();
+	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
 	}
 }

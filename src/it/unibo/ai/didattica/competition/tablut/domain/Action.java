@@ -54,7 +54,7 @@ public class Action implements Serializable {
 	}
 
 	public String toString() {
-		return "Turn: " + this.turn + " " + "Pawn from " + from + " to " + to;
+		return "\t[Turn: " + this.turn + " " + "Pawn from " + from + " to " + to+"]";
 	}
 
 	/**
