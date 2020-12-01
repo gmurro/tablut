@@ -17,10 +17,10 @@ public class WhiteHeuristics extends Heuristics {
     private final String PROTECTION_KING = "protectionKing";
 
 
-    //Threshold used to decide whether to use rhombus configuration
+    //Threshold used to decide whether to use best positions configuration
     private final static int THRESHOLD_BEST = 2;
 
-    //matrix of favourite white positions in the initial stages of the game
+    //Matrix of favourite white positions in the initial stages of the game
     private final static int[][] bestPositions = {
             {2,3},  {3,5},
             {5,3},  {6,5}
@@ -39,7 +39,7 @@ public class WhiteHeuristics extends Heuristics {
 
         super(state);
 
-        //initializing weights
+        //Initializing weights
         weights = new HashMap<String,Double>();
         //Positions which are the best moves at the beginning of the game
         weights.put(BEST_POSITIONS, 2.0);
@@ -54,12 +54,15 @@ public class WhiteHeuristics extends Heuristics {
         keys = weights.keySet().toArray(new String[0]);
 
     }
-
+    /**
+     *
+     * @return the evaluation of the states using a weighted sum
+     */
     @Override
     public double evaluateState() {
 
         double utilityValue = 0;
-
+        //Atomic functions to combine to get utility value through the weighted sum
         double bestPositions = (double) getNumberOnBestPositions() / NUM_BEST_POSITION;
         double numberOfWhiteAlive =  (double)(state.getNumberOf(State.Pawn.WHITE)) / GameAshtonTablut.NUM_WHITE;
         double numberOfBlackEaten = (double)(GameAshtonTablut.NUM_BLACK - state.getNumberOf(State.Pawn.BLACK)) / GameAshtonTablut.NUM_BLACK;

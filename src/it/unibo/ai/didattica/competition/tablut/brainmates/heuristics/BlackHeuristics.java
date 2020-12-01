@@ -8,13 +8,24 @@ import java.util.*;
 
 public class BlackHeuristics extends Heuristics {
 
-    //Number of admissible loss of pawns before changing strategy
+    private final String RHOMBUS_POSITIONS = "rhombusPositions";
+    private final String WHITE_EATEN = "numberOfWhiteEaten";
+    private final String BLACK_ALIVE = "numberOfBlackAlive";
+    private final String ESCAPES_KING = "winEscapesKing";
+    private final String BLACK_SURROUND_KING = "blackSurroundKing";
+
+    //Threshold used to decide whether to use rhombus configuration
     private final int THRESHOLD = 6;
     //Number of tiles on rhombus
     private final int NUM_TILES_ON_RHOMBUS = 8;
 
     private final Map<String,Double> weights;
     private String[] keys;
+
+    //Flag to enable console print
+    private boolean flag = false;
+
+    //Matrix of favourite black positions in initial stages and to block the escape ways
     private final int[][] rhombus = {
                               {1,2},       {1,6},
                         {2,1},                   {2,7},
@@ -29,48 +40,60 @@ public class BlackHeuristics extends Heuristics {
     public BlackHeuristics(State state) {
 
         super(state);
-        //Loading weights
+        //Initializing weights
         weights = new HashMap<String, Double>();
-        weights.put("Black", 30.0);
-        weights.put("WhiteEaten", 40.0);
-        weights.put("NearKing", 10.0);
-        weights.put("Rhombus", 3.0);
-        weights.put("NextWhiteWins", 18.0);
+        weights.put(BLACK_ALIVE, 25.0);
+        weights.put(WHITE_EATEN, 38.0);
+        weights.put(BLACK_SURROUND_KING, 20.0);
+        weights.put(RHOMBUS_POSITIONS, 2.0);
+        weights.put(ESCAPES_KING, 15.0);
 
+        //Extraction of keys
         keys = new String[weights.size()];
         keys = weights.keySet().toArray(new String[0]);
 
     }
 
+    /**
+     *
+     * @return the evaluation of the states using a weighted sum
+     */
     @Override
     public double evaluateState() {
 
         double utilityValue = 0.0;
 
-        //Atomic functions to combine to get utility value
+        //Atomic functions to combine to get utility value through the weighted sum
         numberOfBlack = (double) state.getNumberOf(State.Pawn.BLACK) / GameAshtonTablut.NUM_BLACK;
-        //System.out.println("Black pawns: " + numberOfBlack);
         numberOfWhiteEaten = (double) (GameAshtonTablut.NUM_WHITE - state.getNumberOf(State.Pawn.WHITE)) / GameAshtonTablut.NUM_WHITE;
-        //System.out.println("Number of white pawns: " + numberOfWhite);
         double  pawnsNearKing = (double)  checkNearPawns(state, kingPosition(state),State.Turn.BLACK.toString()) / getNumEatenPositions(state);
-        //System.out.println("Number of pawns near to the king:" + pawnsNearKing);
         double numberOfPawnsOnRhombus = (double) getNumberOnRhombus() / NUM_TILES_ON_RHOMBUS;
-        //System.out.println("Number of rhombus: " + numberOfPawnsOnRhombus);
         double nextMoveWhiteWins = nextMoveWhiteWon();
-        //System.out.println("Next move wins: " + nextMoveWhiteWins);
+
+        if(flag){
+            System.out.println("Number of rhombus: " + numberOfPawnsOnRhombus);
+            System.out.println("Number of pawns near to the king:" + pawnsNearKing);
+            System.out.println("Number of white pawns eaten: " + numberOfWhiteEaten);
+            System.out.println("Black pawns: " + numberOfBlack);
+        }
 
 
         //Weighted sum of functions to get final utility value
         Map<String,Double> atomicUtilities = new HashMap<String,Double>();
-        atomicUtilities.put("Black",numberOfBlack);
-        atomicUtilities.put("WhiteEaten", numberOfWhiteEaten);
-        atomicUtilities.put("NearKing",pawnsNearKing);
-        atomicUtilities.put("Rhombus",numberOfPawnsOnRhombus);
-        atomicUtilities.put("NextWhiteWins",nextMoveWhiteWins);
+        atomicUtilities.put(BLACK_ALIVE,numberOfBlack);
+        atomicUtilities.put(WHITE_EATEN, numberOfWhiteEaten);
+        atomicUtilities.put(BLACK_SURROUND_KING,pawnsNearKing);
+        atomicUtilities.put(RHOMBUS_POSITIONS,numberOfPawnsOnRhombus);
+        atomicUtilities.put(ESCAPES_KING,nextMoveWhiteWins);
 
         for (int i = 0; i < weights.size(); i++){
             utilityValue += weights.get(keys[i]) * atomicUtilities.get(keys[i]);
-            //System.out.println(keys[i] + ": " + weights.get(keys[i]) + "*" + atomicUtilities.get(keys[i]) + "= " + weights.get(keys[i]) * atomicUtilities.get(keys[i]));
+            if(flag) {
+                System.out.println(keys[i] + ": " +
+                        weights.get(keys[i]) + "*" +
+                        atomicUtilities.get(keys[i]) +
+                        "= " + weights.get(keys[i]) * atomicUtilities.get(keys[i]));
+            }
         }
 
         return utilityValue;
@@ -78,11 +101,11 @@ public class BlackHeuristics extends Heuristics {
     }
 
     /**
-     * get number of black pawns on rhombus tiles if particular conditions are satisfied
-     * @return number of black pawns on tiles if premise is true, 0 otherwise
+     *
+     * @return number of black pawns on tiles if condition is true, 0 otherwise
      */
     public int getNumberOnRhombus(){
-        //(state.getNumberOf(State.Pawn.BLACK) - 8 >= state.getNumberOf(State.Pawn.WHITE));
+
         if (state.getNumberOf(State.Pawn.BLACK) >= THRESHOLD) {
             return getValuesOnRhombus();
         }else{
@@ -106,6 +129,10 @@ public class BlackHeuristics extends Heuristics {
 
     }
 
+    /**
+     *
+     * @return -1 if the white has a way to win, 1 otherwise
+     */
     private int nextMoveWhiteWon(){
 
         boolean hasWon = kingGoesForWin(state);
