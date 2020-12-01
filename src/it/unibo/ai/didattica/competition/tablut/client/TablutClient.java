@@ -1,4 +1,4 @@
-package it.unibo.ai.didattica.competition.tablut.brainmates;
+package it.unibo.ai.didattica.competition.tablut.client;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

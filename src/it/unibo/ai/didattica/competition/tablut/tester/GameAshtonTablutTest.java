@@ -1,7 +1,6 @@
 package it.unibo.ai.didattica.competition.tablut.tester;
 
 
-import it.unibo.ai.didattica.competition.tablut.brainmates.BlackHeuristics;
 import it.unibo.ai.didattica.competition.tablut.domain.Action;
 import it.unibo.ai.didattica.competition.tablut.domain.GameAshtonTablut;
 import it.unibo.ai.didattica.competition.tablut.domain.State;

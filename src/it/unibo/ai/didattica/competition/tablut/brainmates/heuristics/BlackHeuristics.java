@@ -1,5 +1,6 @@
-package it.unibo.ai.didattica.competition.tablut.brainmates;
+package it.unibo.ai.didattica.competition.tablut.brainmates.heuristics;
 
+import it.unibo.ai.didattica.competition.tablut.brainmates.heuristics.Heuristics;
 import it.unibo.ai.didattica.competition.tablut.domain.GameAshtonTablut;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 
@@ -30,11 +31,11 @@ public class BlackHeuristics extends Heuristics {
         super(state);
         //Loading weights
         weights = new HashMap<String, Double>();
-        weights.put("Black", 15.0);
-        weights.put("WhiteEaten",30.0);
-        weights.put("NearKing",10.0);
-        weights.put("Rhombus", 2.5);
-        weights.put("NextWhiteWins",5.0);
+        weights.put("Black", 30.0);
+        weights.put("WhiteEaten", 40.0);
+        weights.put("NearKing", 10.0);
+        weights.put("Rhombus", 3.0);
+        weights.put("NextWhiteWins", 18.0);
 
         keys = new String[weights.size()];
         keys = weights.keySet().toArray(new String[0]);
@@ -110,7 +111,7 @@ public class BlackHeuristics extends Heuristics {
         boolean hasWon = kingGoesForWin(state);
 
         if(hasWon){
-            return -5;
+            return -1;
         }else{
             return 1;
         }

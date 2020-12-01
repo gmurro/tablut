@@ -1,4 +1,4 @@
-package it.unibo.ai.didattica.competition.tablut.brainmates;
+package it.unibo.ai.didattica.competition.tablut.brainmates.minmax;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,17 +8,16 @@ import aima.core.search.adversarial.Game;
 import aima.core.search.framework.Metrics;
 
 /**
- * Implements an iterative deepening Minimax search with alpha-beta pruning and
- * action ordering. Maximal computation time is specified in seconds. The
- * algorithm is implemented as template method and can be configured and tuned
- * by subclassing.
+ * Alternative implementation of AIMA iterative deepening Minimax search with alpha-beta pruning
+ * that takes the best value of the last depth fully explored.
  *
  * @param <S> Type which is used for states in the game.
  * @param <A> Type which is used for actions in the game.
  * @param <P> Type which is used for players in the game.
- * @author Ruediger Lunde
+ * @see aima.core.search.adversarial.IterativeDeepeningAlphaBetaSearch
+ * @author Giuseppe Murro
  */
-public class IterativeDeepeningAlphaBetaSearch<S, A, P> implements AdversarialSearch<S, A> {
+public class AlternativeIterativeDeepeningAlphaBetaSearch<S, A, P> implements AdversarialSearch<S, A> {
 
     public final static String METRICS_NODES_EXPANDED = "nodesExpanded";
     public final static String METRICS_MAX_DEPTH = "maxDepth";
@@ -45,9 +44,9 @@ public class IterativeDeepeningAlphaBetaSearch<S, A, P> implements AdversarialSe
      *                situations with a safe winner.
      * @param time    Maximal computation time in seconds.
      */
-    public static <STATE, ACTION, PLAYER> IterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> createFor(
+    public static <STATE, ACTION, PLAYER> AlternativeIterativeDeepeningAlphaBetaSearch<STATE, ACTION, PLAYER> createFor(
             Game<STATE, ACTION, PLAYER> game, double utilMin, double utilMax, int time) {
-        return new IterativeDeepeningAlphaBetaSearch<>(game, utilMin, utilMax, time);
+        return new AlternativeIterativeDeepeningAlphaBetaSearch<>(game, utilMin, utilMax, time);
     }
 
     /**
@@ -62,8 +61,8 @@ public class IterativeDeepeningAlphaBetaSearch<S, A, P> implements AdversarialSe
      *                situations with a safe winner.
      * @param time    Maximal computation time in seconds.
      */
-    public IterativeDeepeningAlphaBetaSearch(Game<S, A, P> game, double utilMin, double utilMax,
-                                             int time) {
+    public AlternativeIterativeDeepeningAlphaBetaSearch(Game<S, A, P> game, double utilMin, double utilMax,
+                                                        int time) {
         this.game = game;
         this.utilMin = utilMin;
         this.utilMax = utilMax;

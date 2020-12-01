@@ -1,12 +1,12 @@
-package it.unibo.ai.didattica.competition.tablut.brainmates;
+package it.unibo.ai.didattica.competition.tablut.brainmates.heuristics;
 
+import it.unibo.ai.didattica.competition.tablut.brainmates.heuristics.Heuristics;
 import it.unibo.ai.didattica.competition.tablut.domain.GameAshtonTablut;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 public class WhiteHeuristics extends Heuristics {
 
@@ -41,12 +41,12 @@ public class WhiteHeuristics extends Heuristics {
         //weights.put("blackNotInSquare", 0.8);
         //weights.put("whiteInSquare", 0.5 );
         //Positions which are the best moves at the beginning of the game
-        weights.put("bestPositions", 2.5);
-        weights.put("numberOfBlackEaten",6.0);
-        weights.put("numberOfWhiteAlive",8.0);
-        weights.put("numberOfWinEscapesKing", 9.0);
-        weights.put("blackSurroundKing", 5.5);
-        weights.put("protectionKing", 5.0);
+        weights.put("bestPositions", 2.0);
+        weights.put("numberOfBlackEaten", 23.0);
+        weights.put("numberOfWhiteAlive", 40.0);
+        weights.put("numberOfWinEscapesKing", 10.0);
+        weights.put("blackSurroundKing", 7.0);
+        weights.put("protectionKing", 18.0);
 
         //Extraction of keys
         keys = new String[weights.size()];

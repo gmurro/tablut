@@ -11,11 +11,10 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
-import java.util.Random;
 
-import it.unibo.ai.didattica.competition.tablut.brainmates.BlackHeuristics;
-import it.unibo.ai.didattica.competition.tablut.brainmates.Heuristics;
-import it.unibo.ai.didattica.competition.tablut.brainmates.WhiteHeuristics;
+import it.unibo.ai.didattica.competition.tablut.brainmates.heuristics.BlackHeuristics;
+import it.unibo.ai.didattica.competition.tablut.brainmates.heuristics.Heuristics;
+import it.unibo.ai.didattica.competition.tablut.brainmates.heuristics.WhiteHeuristics;
 import it.unibo.ai.didattica.competition.tablut.exceptions.*;
 
 /**
@@ -46,7 +45,6 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 	private FileHandler fh;
 	private Logger loggGame;
 	private List<String> citadels;
-	// private List<String> strangeCitadels;
 	private List<State> drawConditions;
 
 	//information about number of tiles and pawns overall
@@ -122,7 +120,24 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 	}
 
 
-
+	/**
+	 * Method that check if an Action is admissible for a given state.
+	 * If it is not, thrwos an Exception.
+	 *
+	 * @param state the state of the game
+	 * @param a the action to be analyzed
+	 * @return If the action is admissible, return the state resulted by performing action.
+	 * @throws BoardException
+	 * @throws ActionException
+	 * @throws StopException
+	 * @throws PawnException
+	 * @throws DiagonalException
+	 * @throws ClimbingException
+	 * @throws ThroneException
+	 * @throws OccupitedException
+	 * @throws ClimbingCitadelException
+	 * @throws CitadelException
+	 */
 	@Override
 	public State checkMove(State state, Action a)
 			throws BoardException, ActionException, StopException, PawnException, DiagonalException, ClimbingException,
@@ -582,11 +597,10 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 
 
 	/**
-	 * List of all possible actions for current player.
+	 * Method that compute a list of all possible actions for current player.
 	 *
-	 * @author Giuseppe Murro
-	 * @param state
-	 * @return
+	 * @param state Current state of board
+	 * @return List of Action allowed from current state
 	 */
 	@Override
 	public List<Action> getActions(State state) {
@@ -609,7 +623,7 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 							break;
 						}
 
-						// check if we are moving on a empy cell
+						// check if we are moving on a empty cell
 						else if (state.getPawn(k, j).equalsPawn(State.Pawn.EMPTY.toString())) {
 
 							String from = state.getBox(i, j);
@@ -622,7 +636,7 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 								e.printStackTrace();
 							}
 
-							//System.out.println("try: " + action.toString());
+							// check if action is admissible and if it is, add it to list possibleActions
 							try {
 								isPossibleMove(state.clone(), action);
 								possibleActions.add(action);
@@ -644,7 +658,7 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 							break;
 						}
 
-						// check if we are moving on a empy cell
+						// check if we are moving on a empty cell
 						else if (state.getPawn(k, j).equalsPawn(State.Pawn.EMPTY.toString())){
 
 							String from = state.getBox(i, j);
@@ -657,7 +671,7 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 								e.printStackTrace();
 							}
 
-							//System.out.println("try: " + action.toString());
+							// check if action is admissible and if it is, add it to list possibleActions
 							try {
 								isPossibleMove(state.clone(), action);
 								possibleActions.add(action);
@@ -680,7 +694,7 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 							break;
 						}
 
-						// check if we are moving on a empy cell
+						// check if we are moving on a empty cell
 						else if (state.getPawn(i, k).equalsPawn(State.Pawn.EMPTY.toString())){
 
 							String from = state.getBox(i, j);
@@ -693,7 +707,7 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 								e.printStackTrace();
 							}
 
-							//System.out.println("try: " + action.toString());
+							// check if action is admissible and if it is, add it to list possibleActions
 							try {
 								isPossibleMove(state.clone(), action);
 								possibleActions.add(action);
@@ -716,7 +730,7 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 							break;
 						}
 
-						// check if we are moving on a empy cell
+						// check if we are moving on a empty cell
 						else if (state.getPawn(i, k).equalsPawn(State.Pawn.EMPTY.toString())){
 
 							String from = state.getBox(i, j);
@@ -729,7 +743,7 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 								e.printStackTrace();
 							}
 
-							//System.out.println("try: " + action.toString());
+							// check if action is admissible and if it is, add it to list possibleActions
 							try {
 								isPossibleMove(state.clone(), action);
 								possibleActions.add(action);
@@ -750,6 +764,12 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 	}
 
 
+	/**
+	 *
+	 * @param state
+	 * @param action
+	 * @return
+	 */
 	@Override
 	public State getResult(State state, Action action) {
 
@@ -812,6 +832,7 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 		return state;
 	}
 
+
 	@Override
 	public boolean isTerminal(State state) {
 		if (state.getTurn().equals(State.Turn.WHITEWIN) || state.getTurn().equals(State.Turn.BLACKWIN) || state.getTurn().equals(State.Turn.DRAW)) {
@@ -824,7 +845,6 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 	/**
 	 * Method to check is givev an action, it is allowed from the current state according to the rules of game.
 	 *
-	 * @autor Giuseppe Murro
 	 * @param state Current state
 	 * @param turn Action that you would perform on state
 	 * @return It return true if "a" is a possible move from current state,
@@ -855,7 +875,6 @@ public class GameAshtonTablut implements Game, aima.core.search.adversarial.Game
 	/**
 	 * Method to check is givev an action, it is allowed from the current state according to the rules of game.
 	 *
-	 * @autor Giuseppe Murro
 	 * @param state Current state
 	 * @param a Action that you would perform on state
 	 * @return It return true if "a" is a possible move from current state,

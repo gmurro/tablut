@@ -1,30 +1,32 @@
-package it.unibo.ai.didattica.competition.tablut.brainmates;
-
-import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+package it.unibo.ai.didattica.competition.tablut.brainmates.minmax;
 
 import aima.core.search.adversarial.Game;
 import it.unibo.ai.didattica.competition.tablut.domain.Action;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class ParallelAlphaBetaPruningSearch {
+/**
+ * Implementation of MinMax algorithm with AlphaBeta pruning.
+ *
+ * @author Giuseppe Murro
+ */
+public class AlphaBetaPruningSearch {
 
 
     private Game<State, Action, State.Turn> game;
     private int maxDepth;
     private HashMap<Integer,Integer> nodesExpanded;
     private boolean logEnabled;
-    private ParallelAlphaBetaPruningSearch.Timer timer;
+    private AlphaBetaPruningSearch.Timer timer;
 
     /**
      * Creates a new search object for a given game.
      */
-    public static ParallelAlphaBetaPruningSearch createFor(Game<State, Action, State.Turn> game, int maxDepth, int time) {
-        return new ParallelAlphaBetaPruningSearch(game, maxDepth, time);
+    public static AlphaBetaPruningSearch createFor(Game<State, Action, State.Turn> game, int maxDepth, int time) {
+        return new AlphaBetaPruningSearch(game, maxDepth, time);
     }
 
     /**
@@ -34,7 +36,7 @@ public class ParallelAlphaBetaPruningSearch {
      * @param maxDepth Depth of the tree up to which the search is performed (the first level is 0).
      * @param time Maximum time in seconds after which a value is returned.
      */
-    public ParallelAlphaBetaPruningSearch(Game<State, Action, State.Turn> game, int maxDepth, int time) {
+    public AlphaBetaPruningSearch(Game<State, Action, State.Turn> game, int maxDepth, int time) {
         this.game = game;
         this.maxDepth = maxDepth;
 
@@ -44,7 +46,7 @@ public class ParallelAlphaBetaPruningSearch {
             nodesExpanded.put(i, 0);
         }
 
-        this.timer = new ParallelAlphaBetaPruningSearch.Timer(time);
+        this.timer = new AlphaBetaPruningSearch.Timer(time);
     }
 
     /**
@@ -67,6 +69,8 @@ public class ParallelAlphaBetaPruningSearch {
         // start timer
         this.timer.start();
 
+        Action result = null;
+        double resultValue = Double.NEGATIVE_INFINITY;
 
         // the first level (0 level) on tree have always only one node: the current state
         nodesExpanded.put(0,1);
@@ -74,65 +78,38 @@ public class ParallelAlphaBetaPruningSearch {
         // get kind of player that is playing
         State.Turn player = game.getPlayer(state);
 
-        // get all possible action for current player
-        List<Action> possibleActions = game.getActions(state);
+        List<Action> list = game.getActions(state);
 
-        System.out.println("Number of THREADS run: "+Runtime.getRuntime().availableProcessors());
+        // Recur for each possible action for current player
+        int i=0;
+        for (Action action : game.getActions(state)) {
 
-        ArrayList<Future<Double>> futureResults = new ArrayList<>(possibleActions.size());
 
-        ExecutorService exec = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-        try {
-            // Recur for each possible action for current player
-            for (Action action: possibleActions) {
+            // build new state from given action
+            State nextState = game.getResult(state, action);
 
-                // build new state from given action
-                State nextState = game.getResult(state.clone(), action);
+            // find action with max value
+            double value = minValue(nextState, player, maxDepth-1, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
 
-                Future<Double> result = exec.submit(new Callable<Double>() {
-                    @Override
-                    public Double call() {
+            System.out.println("\n\nCost of node "+i+": "+value);
 
-                        // find action with max value
-                        double value = minValue(nextState, player, maxDepth-1, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
-                        return value;
-                    }
-                });
-                futureResults.add(result);
+            if (value > resultValue) {
+                result = action;
+                resultValue = value;
             }
-        } finally {
-            exec.shutdown();
+            i++;
+
         }
-
-        // maximize futureResults
-        Action bestAction = null;
-        double maxHeuristic = Double.NEGATIVE_INFINITY;
-        for(int i = 0; i < possibleActions.size(); i++) {
-            double heuristic;
-            try {
-                heuristic = futureResults.get(i).get();
-                System.out.println("Cost of node "+i+": "+futureResults.get(i).get());
-            } catch (Exception e) {
-                System.out.println("\t"+e.toString());
-                continue;
-            }
-            if(heuristic >= maxHeuristic) {
-                maxHeuristic = heuristic;
-                bestAction = possibleActions.get(i);
-            }
-        }
-
-
-        System.out.println("\nBest Action for "+bestAction.getTurn() + " is:  "+bestAction.getFrom()+"-->"+bestAction.getTo()+"  (val: "+maxHeuristic+")");
+        System.out.println("\nBest Action for "+result.getTurn() + " is:  "+result.getFrom()+"-->"+result.getTo()+"  (val: "+resultValue+")");
         System.out.println("Node expanded in tree search in "+timer.getTimer()+" s:");
         System.out.println(printNodesExpanded());
-        return bestAction;
+        return result;
     }
 
     public double maxValue(State state, State.Turn player, int depth, double alpha, double beta) {
 
-        // increment node expanded at current depth
-        updateNodesExpanded(depth);
+        // increment node expanded at depth = maxDepth-depth
+        nodesExpanded.put(maxDepth-depth, nodesExpanded.get(maxDepth-depth) + 1 );
 
         if (this.logEnabled) {
             System.out.println("STATE "+nodesExpanded.get(maxDepth-depth)+" at level "+(maxDepth-depth));
@@ -152,7 +129,6 @@ public class ParallelAlphaBetaPruningSearch {
         }
 
         double maxEval = Double.NEGATIVE_INFINITY;
-
 
         // Recur for each children
         for (Action action : game.getActions(state)) {
@@ -177,8 +153,8 @@ public class ParallelAlphaBetaPruningSearch {
 
     public double minValue(State state, State.Turn player, int depth, double alpha, double beta) {
 
-        // increment node expanded at current depth
-        updateNodesExpanded(depth);
+        // increment node expanded at depth = maxDepth-depth
+        nodesExpanded.put(maxDepth-depth, nodesExpanded.get(maxDepth-depth) + 1 );
 
         if (this.logEnabled) {
             System.out.println("STATE " + nodesExpanded.get(maxDepth - depth) + " at level " + (maxDepth - depth));
@@ -223,11 +199,6 @@ public class ParallelAlphaBetaPruningSearch {
         return nodesExpanded;
     }
 
-    public void updateNodesExpanded(int depth) {
-        // increment node expanded at depth = maxDepth-depth
-        nodesExpanded.put(maxDepth-depth, nodesExpanded.get(maxDepth-depth) + 1 );
-    }
-
     public String printNodesExpanded(){
         StringBuilder message = new StringBuilder();
         for (Map.Entry me : nodesExpanded.entrySet()) {
@@ -259,5 +230,4 @@ public class ParallelAlphaBetaPruningSearch {
             return overTime;
         }
     }
-
 }

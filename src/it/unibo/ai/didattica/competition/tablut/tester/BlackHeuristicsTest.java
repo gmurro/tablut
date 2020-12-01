@@ -1,6 +1,6 @@
 package it.unibo.ai.didattica.competition.tablut.tester;
 
-import it.unibo.ai.didattica.competition.tablut.brainmates.BlackHeuristics;
+import it.unibo.ai.didattica.competition.tablut.brainmates.heuristics.BlackHeuristics;
 import it.unibo.ai.didattica.competition.tablut.domain.State;
 import it.unibo.ai.didattica.competition.tablut.domain.StateTablut;
 import it.unibo.ai.didattica.competition.tablut.gui.Gui;
