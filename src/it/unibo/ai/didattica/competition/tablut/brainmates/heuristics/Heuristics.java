@@ -7,9 +7,7 @@ import java.util.List;
 
 public abstract class Heuristics {
 
-    protected final int[] KING_POSITION = {4,4};
     protected State state;
-
 
     public Heuristics(State state) {
         this.state = state;
@@ -52,7 +50,7 @@ public abstract class Heuristics {
 
     /**
      *
-     * @return the number of near pawn that are target(BLACK or WHITE)
+     * @return the number of near pawns that are target(BLACK or WHITE)
      */
     protected int checkNearPawns(State state, int[] position, String target){
         int count=0;
@@ -100,14 +98,6 @@ public abstract class Heuristics {
 
         return occupiedPosition;
     }
-
-    /**method to understand if i'm gonna be eaten
-    protected boolean checkDanger(State state,int[] position,String opponent){
-        State.Pawn[][] board = state.getBoard();
-        //come capisco se sto per essere mangiato?
-        return checkNearPawns(state, position, opponent) != 0;
-    }
-    */
 
     /**
      *
@@ -187,6 +177,11 @@ public abstract class Heuristics {
         return (col + row > 0);
     }
 
+    /**
+     *
+     * @param state
+     * @return number of escapes which king can reach
+     */
     public int countWinWays(State state){
         int[] kingPosition=this.kingPosition(state);
         int col = 0;
@@ -209,16 +204,14 @@ public abstract class Heuristics {
             //System.out.println("COL:"+col);
             return (col + row);
         }
-        //System.out.println("ROW:"+row);
-        //System.out.println("COL:"+col);
+
         return (col + row);
 
     }
 
-
     /**
      *
-     * @return return the number of free row that a Pawn has
+     * @return number of free rows that a Pawn has
      */
     public int countFreeRow(State state,int[] position){
         int row=position[0];
@@ -253,7 +246,7 @@ public abstract class Heuristics {
 
     /**
      *
-     * @return return the number of free columns
+     * @return number of free columns
      */
     public int countFreeColumn(State state,int[] position){
         //lock column
@@ -293,8 +286,13 @@ public abstract class Heuristics {
      */
     public boolean checkOccupiedPosition(State state,int[] position){
         return !state.getPawn(position[0], position[1]).equals(State.Pawn.EMPTY);
-        }
+    }
 
+    /**
+     *
+     * @param state
+     * @return number of positions needed to eat king in the current state
+     */
     public int getNumEatenPositions(State state){
 
         int[] kingPosition = kingPosition(state);
