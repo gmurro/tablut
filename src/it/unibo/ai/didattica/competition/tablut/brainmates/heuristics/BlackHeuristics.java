@@ -11,7 +11,6 @@ public class BlackHeuristics extends Heuristics {
     private final String RHOMBUS_POSITIONS = "rhombusPositions";
     private final String WHITE_EATEN = "numberOfWhiteEaten";
     private final String BLACK_ALIVE = "numberOfBlackAlive";
-    private final String ESCAPES_KING = "winEscapesKing";
     private final String BLACK_SURROUND_KING = "blackSurroundKing";
 
     //Threshold used to decide whether to use rhombus configuration
@@ -46,7 +45,6 @@ public class BlackHeuristics extends Heuristics {
         weights.put(WHITE_EATEN, 48.0);
         weights.put(BLACK_SURROUND_KING, 15.0);
         weights.put(RHOMBUS_POSITIONS, 2.0);
-        weights.put(ESCAPES_KING, 0.0);
 
         //Extraction of keys
         keys = new String[weights.size()];
@@ -68,7 +66,6 @@ public class BlackHeuristics extends Heuristics {
         numberOfWhiteEaten = (double) (GameAshtonTablut.NUM_WHITE - state.getNumberOf(State.Pawn.WHITE)) / GameAshtonTablut.NUM_WHITE;
         double  pawnsNearKing = (double)  checkNearPawns(state, kingPosition(state),State.Turn.BLACK.toString()) / getNumEatenPositions(state);
         double numberOfPawnsOnRhombus = (double) getNumberOnRhombus() / NUM_TILES_ON_RHOMBUS;
-        double nextMoveWhiteWins = nextMoveWhiteWon();
 
         if(flag){
             System.out.println("Number of rhombus: " + numberOfPawnsOnRhombus);
@@ -84,7 +81,6 @@ public class BlackHeuristics extends Heuristics {
         atomicUtilities.put(WHITE_EATEN, numberOfWhiteEaten);
         atomicUtilities.put(BLACK_SURROUND_KING,pawnsNearKing);
         atomicUtilities.put(RHOMBUS_POSITIONS,numberOfPawnsOnRhombus);
-        atomicUtilities.put(ESCAPES_KING,nextMoveWhiteWins);
 
         for (int i = 0; i < weights.size(); i++){
             utilityValue += weights.get(keys[i]) * atomicUtilities.get(keys[i]);
@@ -129,18 +125,4 @@ public class BlackHeuristics extends Heuristics {
 
     }
 
-    /**
-     *
-     * @return -1 if the white has a way to win, 1 otherwise
-     */
-    private int nextMoveWhiteWon(){
-
-        boolean hasWon = kingGoesForWin(state);
-
-        if(hasWon){
-            return -1;
-        }else{
-            return 1;
-        }
-    }
 }
