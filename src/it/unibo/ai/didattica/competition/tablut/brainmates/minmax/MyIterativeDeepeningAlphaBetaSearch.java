@@ -44,10 +44,9 @@ public class MyIterativeDeepeningAlphaBetaSearch extends IterativeDeepeningAlpha
 
 
     /**
-     * Template method controlling the search. It is based on iterative
-     * deepening and tries to make to a good decision in limited time. Credit
-     * goes to Behi Monsio who had the idea of ordering actions by utility in
-     * subsequent depth-limited search runs.
+     * Method controlling the search. It is based on iterative
+     * deepening and tries to make to a good decision in limited time.
+     * It is overrided to print metrics.
      */
     @Override
     public Action makeDecision(State state) {
