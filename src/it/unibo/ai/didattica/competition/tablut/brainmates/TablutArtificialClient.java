@@ -1,7 +1,6 @@
 package it.unibo.ai.didattica.competition.tablut.brainmates;
 
 
-import it.unibo.ai.didattica.competition.tablut.brainmates.minmax.CustomIterativeDeepeningAlphaBetaSearch;
 import it.unibo.ai.didattica.competition.tablut.brainmates.minmax.MyIterativeDeepeningAlphaBetaSearch;
 import it.unibo.ai.didattica.competition.tablut.client.TablutClient;
 import it.unibo.ai.didattica.competition.tablut.domain.*;
