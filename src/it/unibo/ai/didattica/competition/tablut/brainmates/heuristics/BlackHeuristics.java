@@ -15,7 +15,7 @@ public class BlackHeuristics extends Heuristics {
     private final String BLACK_SURROUND_KING = "blackSurroundKing";
 
     //Threshold used to decide whether to use rhombus configuration
-    private final int THRESHOLD = 6;
+    private final int THRESHOLD = 10;
     //Number of tiles on rhombus
     private final int NUM_TILES_ON_RHOMBUS = 8;
 
@@ -42,11 +42,11 @@ public class BlackHeuristics extends Heuristics {
         super(state);
         //Initializing weights
         weights = new HashMap<String, Double>();
-        weights.put(BLACK_ALIVE, 25.0);
-        weights.put(WHITE_EATEN, 38.0);
-        weights.put(BLACK_SURROUND_KING, 20.0);
+        weights.put(BLACK_ALIVE, 30.0);
+        weights.put(WHITE_EATEN, 45.0);
+        weights.put(BLACK_SURROUND_KING, 23.0);
         weights.put(RHOMBUS_POSITIONS, 2.0);
-        weights.put(ESCAPES_KING, 15.0);
+        weights.put(ESCAPES_KING, 0.0);
 
         //Extraction of keys
         keys = new String[weights.size()];
