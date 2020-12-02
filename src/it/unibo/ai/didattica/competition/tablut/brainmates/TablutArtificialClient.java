@@ -12,10 +12,12 @@ import java.net.UnknownHostException;
 public class TablutArtificialClient extends TablutClient {
 
     private int game;
+    private boolean debug;
 
-    public TablutArtificialClient(String player, String name, int timeout, String ipAddress, int game) throws UnknownHostException, IOException {
+    public TablutArtificialClient(String player, String name, int timeout, String ipAddress, int game, boolean debug) throws UnknownHostException, IOException {
         super(player, name, timeout, ipAddress);
         this.game = game;
+        this.debug = debug;
     }
 
     public static void main(String[] args) throws IOException {
@@ -24,22 +26,54 @@ public class TablutArtificialClient extends TablutClient {
         String name = "brAInmates";
         String ipAddress = "localhost";
         int timeout = 60;
+        boolean debug = false;
 
         if (args.length < 1) {
             System.out.println("You must specify which player you are (WHITE or BLACK)");
+            System.out.println("USAGE: ./runmyplayer <black|white> <timeout-in-seconds> <server-ip> <debug>");
             System.exit(-1);
         } else {
             role = (args[0]);
         }
         if (args.length == 2) {
-            timeout = Integer.parseInt(args[1]);
+            try {
+                timeout = Integer.parseInt(args[1]);
+            } catch (NumberFormatException e){
+                System.out.println("Timeout must be an integer representing seconds");
+                System.out.println("USAGE: ./runmyplayer <black|white> <timeout-in-seconds> <server-ip> <debug>");
+                System.exit(-1);
+            }
         }
         if (args.length == 3) {
-            timeout = Integer.parseInt(args[1]);
+            try {
+                timeout = Integer.parseInt(args[1]);
+            } catch (NumberFormatException e){
+                System.out.println("Timeout must be an integer representing seconds");
+                System.out.println("USAGE: ./runmyplayer <black|white> <timeout-in-seconds> <server-ip> <debug>");
+                System.exit(-1);
+            }
             ipAddress = args[2];
         }
 
-        TablutArtificialClient client = new TablutArtificialClient(role, name, timeout, ipAddress, gameType);
+        if (args.length == 4) {
+            try {
+                timeout = Integer.parseInt(args[1]);
+            } catch (NumberFormatException e){
+                System.out.println("Timeout must be an integer representing seconds");
+                System.out.println("USAGE: ./runmyplayer <black|white> <timeout-in-seconds> <server-ip> <debug>");
+                System.exit(-1);
+            }
+            ipAddress = args[2];
+            if(args[3].equals("debug")) {
+                debug = true;
+            } else {
+                System.out.println("The last argument can be only 'debug' and it allow to print logs during search");
+                System.out.println("USAGE: ./runmyplayer <black|white> <timeout-in-seconds> <server-ip> <debug>");
+                System.exit(-1);
+            }
+        }
+
+        TablutArtificialClient client = new TablutArtificialClient(role, name, timeout, ipAddress, gameType, debug);
         client.run();
     }
 
@@ -193,7 +227,7 @@ public class TablutArtificialClient extends TablutClient {
     private Action findBestMove(GameAshtonTablut tablutGame, State state) {
 
         MyIterativeDeepeningAlphaBetaSearch search = new MyIterativeDeepeningAlphaBetaSearch(tablutGame, Double.MIN_VALUE, Double.MAX_VALUE, this.timeout - 2 );
-        search.setLogEnabled(true);
-        return (Action) search.makeDecision(state);
+        search.setLogEnabled(debug);
+        return search.makeDecision(state);
     }
 }

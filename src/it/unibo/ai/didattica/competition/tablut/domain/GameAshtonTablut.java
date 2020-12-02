@@ -1040,8 +1040,6 @@ public class GameAshtonTablut implements Game, Cloneable, aima.core.search.adver
 		else if ((turn.equals(State.Turn.BLACK) && state.getTurn().equals(State.Turn.WHITEWIN))
 				|| (turn.equals(State.Turn.WHITE) && state.getTurn().equals(State.Turn.BLACKWIN)))
 			return Double.NEGATIVE_INFINITY;
-		/*else if (state.getTurn().equals(State.Turn.DRAW))
-			return -1000;*/
 
 
 		// if it isn't a terminal state
@@ -1054,6 +1052,7 @@ public class GameAshtonTablut implements Game, Cloneable, aima.core.search.adver
 		return  heuristics.evaluateState();
 	}
 
+	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		return super.clone();

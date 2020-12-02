@@ -43,4 +43,18 @@ public class MyIterativeDeepeningAlphaBetaSearch extends IterativeDeepeningAlpha
     }
 
 
+    /**
+     * Template method controlling the search. It is based on iterative
+     * deepening and tries to make to a good decision in limited time. Credit
+     * goes to Behi Monsio who had the idea of ordering actions by utility in
+     * subsequent depth-limited search runs.
+     */
+    @Override
+    public Action makeDecision(State state) {
+        Action a = super.makeDecision(state);
+        System.out.println("Explored a total of " + getMetrics().get(METRICS_NODES_EXPANDED) + " nodes, reaching a depth limit of " + getMetrics().get(METRICS_MAX_DEPTH));
+        return  a;
+    }
+
+
 }
