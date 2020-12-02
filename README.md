@@ -69,11 +69,11 @@ We use Git for versioning.
 
 > The name of group enrolled in the Tablut Students Challenge 2020 that presented this project is **_brAInmates_**.
 
-|  Matr  |  Name     |  Surname  |     Email                              |    Username      |
-| :----: | :-------: | :-------: | :------------------------------------: | :--------------: |
-| 997317 | Giuseppe  | Murro     | `giuseppe.murro@studio.unibo.it`       | [_gmurro_](https://github.com/gmurro)         |
-| 985203 | Salvatore | Pisciotta | `salvatore.pisciotta2@studio.unibo.it` | [_SalvoPisciotta_](https://github.com/SalvoPisciotta) |
-|  Matr  | Giuseppe  | Boezio    | `giuseppe.boezio@studio.unibo.it`      | [_giuseppeboezio_](https://github.com/giuseppeboezio) |
+|  Reg No.  |  Name     |  Surname  |     Email                              |    Username      |
+| :-------: | :-------: | :-------: | :------------------------------------: | :--------------: |
+|   997317  | Giuseppe  | Murro     | `giuseppe.murro@studio.unibo.it`       | [_gmurro_](https://github.com/gmurro)         |
+|   985203  | Salvatore | Pisciotta | `salvatore.pisciotta2@studio.unibo.it` | [_SalvoPisciotta_](https://github.com/SalvoPisciotta) |
+|    Matr   | Giuseppe  | Boezio    | `giuseppe.boezio@studio.unibo.it`      | [_giuseppeboezio_](https://github.com/giuseppeboezio) |
 
 
 
