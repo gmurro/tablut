@@ -1,0 +1,5 @@
+#!/bin/bash
+# BrAInmates launch util
+# USAGE: ./runmyplayer <black|white> <timeout-in-seconds> <server-ip> <debug>
+
+java -jar BrAInmates.jar $@

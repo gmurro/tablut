@@ -31,7 +31,7 @@ public abstract class TablutClient implements Runnable {
 	private Gson gson;
 	private State currentState;
 	protected int timeout;
-	private String serverIp;
+	protected String serverIp;
 
 	public State.Turn getPlayer() {
 		return player;

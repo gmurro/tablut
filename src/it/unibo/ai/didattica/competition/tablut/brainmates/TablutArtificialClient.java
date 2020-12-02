@@ -109,8 +109,12 @@ public class TablutArtificialClient extends TablutClient {
                "+-------------  Made by Giuseppe Murro, Giuseppe Boezio, Salvatore Pisciotta  ------------+\n");
 
 
-        // attribute player depends to first parameter passed to main
-        System.out.println("You are player " + this.getPlayer().toString() + "!");
+        // attributes depends to parameters passed to main
+        System.out.println("Player: " + (this.getPlayer().equals(State.Turn.BLACK) ? "BLACK" : "WHITE" ));
+        System.out.println("Timeout: " + this.timeout +" s");
+        System.out.println("Server: " + this.serverIp);
+        System.out.println("Debug mode: " + this.debug+"\n");
+
 
         // still alive until you are playing
         while (true) {
