@@ -17,12 +17,10 @@ public class BlackHeuristicsTest {
 
 
         BlackHeuristics heuristics = new BlackHeuristics(state);
-        boolean val = heuristics.checkKingPosition(state);
-        boolean val2 = heuristics.kingGoesForWin(state);
-        double val3 = heuristics.evaluateState();
-        double val4 = heuristics.getNumberOnRhombus();
+        double val = (double) heuristics.checkNearPawns(state, heuristics.kingPosition(state),State.Turn.BLACK.toString()) / heuristics.getNumEatenPositions(state);;
 
-        System.out.println("Value of the heuristic in the current status: " + val4);
+
+        System.out.println("Value of the heuristic in the current status: " + val);
 
 
     }
@@ -57,7 +55,7 @@ public class BlackHeuristicsTest {
 
         board[4][4] = State.Pawn.THRONE;
 
-        board[4][4] = State.Pawn.KING;
+        board[5][5] = State.Pawn.KING;
 
         board[2][4] = State.Pawn.WHITE;
         board[3][3] = State.Pawn.WHITE;
@@ -65,11 +63,10 @@ public class BlackHeuristicsTest {
         board[6][4] = State.Pawn.WHITE;
         board[4][2] = State.Pawn.WHITE;
         board[4][3] = State.Pawn.WHITE;
-        board[4][5] = State.Pawn.WHITE;
-        board[4][6] = State.Pawn.WHITE;
+        board[2][3] = State.Pawn.WHITE;
 
-        board[2][3] = State.Pawn.BLACK;
-        board[0][4] = State.Pawn.BLACK;
+        board[5][6] = State.Pawn.BLACK;
+        board[4][5] = State.Pawn.BLACK;
         board[0][5] = State.Pawn.BLACK;
         board[1][2] = State.Pawn.BLACK;
         board[8][3] = State.Pawn.BLACK;

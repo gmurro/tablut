@@ -52,7 +52,7 @@ public abstract class Heuristics {
      *
      * @return the number of near pawns that are target(BLACK or WHITE)
      */
-    protected int checkNearPawns(State state, int[] position, String target){
+    public int checkNearPawns(State state, int[] position, String target){
         int count=0;
         //GET TURN
         State.Pawn[][] board = state.getBoard();
