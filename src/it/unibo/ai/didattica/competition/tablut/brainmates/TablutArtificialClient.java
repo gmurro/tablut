@@ -35,6 +35,7 @@ public class TablutArtificialClient extends TablutClient {
             timeout = Integer.parseInt(args[1]);
         }
         if (args.length == 3) {
+            timeout = Integer.parseInt(args[1]);
             ipAddress = args[2];
         }
 
@@ -57,11 +58,11 @@ public class TablutArtificialClient extends TablutClient {
         state.setTurn(State.Turn.WHITE);
 
         // set type of game
-        GameAshtonTablut tablutGame = new GameAshtonTablut(0, -1, "garbage", "white_ai", "black_ai");;
+        GameAshtonTablut tablutGame = new GameAshtonTablut(0, -1, "logs", "white_ai", "black_ai");;
 
 
         System.out.println("\n"+
-               "+-------------------------  Ashton Tablut game challenge 2020/21  ------------------------+");
+               "+--------------------------  Ashton Tablut game challenge 2020  --------------------------+");
         System.out.println(
                "|    ██████╗ ██████╗  █████╗ ██╗███╗   ██╗███╗   ███╗ █████╗ ████████╗███████╗███████╗    |\n" +
                "|    ██╔══██╗██╔══██╗██╔══██╗██║████╗  ██║████╗ ████║██╔══██╗╚══██╔══╝██╔════╝██╔════╝    |\n" +
