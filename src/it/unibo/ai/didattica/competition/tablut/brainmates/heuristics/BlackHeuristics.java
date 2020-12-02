@@ -42,9 +42,9 @@ public class BlackHeuristics extends Heuristics {
         super(state);
         //Initializing weights
         weights = new HashMap<String, Double>();
-        weights.put(BLACK_ALIVE, 30.0);
-        weights.put(WHITE_EATEN, 45.0);
-        weights.put(BLACK_SURROUND_KING, 23.0);
+        weights.put(BLACK_ALIVE, 35.0);
+        weights.put(WHITE_EATEN, 48.0);
+        weights.put(BLACK_SURROUND_KING, 15.0);
         weights.put(RHOMBUS_POSITIONS, 2.0);
         weights.put(ESCAPES_KING, 0.0);
 
