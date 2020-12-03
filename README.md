@@ -10,6 +10,10 @@ The game board is grid of 9x9 squares where two players alternate in moving thei
 This repository contains an Java-based intelligent agent able to play to the game and it was designed to take part in the Tablut Students Challenge 2020 of the Fundamentals of Artificial Intelligence and Knowledge Representation course held at the University of Bologna.                   
 The agent is based on one of the many versions of the rules for this game, known as "Ashton Tablut" (available in this [paper](http://ww.aagenielsen.dk/LinnaeusPaper-Longer.pdf)) and it interact with a Server maintained by tutor [Andrea Galassi](https://github.com/AGalassi/TablutCompetition).
 
+## Strategy adopted
+
+Both white and black players have been implemented using Iterative Deepening search combined with MinMax algorithm and AlphaBeta cuts. 
+Simple heuristics described in these [brief slides](BrAInmatesTablutPresentation.pdf) guarantee a deep exploration of the game tree.
 
 ## Download
 

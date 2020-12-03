@@ -67,7 +67,7 @@ public class BlackHeuristicsTest {
 
         board[5][6] = State.Pawn.BLACK;
         board[4][5] = State.Pawn.BLACK;
-        board[0][5] = State.Pawn.BLACK;
+        board[6][5] = State.Pawn.BLACK;
         board[1][2] = State.Pawn.BLACK;
         board[8][3] = State.Pawn.BLACK;
         board[8][4] = State.Pawn.BLACK;
