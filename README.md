@@ -8,7 +8,7 @@ The game board is grid of 9x9 squares where two players alternate in moving thei
 * defender (white soldiers and one king)   
 
 This repository contains an Java-based intelligent agent able to play to the game and it was designed to take part in the Tablut Students Challenge 2020 of the Fundamentals of Artificial Intelligence and Knowledge Representation course held at the University of Bologna.                   
-The agent is based on one of the many versions of the rules for this game, known as "Ashton Tablut" (available in this [paper](http://ww.aagenielsen.dk/LinnaeusPaper-Longer.pdf)) and it interact with a Server maintained by tutor [Andrea Galassi](https://github.com/AGalassi/TablutCompetition).
+The agent is based on one of the many versions of the rules for this game, known as "Ashton Tablut" (whose rules are explained in this [paper](http://ww.aagenielsen.dk/LinnaeusPaper-Longer.pdf) and more briefly in these [slides](TablutChallenge2020-info.pdf)) and it interact with a Server maintained by tutor [Andrea Galassi](https://github.com/AGalassi/TablutCompetition).
 
 ## Strategy adopted
 
