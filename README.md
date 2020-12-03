@@ -51,9 +51,9 @@ You can run players also with different parameters:
 ./runmyplayer <role> <timeout-in-seconds> <server-ip> <debug>
     
     <role> : role of the player in the game (black or white, it is mandatory)
-    <timeout-in-seconds> : time taken by the player to find the best moves (default: 60)
-    <server-ip> : ip address of the server (default: localhost)
-    <debug> : if this argument is explicit, player print logs during the search of the next move 
+    <timeout-in-seconds> : time taken by the player to find the best moves (default: 60, not mandatory)
+    <server-ip> : ip address of the server (default: localhost, not mandatory)
+    <debug> : if this argument is explicit, player print logs during the search of the next move (default: none, not mandatory)
 ```
 
 
