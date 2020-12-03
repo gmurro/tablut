@@ -19,7 +19,7 @@ Simple heuristics described in these [brief slides](BrAInmatesTablutPresentation
 
 First of all, you need to download the project through cloning.
 
-```sh
+```console
 git clone https://github.com/gmurro/Tablut.git
 cd Tablut
 ```
@@ -27,7 +27,7 @@ cd Tablut
 ## Requirements
 
 You need to have JDK >= 11. From Ubuntu/Debian console, you can install it with these commands:
-```sh
+```console
 sudo apt update
 sudo apt install openjdk-11-jdk -y
 ```
@@ -35,19 +35,19 @@ sudo apt install openjdk-11-jdk -y
 ## Run
 
 To start playing, you will simply move in `jars` directory and run the Server with:
-```sh
+```console
 java -jar Server.jar
 ```
 Then you will run either black and white artificial intelligent player:
-```sh
+```console
 ./runmyplayer black 60 localhost
 ```
-```sh
+```console
 ./runmyplayer white 60 localhost
 ```
 
 You can run players also with different parameters:
-```sh
+```console
 ./runmyplayer <role> <timeout-in-seconds> <server-ip> <debug>
     
     <role> : role of the player in the game (black or white, it is mandatory)
