@@ -16,9 +16,11 @@ Both white and black players have been implemented using Iterative Deepening sea
 Simple heuristics described in these [brief slides](BrAInmatesTablutPresentation.pdf) guarantee a deep exploration of the game tree.
 
 ## Results
-**_1° place_** in the group stage and in the final standings. Out of a total of 16 games, our player won 13 games, drew 2 and lost 1.
+**_1° place_** in the group stage and in the final standings. 
+
+Out of a total of 16 games, our player won 13 games, drew 2 and lost 1.
 Congratulations to all participants, but especially to team "tabloidi" for being the only team to defeat our player.
-You can see the awards and results obtained in the competition in this [folder]().
+You can see the awards and results obtained in the competition in this [folder](Results).
 
 ## Download
 
