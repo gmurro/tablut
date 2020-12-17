@@ -15,6 +15,11 @@ The agent is based on one of the many versions of the rules for this game, known
 Both white and black players have been implemented using Iterative Deepening search combined with MinMax algorithm and AlphaBeta cuts. 
 Simple heuristics described in these [brief slides](BrAInmatesTablutPresentation.pdf) guarantee a deep exploration of the game tree.
 
+## Results
+**_1° place_** in the group stage and in the final standings. Out of a total of 16 games, our player won 13 games, drew 2 and lost 1.
+Congratulations to all participants, but especially to team "tabloidi" for being the only team to defeat our player.
+You can see the awards and results obtained in the competition in this [folder]().
+
 ## Download
 
 First of all, you need to download the project through cloning.
