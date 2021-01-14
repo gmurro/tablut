@@ -19,7 +19,7 @@ Simple heuristics described in these [brief slides](BrAInmatesTablutPresentation
 **_1° place_** in the [group stage](Results/Partial_results.png) and in the [final standings](Results/Final_results.png). 
 
 Out of a total of 16 games, our player won 13 games, drew 2 and lost 1.
-Congratulations to all participants, but especially to team "tabloidi" for being the only team to defeat our player.
+Congratulations to all participants, but especially to team [tabloidi](https://github.com/FedeSpu/TablutCompetition) for being the only team to defeat our player.
 You can see the awards and results obtained in the competition in this [folder](Results).
 
 ## Download
