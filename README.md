@@ -20,7 +20,7 @@ Simple heuristics described in these [brief slides](BrAInmatesTablutPresentation
 
 Out of a total of 16 games, our player won 13 games, drew 2 and lost 1.
 Congratulations to all participants, but especially to team [tabloidi](https://github.com/FedeSpu/TablutCompetition) for being the only team to defeat our player.
-You can see the awards and results obtained in the competition in this [folder](Results).
+You can see the awards and results obtained in the competition in this [folder](Results) or at the [offial page](http://ai.unibo.it/games/boardgamecompetition/tablut/2021AI).
 
 ## Download
 
